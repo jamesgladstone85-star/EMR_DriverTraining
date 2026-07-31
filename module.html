@@ -3,78 +3,326 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Module — Driver Training</title>
+<title>PTS Master Assessment — Driver Training</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <style>
   body{background:var(--bg-void);}
-  .module-progress{max-width:1180px;margin:18px auto 0;padding:0 28px;}
-  .module-progress-head{
-    display:flex;justify-content:space-between;align-items:baseline;
-    font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-bottom:8px;
+
+  .quiz-wrap{max-width:880px;margin:0 auto;padding:36px 20px 70px;}
+
+  /* ---- Menu screen ---- */
+  .quiz-intro{margin-bottom:28px;}
+  .quiz-intro h1{font-size:clamp(22px,3vw,30px);margin:6px 0 8px;color:var(--text-hi);}
+  .quiz-intro p{color:var(--text-mid);font-size:13.5px;font-weight:300;max-width:560px;line-height:1.6;margin:0;}
+
+  .section-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:1px;
+    background:var(--border-hair);
+    border:1px solid var(--border-hair);
+    border-radius:var(--radius-md);
+    overflow:hidden;
+    margin-top:22px;
   }
-  .module-progress-head b{color:var(--text-hi);font-size:12.5px;}
-  .module-progress-track{
-    width:100%;height:8px;border-radius:6px;background:var(--bg-card);
-    border:1px solid var(--border-hair);overflow:hidden;
+  .section-card{
+    background:var(--bg-card);
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    cursor:pointer;
+    border-top:2px solid var(--accent-green);
+    transition:background .15s ease;
+    text-align:left;
+    font-family:inherit;
+    color:inherit;
+    border-left:none;border-right:none;border-bottom:none;
   }
-  .module-progress-fill{
-    height:100%;background:linear-gradient(90deg, var(--accent-purple), var(--accent-purple-dim));
-    transition:width .4s ease;
+  .section-card:hover{background:var(--bg-card-hover);}
+  .section-card.full{border-top-color:var(--accent-amber);}
+  .section-card .s-title{font-family:var(--ui);font-size:14.5px;font-weight:600;color:var(--text-hi);margin:0;}
+  .section-card .s-desc{font-size:12px;color:var(--text-mid);font-weight:300;line-height:1.55;margin:0;flex:1;}
+  .section-card .s-meta{font-family:var(--mono);font-size:10.5px;color:var(--text-dim);letter-spacing:0.04em;}
+  .section-card .s-best{font-family:var(--mono);font-size:10.5px;color:var(--accent-green);}
+
+  /* ---- Quiz screen ---- */
+  .quiz-header{
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--bg-panel);border:1px solid var(--border-hair);
+    border-radius:var(--radius-md);padding:16px 20px;margin-bottom:20px;gap:16px;flex-wrap:wrap;
   }
+  .quiz-header .q-count{font-family:var(--mono);font-size:11.5px;color:var(--text-dim);}
+  .progress-track{
+    width:100%;height:5px;border-radius:6px;background:var(--bg-card);
+    overflow:hidden;margin-top:20px;
+  }
+  .progress-fill{height:100%;background:var(--accent-green);transition:width .25s ease;}
+
+  .q-card{
+    background:var(--bg-card);border:1px solid var(--border-hair);
+    border-radius:var(--radius-md);padding:26px 24px;margin-bottom:20px;
+  }
+  .q-text{font-family:var(--display);font-weight:700;font-size:18px;color:var(--text-hi);margin:0 0 20px;line-height:1.4;}
+  .opt-list{display:flex;flex-direction:column;gap:10px;}
+  .opt-btn{
+    text-align:left;
+    background:var(--bg-panel);
+    border:1px solid var(--border-hair-strong);
+    border-radius:10px;
+    padding:13px 16px;
+    color:var(--text-hi);
+    font-family:var(--ui);font-size:13.5px;font-weight:400;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .opt-btn:hover{border-color:var(--accent-purple);background:var(--bg-card-hover);}
+  .opt-btn.selected{border-color:var(--accent-purple);background:rgba(199,125,255,0.1);font-weight:600;}
+
+  .quiz-nav{display:flex;justify-content:space-between;gap:12px;}
+
+  /* ---- Results screen ---- */
+  .result-card{
+    background:var(--bg-panel);border:1px solid var(--border-hair);
+    border-radius:var(--radius-md);padding:40px 30px;text-align:center;max-width:460px;margin:40px auto 0;
+  }
+  .result-badge{
+    width:74px;height:74px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 18px;font-size:30px;
+  }
+  .result-badge.pass{background:rgba(62,214,160,0.14);color:var(--accent-green);}
+  .result-badge.fail{background:rgba(255,93,143,0.14);color:var(--accent-red);}
+  .result-card h2{font-size:22px;margin:0 0 6px;color:var(--text-hi);}
+  .result-score{color:var(--text-mid);font-size:13.5px;margin:0 0 22px;}
+  .result-score b{color:var(--text-hi);}
+  .pass-gate-box{
+    background:var(--bg-card);border:1px solid var(--border-hair);border-radius:12px;
+    padding:16px 18px;margin-bottom:26px;text-align:left;font-size:12px;color:var(--text-mid);line-height:1.7;
+  }
+  .pass-gate-box b{color:var(--text-hi);}
+
+  /* ---- Review screen ---- */
+  .review-item{
+    background:var(--bg-card);border-radius:var(--radius-md);
+    border-left:4px solid var(--accent-red);margin-bottom:14px;overflow:hidden;
+  }
+  .review-item.correct{border-left-color:var(--accent-green);}
+  .review-item-body{padding:20px;}
+  .review-q-row{display:flex;justify-content:space-between;gap:14px;margin-bottom:14px;align-items:flex-start;}
+  .review-q-row h3{font-size:14.5px;font-weight:600;color:var(--text-hi);margin:0;line-height:1.5;flex:1;}
+  .status-pill{
+    font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+    padding:3px 9px;border-radius:20px;flex-shrink:0;white-space:nowrap;
+  }
+  .status-pill.correct{background:rgba(62,214,160,0.14);color:var(--accent-green);}
+  .status-pill.incorrect{background:rgba(255,93,143,0.14);color:var(--accent-red);}
+  .review-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-bottom:14px;}
+  .review-opt{
+    padding:9px 12px;border-radius:8px;border:1px solid var(--border-hair);
+    background:var(--bg-panel);color:var(--text-dim);font-size:12px;display:flex;align-items:center;gap:8px;
+  }
+  .review-opt.correct-opt{border-color:rgba(62,214,160,0.4);background:rgba(62,214,160,0.08);color:var(--text-hi);font-weight:500;}
+  .review-opt.wrong-pick{border-color:rgba(255,93,143,0.4);background:rgba(255,93,143,0.08);color:var(--accent-red);}
+  .rationale-box{
+    background:var(--bg-void);border:1px solid var(--border-hair);border-radius:10px;
+    padding:12px 14px;font-size:11.5px;color:var(--accent-amber);line-height:1.6;
+  }
+  .rationale-box b{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;}
+
+  .footer-note{text-align:center;color:var(--text-dim);font-family:var(--mono);font-size:11px;padding:30px 24px 44px;}
 </style>
 </head>
 <body>
 
 <div class="module-header">
   <div class="left">
-    <a class="btn btn-outline-white" href="index.html">← Back</a>
+    <a class="btn btn-outline-white" href="module.html?id=booking-on-rostering-pts">← Back</a>
     <div class="title-block">
-      <span class="badge-pill" id="badgePill">MODULE</span>
-      <h1 id="pageTitle">Loading…</h1>
+      <span class="badge-pill green">QUIZ</span>
+      <h1 id="pageTitle">PTS Master Assessment</h1>
     </div>
   </div>
-  <button class="btn btn-outline-white" id="markDoneBtn">Mark as done</button>
 </div>
 <div class="rail-strip"></div>
 
-<div class="module-progress" id="moduleProgressBlock" style="display:none;">
-  <div class="module-progress-head">
-    <span id="moduleProgressLabel">Module progress</span>
-    <b id="moduleProgressPct">0%</b>
-  </div>
-  <div class="module-progress-track"><div class="module-progress-fill" id="moduleProgressFill" style="width:0%;"></div></div>
-</div>
+<div class="quiz-wrap" id="app"></div>
 
-<div class="page-body">
+<div class="footer-note">All content sourced from PTS 675-000 V4 rule book material</div>
 
-  <div class="content-section" id="guidesSection">
-    <div class="section-title guides"><span class="dot">📄</span> Revision Guides</div>
-    <div class="card-grid" id="guidesGrid"></div>
-  </div>
-
-  <div class="content-section" id="quizzesSection">
-    <div class="section-title quizzes"><span class="dot">✏️</span> Quizzes</div>
-    <div class="card-grid" id="quizzesGrid"></div>
-  </div>
-
-  <div class="content-section" id="toolsSection" style="display:none;">
-    <div class="section-title tools"><span class="dot">🔧</span> Tools</div>
-    <div class="card-grid" id="toolsGrid"></div>
-  </div>
-
-</div>
-
-<div class="footer-note">All content sourced from your rule book material</div>
-
-<script src="assets/data.js"></script>
 <script src="assets/team.js"></script>
 <script src="assets/identity.js"></script>
 <script src="assets/progress.js"></script>
+<script src="assets/pts-quiz-data.js"></script>
 <script>
-  function getParam(name){
-    return new URLSearchParams(window.location.search).get(name);
+(function(){
+  const QUIZ_TITLE_PREFIX = "PTS Master Assessment";
+  const RANDOM20_QUIZ_ID = `${QUIZ_TITLE_PREFIX} — Random 20 (Exam Mode)`;
+  const WRONG_QUIZ_ID = `${QUIZ_TITLE_PREFIX} — Wrong Answer Review`;
+  const PASS_PCT = 0.9;
+  // The topic this quiz is linked from (assets/data.js). Only a perfect
+  // score on the FULL 80-question assessment auto-marks it as done —
+  // module quizzes, random-20 exam mode, and wrong-answer review are
+  // practice modes and don't count. Revision guides are never touched.
+  const LINKED_TOPIC_ID = "booking-on-rostering-pts";
+  const app = document.getElementById("app");
+
+  let currentIdentity = null;
+  let state = "menu";        // menu | quiz | results | review
+  let sectionId = "all";
+  let activeQuestions = [];
+  let currentIndex = 0;
+  let userAnswers = {};      // { questionIndex: optionIndex }
+  let score = 0;
+
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  // Re-shuffles a question's option order (and remaps its correct-answer
+  // indices to match) so the answer position isn't predictable across
+  // attempts. Runs fresh every time a quiz is started.
+  function shuffleOptions(q){
+    const order = shuffle(q.options.map((_, i) => i)); // shuffled original indices
+    const newOptions = order.map(origIdx => q.options[origIdx]);
+    const newCorrect = q.correct
+      .map(origIdx => order.indexOf(origIdx))
+      .sort((a, b) => a - b);
+    return Object.assign({}, q, { options: newOptions, correct: newCorrect });
+  }
+
+  function isAnswerCorrect(q, userAnsArr){
+    if(!userAnsArr || userAnsArr.length === 0) return false;
+    const a = userAnsArr.slice().sort((x,y)=>x-y);
+    const b = q.correct.slice().sort((x,y)=>x-y);
+    return a.length === b.length && a.every((v,i) => v === b[i]);
+  }
+
+  function acedSectionsSummary(){
+    const totalSections = PTS_QUIZ_SECTIONS.filter(s => s.id !== "all").length;
+    const aced = getModuleProgress(LINKED_TOPIC_ID).acedSections.length;
+    return `${aced}/${totalSections} modules aced for this topic — the "Booking On, Rostering &amp; PTS" progress bar has moved accordingly.`;
+  }
+
+  function quizIdFor(id){
+    const section = PTS_QUIZ_SECTIONS.find(s => s.id === id);
+    return id === "all" ? QUIZ_TITLE_PREFIX : `${QUIZ_TITLE_PREFIX} — ${section ? section.title.split(":")[0] : id}`;
+  }
+
+  function render(){
+    if(state === "menu") return renderMenu();
+    if(state === "quiz") return renderQuiz();
+    if(state === "results") return renderResults();
+    if(state === "review") return renderReview();
+  }
+
+  function renderMenu(){
+    const totalSections = PTS_QUIZ_SECTIONS.filter(s => s.id !== "all").length;
+    const acedCount = getModuleProgress(LINKED_TOPIC_ID).acedSections.length;
+    const topicDone = getModuleProgress(LINKED_TOPIC_ID).covered;
+    let html = `
+      <div class="quiz-intro">
+        <h1>PTS Master Assessment</h1>
+        <p>80 questions covering the full Personal Track Safety rule book (PTS 675-000 V4).
+        Take the full assessment, or drill a single module. Pass mark is 90% on the full assessment.
+        Every attempt is saved to your progress history.</p>
+        <p style="margin-top:10px;color:${topicDone ? 'var(--accent-green)' : 'var(--text-mid)'};font-family:var(--mono);font-size:11.5px;">
+          ${topicDone
+            ? "✓ Topic marked done — all modules covered."
+            : `${acedCount}/${totalSections} modules aced so far — ace all 8 (or the full 80 in one sitting) to mark the topic done.`}
+        </p>
+      </div>
+      <div class="section-grid">
+    `;
+    const acedSet = new Set(getModuleProgress(LINKED_TOPIC_ID).acedSections);
+    PTS_QUIZ_SECTIONS.forEach(sec => {
+      const qid = quizIdFor(sec.id);
+      const best = getQuizBest(qid);
+      const history = getQuizHistory(qid);
+      const bestLine = best
+        ? `<span class="s-best">Best: ${best.score}/${best.total} (${Math.round((best.score/best.total)*100)}%) · ${history.length} attempt${history.length===1?"":"s"}</span>`
+        : `<span class="s-meta">Not attempted yet</span>`;
+      const count = sec.id === "all" ? 80 : 10;
+      const isAced = sec.id !== "all" && acedSet.has(sec.id);
+      html += `
+        <button class="section-card ${sec.id==='all' ? 'full' : ''}" data-section="${sec.id}">
+          <span class="s-meta">${count} QUESTIONS${isAced ? ' · ✓ ACED' : ''}</span>
+          <h3 class="s-title">${sec.title}</h3>
+          <p class="s-desc">${sec.desc}</p>
+          ${bestLine}
+        </button>
+      `;
+    });
+
+    // --- Random 20 (Exam Mode) ---
+    const r20Best = getQuizBest(RANDOM20_QUIZ_ID);
+    const r20History = getQuizHistory(RANDOM20_QUIZ_ID);
+    const r20Line = r20Best
+      ? `<span class="s-best">Best: ${r20Best.score}/${r20Best.total} (${Math.round((r20Best.score/r20Best.total)*100)}%) · ${r20History.length} attempt${r20History.length===1?"":"s"}</span>`
+      : `<span class="s-meta">Not attempted yet</span>`;
+    html += `
+      <button class="section-card" data-mode="random20">
+        <span class="s-meta">20 QUESTIONS</span>
+        <h3 class="s-title">🎯 Random 20 — Exam Mode</h3>
+        <p class="s-desc">20 random questions pulled from the full 80-question bank, freshly shuffled each time.</p>
+        ${r20Line}
+      </button>
+    `;
+
+    // --- Wrong Answer Review ---
+    const wrongIds = getWrongIds();
+    const wLine = wrongIds.length
+      ? `<span class="s-best">${wrongIds.length} question${wrongIds.length===1?"":"s"} queued for retry</span>`
+      : `<span class="s-meta">Nothing queued — all clear</span>`;
+    html += `
+      <button class="section-card" data-mode="wrong" ${wrongIds.length===0 ? "style=\"opacity:0.55;cursor:default;\"" : ""}>
+        <span class="s-meta">${wrongIds.length || 0} QUESTIONS</span>
+        <h3 class="s-title">⚡ Wrong Answer Review</h3>
+        <p class="s-desc">Retry only the questions you got wrong on your most recent attempts.</p>
+        ${wLine}
+      </button>
+    `;
+
+    html += `</div>`;
+    app.innerHTML = html;
+
+    app.querySelectorAll(".section-card[data-section]").forEach(btn => {
+      btn.addEventListener("click", () => startQuiz(btn.dataset.section));
+    });
+    const r20Btn = app.querySelector('[data-mode="random20"]');
+    if(r20Btn) r20Btn.addEventListener("click", () => startRandomExam(20));
+    const wrongBtn = app.querySelector('[data-mode="wrong"]');
+    if(wrongBtn) wrongBtn.addEventListener("click", () => startWrongReview());
+  }
+
+  function startQuiz(id){
+    sectionId = id;
+    const pool = id === "all" ? PTS_QUIZ_QUESTIONS : PTS_QUIZ_QUESTIONS.filter(q => q.section === id);
+    activeQuestions = shuffle(pool).map(shuffleOptions);
+    currentIndex = 0;
+    userAnswers = {};
+    score = 0;
+    state = "quiz";
+    render();
+    window.scrollTo(0,0);
+  }
+
+  function startRandomExam(n){
+    sectionId = "random20";
+    activeQuestions = shuffle(PTS_QUIZ_QUESTIONS).slice(0, n).map(shuffleOptions);
+    currentIndex = 0;
+    userAnswers = {};
+    score = 0;
+    state = "quiz";
+    render();
+    window.scrollTo(0,0);
   }
 
   function toast(msg){
@@ -94,142 +342,263 @@
     el.textContent = msg;
     el.style.opacity = "1";
     clearTimeout(window.__toastT);
-    window.__toastT = setTimeout(()=>{ el.style.opacity = "0"; }, 1800);
+    window.__toastT = setTimeout(()=>{ el.style.opacity = "0"; }, 2200);
   }
 
-  const id = getParam("id") || "m2";
-  const mod = getModule(id);
-
-  (async function init(){
-    const currentIdentity = await ensureIdentity();
-    await initProgress(currentIdentity);
-
-    if(!mod){
-      document.getElementById("pageTitle").textContent = "Module not found";
+  function startWrongReview(){
+    const wrongIds = getWrongIds();
+    if(wrongIds.length === 0){
+      state = "menu";
+      render();
+      toast("Nothing to retry — no wrong answers queued.");
       return;
     }
+    sectionId = "wrong";
+    const pool = PTS_QUIZ_QUESTIONS.filter(q => wrongIds.includes(q.id));
+    activeQuestions = shuffle(pool).map(shuffleOptions);
+    currentIndex = 0;
+    userAnswers = {};
+    score = 0;
+    state = "quiz";
+    render();
+    window.scrollTo(0,0);
+  }
 
-    document.getElementById("pageTitle").textContent = mod.name;
-    const pill = document.getElementById("badgePill");
-    pill.textContent = mod.badge;
-    pill.classList.add(mod.badgeColor);
+  function currentQuizId(){
+    if(sectionId === "random20") return RANDOM20_QUIZ_ID;
+    if(sectionId === "wrong") return WRONG_QUIZ_ID;
+    return quizIdFor(sectionId);
+  }
 
-    // Progress bar for the Module group this topic belongs to (e.g. all
-    // topics under "Module 1 — Introduction & Communications").
-    const groupTopics = getModulesWithProgress().filter(t => t.groupId === mod.groupId);
-    const groupDone = groupTopics.filter(t => t.covered).length;
-    const groupTotal = groupTopics.length;
-    const groupPct = groupTotal ? Math.round((groupDone / groupTotal) * 100) : 0;
-    document.getElementById("moduleProgressBlock").style.display = "block";
-    document.getElementById("moduleProgressLabel").textContent =
-      `${mod.groupLabel} — ${groupDone}/${groupTotal} topics`;
-    document.getElementById("moduleProgressPct").textContent = `${groupPct}%`;
-    document.getElementById("moduleProgressFill").style.width = groupPct + "%";
+  function currentModeLabel(){
+    if(sectionId === "random20") return "RANDOM 20 — EXAM MODE";
+    if(sectionId === "wrong") return "WRONG ANSWER REVIEW";
+    return sectionId === "all" ? "FULL ASSESSMENT" : sectionId.toUpperCase();
+  }
 
-    const markBtn = document.getElementById("markDoneBtn");
-    let done = getModuleProgress(mod.id).covered;
-    function refreshMarkBtn(){
-      markBtn.textContent = done ? "✓ Done" : "Mark as done";
-    }
-    refreshMarkBtn();
-    function refreshGroupProgressBar(){
-      const gt = getModulesWithProgress().filter(t => t.groupId === mod.groupId);
-      const gd = gt.filter(t => t.covered).length;
-      const gp = gt.length ? Math.round((gd / gt.length) * 100) : 0;
-      document.getElementById("moduleProgressLabel").textContent = `${mod.groupLabel} — ${gd}/${gt.length} topics`;
-      document.getElementById("moduleProgressPct").textContent = `${gp}%`;
-      document.getElementById("moduleProgressFill").style.width = gp + "%";
-    }
+  function renderQuiz(){
+    const q = activeQuestions[currentIndex];
+    const total = activeQuestions.length;
+    const isMulti = q.type === "multiple";
+    const pct = Math.round(((currentIndex) / total) * 100);
+    const selected = userAnswers[currentIndex] || [];
 
-    markBtn.addEventListener("click", ()=>{
-      done = !done;
-      setModuleCovered(mod.id, done, currentIdentity);
-      refreshMarkBtn();
-      refreshGroupProgressBar();
-      toast(done ? `${mod.name} marked as done.` : `${mod.name} marked as not done.`);
+    let optsHtml = "";
+    q.options.forEach((opt, i) => {
+      const isSelected = selected.includes(i);
+      const mark = isMulti ? (isSelected ? "☑" : "☐") : (isSelected ? "●" : "○");
+      optsHtml += `<button class="opt-btn ${isSelected ? 'selected' : ''}" data-opt="${i}"><span style="margin-right:9px;">${mark}</span>${opt}</button>`;
     });
 
-    // Each guide/quiz/tool card gets its OWN independent pin button — pinning
-    // one item doesn't affect the others, and each is tracked individually
-    // in progress.js's pinnedItems store.
-    function pinButton(type, title, extra){
-      let itemPinned = isItemPinned(mod.id, type, title);
-      const b = document.createElement("button");
-      b.className = "pin-btn" + (itemPinned ? " active" : "");
-      b.textContent = "📌";
-      b.title = itemPinned ? "Unpin this item" : "Pin for review";
-      b.addEventListener("click", (e)=>{
-        e.preventDefault();
-        itemPinned = !itemPinned;
-        setItemPinned(mod.id, type, title, itemPinned, currentIdentity,
-          Object.assign({ topicName: mod.name }, extra || {}));
-        b.classList.toggle("active", itemPinned);
-        b.title = itemPinned ? "Unpin this item" : "Pin for review";
-        toast(itemPinned ? `${title} pinned for review.` : `${title} unpinned.`);
+    app.innerHTML = `
+      <div class="quiz-header">
+        <span class="badge-pill purple">${currentModeLabel()}</span>
+        <span class="q-count">Question ${currentIndex + 1} of ${total}${isMulti ? " · select all that apply" : ""}</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%;"></div></div>
+      <div class="q-card" style="margin-top:20px;">
+        <p class="q-text">${q.question}</p>
+        <div class="opt-list">${optsHtml}</div>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn btn-ghost" id="quitBtn">Quit to menu</button>
+        <button class="btn btn-primary" id="nextBtn" ${selected.length === 0 ? "disabled" : ""}>
+          ${currentIndex === total - 1 ? "Finish" : "Next →"}
+        </button>
+      </div>
+    `;
+
+    app.querySelectorAll(".opt-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const i = parseInt(btn.dataset.opt, 10);
+        let cur = userAnswers[currentIndex] || [];
+        if(isMulti){
+          cur = cur.includes(i) ? cur.filter(v => v !== i) : cur.concat(i);
+        }else{
+          cur = [i];
+        }
+        userAnswers[currentIndex] = cur;
+        renderQuiz();
       });
-      return b;
-    }
-
-    const guidesGrid = document.getElementById("guidesGrid");
-    (mod.guides || []).forEach(g=>{
-      const card = document.createElement("div");
-      card.className = "content-card guide";
-      card.appendChild(pinButton("guide", g.title, { file: g.file }));
-      const subtitle = g.subtitle ? `<span class="card-subtitle">${g.subtitle}</span>` : "";
-      const linkAttrs = g.file
-        ? `href="${g.file}" target="_blank" rel="noopener"`
-        : `href="#" onclick="toast('Opening ${g.title}…');return false;"`;
-      card.insertAdjacentHTML("beforeend", `
-        <span class="card-icon">📘</span>
-        <h3 class="card-title">${g.title}</h3>
-        ${subtitle}
-        <a class="card-action guide-action" ${linkAttrs}>Open PDF →</a>
-      `);
-      guidesGrid.appendChild(card);
     });
-    if(!mod.guides || mod.guides.length===0) document.getElementById("guidesSection").style.display = "none";
-
-    const quizzesGrid = document.getElementById("quizzesGrid");
-    (mod.quizzes || []).forEach(q=>{
-      const card = document.createElement("div");
-      card.className = "content-card quiz";
-      card.appendChild(pinButton("quiz", q.title, { link: q.link }));
-      const bullets = (q.bullets||[]).map(b=>`<li>${b}</li>`).join("");
-      const history = getQuizHistory(q.quizId || q.title);
-      const best = getQuizBest(q.quizId || q.title);
-      const historyLine = history.length
-        ? `<span class="card-subtitle">Best: ${best.score}/${best.total} · ${history.length} attempt${history.length===1?"":"s"} so far</span>`
-        : "";
-      const quizLinkAttrs = q.link
-        ? `href="${q.link}"`
-        : `href="#" onclick="toast('Starting ${q.title}…');return false;"`;
-      card.insertAdjacentHTML("beforeend", `
-        <span class="card-icon">📝</span>
-        <h3 class="card-title">${q.title}</h3>
-        <ul class="card-bullets">${bullets}</ul>
-        ${historyLine}
-        <a class="card-action quiz-action" ${quizLinkAttrs}>Start quiz →</a>
-      `);
-      quizzesGrid.appendChild(card);
+    document.getElementById("quitBtn").addEventListener("click", () => {
+      if(confirm("Quit this attempt? Your progress on this attempt won't be saved.")){
+        state = "menu";
+        render();
+      }
     });
-    if(!mod.quizzes || mod.quizzes.length===0) document.getElementById("quizzesSection").style.display = "none";
+    const nextBtn = document.getElementById("nextBtn");
+    nextBtn.addEventListener("click", () => {
+      if(currentIndex < total - 1){
+        currentIndex++;
+        render();
+        window.scrollTo(0,0);
+      }else{
+        finishQuiz();
+      }
+    });
+  }
 
-    if(mod.tools && mod.tools.length){
-      document.getElementById("toolsSection").style.display = "block";
-      const toolsGrid = document.getElementById("toolsGrid");
-      mod.tools.forEach(t=>{
-        const card = document.createElement("div");
-        card.className = "content-card tool";
-        card.appendChild(pinButton("tool", t.title, {}));
-        card.insertAdjacentHTML("beforeend", `
-          <span class="card-icon">⚙️</span>
-          <h3 class="card-title">${t.title}</h3>
-          <a class="card-action tool-action" href="#" onclick="toast('Opening ${t.title}…');return false;">Open →</a>
-        `);
-        toolsGrid.appendChild(card);
+  let justAutoCompletedTopic = false;
+  let justAcedSectionId = null; // set when a single 10-question module is perfected this attempt
+
+  function finishQuiz(){
+    score = activeQuestions.reduce((acc, q, idx) => {
+      return acc + (isAnswerCorrect(q, userAnswers[idx]) ? 1 : 0);
+    }, 0);
+    const missedIds = activeQuestions
+      .filter((q, idx) => !isAnswerCorrect(q, userAnswers[idx]))
+      .map(q => q.id);
+    const attemptedIds = activeQuestions.map(q => q.id);
+    recordQuizAttempt(currentQuizId(), score, activeQuestions.length, currentIdentity, missedIds, attemptedIds);
+
+    const isPerfect = score === activeQuestions.length;
+    const isRealModuleSection = PTS_QUIZ_SECTIONS.some(s => s.id === sectionId && s.id !== "all");
+
+    justAutoCompletedTopic = false;
+    justAcedSectionId = null;
+
+    // Perfect score on the full 80-question assessment = topic done outright.
+    if(sectionId === "all" && isPerfect){
+      const wasAlreadyDone = getModuleProgress(LINKED_TOPIC_ID).covered;
+      setModuleCovered(LINKED_TOPIC_ID, true, currentIdentity);
+      justAutoCompletedTopic = !wasAlreadyDone;
+      // Also bank every individual module as aced, so "sections aced" stays
+      // consistent even though completion already stands at 100% either way.
+      PTS_QUIZ_SECTIONS.forEach(s=>{
+        if(s.id !== "all") addAcedQuizSection(LINKED_TOPIC_ID, s.id, currentIdentity);
       });
+    }
+    // Perfect score on a SINGLE 10-question module banks partial credit —
+    // this is what lets the progress bars move after just one module,
+    // rather than requiring the full 80 in one sitting.
+    else if(isRealModuleSection && isPerfect){
+      addAcedQuizSection(LINKED_TOPIC_ID, sectionId, currentIdentity);
+      justAcedSectionId = sectionId;
+      // If that was the last of the 8 modules, the topic is now fully
+      // covered by section credit alone — sync the covered flag too, so
+      // "Mark as done" and the progress bars agree (both should read 100%).
+      const totalSections = PTS_QUIZ_SECTIONS.filter(s => s.id !== "all").length;
+      const acedNow = getModuleProgress(LINKED_TOPIC_ID).acedSections.length;
+      if(acedNow >= totalSections){
+        const wasAlreadyDone = getModuleProgress(LINKED_TOPIC_ID).covered;
+        setModuleCovered(LINKED_TOPIC_ID, true, currentIdentity);
+        justAutoCompletedTopic = !wasAlreadyDone;
+      }
+    }
+    // Random-20 and Wrong Answer Review are practice modes and don't bank
+    // section credit — they're not tied to one specific curriculum module.
+
+    state = "results";
+    render();
+    window.scrollTo(0,0);
+  }
+
+  function renderResults(){
+    const total = activeQuestions.length;
+    const pct = Math.round((score / total) * 100);
+    const passingScore = Math.ceil(total * PASS_PCT);
+    const isPassed = score >= passingScore;
+
+    app.innerHTML = `
+      <div class="result-card">
+        <div class="result-badge ${isPassed ? 'pass' : 'fail'}">${isPassed ? '✓' : '✗'}</div>
+        <h2>${isPassed ? 'Assessment Passed' : 'Assessment Not Passed'}</h2>
+        <p class="result-score">Final score: <b>${score} / ${total}</b> (${pct}%)</p>
+        <div class="pass-gate-box">
+          <p style="margin:0 0 6px;"><b>Pass gate:</b> 90% (${passingScore}/${total})</p>
+          <p style="margin:0;">${isPassed
+            ? "You've met the required standard for Personal Track Safety."
+            : "You didn't reach the 90% pass mark this time. Review the rulebook explanations below and try again."}</p>
+        </div>
+        ${justAutoCompletedTopic ? `
+        <div class="pass-gate-box" style="border-color:rgba(62,214,160,0.35);">
+          <p style="margin:0;color:var(--accent-green);"><b>✓ Perfect score!</b> The "Booking On, Rostering &amp; PTS" topic has been automatically marked as done.</p>
+        </div>` : ""}
+        ${justAcedSectionId ? `
+        <div class="pass-gate-box" style="border-color:rgba(62,214,160,0.35);">
+          <p style="margin:0;color:var(--accent-green);"><b>✓ Module aced!</b> ${acedSectionsSummary()}</p>
+        </div>` : ""}
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button class="btn btn-primary" id="reviewBtn" style="justify-content:center;padding:12px;">Review answers &amp; explanations</button>
+          <button class="btn btn-outline-white" id="menuBtn" style="justify-content:center;padding:12px;">Return to menu</button>
+        </div>
+      </div>
+    `;
+    document.getElementById("reviewBtn").addEventListener("click", () => { state = "review"; render(); window.scrollTo(0,0); });
+    document.getElementById("menuBtn").addEventListener("click", () => { state = "menu"; render(); });
+  }
+
+  function renderReview(){
+    const total = activeQuestions.length;
+    let html = `
+      <div class="quiz-header">
+        <div>
+          <h2 style="margin:0;font-size:16px;color:var(--text-hi);">Rulebook review</h2>
+          <span class="q-count">Score: ${score} / ${total} (${Math.round((score/total)*100)}%)</span>
+        </div>
+        <button class="btn btn-outline-white" id="menuBtn">Main menu</button>
+      </div>
+    `;
+
+    activeQuestions.forEach((q, idx) => {
+      const uAns = userAnswers[idx] || [];
+      const isCorrect = isAnswerCorrect(q, uAns);
+      let optsHtml = "";
+      q.options.forEach((opt, oIdx) => {
+        const isCorrectOpt = q.correct.includes(oIdx);
+        const isUserPick = uAns.includes(oIdx);
+        let cls = "review-opt";
+        if(isCorrectOpt) cls += " correct-opt";
+        else if(isUserPick) cls += " wrong-pick";
+        const mark = isCorrectOpt ? "✓" : (isUserPick ? "✗" : "•");
+        optsHtml += `<div class="${cls}"><span>${mark}</span>${opt}</div>`;
+      });
+
+      html += `
+        <div class="review-item ${isCorrect ? 'correct' : ''}">
+          <div class="review-item-body">
+            <div class="review-q-row">
+              <h3>${idx + 1}. ${q.question}</h3>
+              <span class="status-pill ${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? 'Correct' : 'Incorrect'}</span>
+            </div>
+            <div class="review-opts">${optsHtml}</div>
+            <div class="rationale-box"><b>Rulebook rationale</b>${q.rationale}</div>
+          </div>
+        </div>
+      `;
+    });
+
+    html += `
+      <div style="text-align:center;margin-top:20px;">
+        <button class="btn btn-primary" id="menuBtn2" style="padding:12px 30px;">Return to menu</button>
+      </div>
+    `;
+
+    app.innerHTML = html;
+    document.getElementById("menuBtn").addEventListener("click", () => { state = "menu"; render(); });
+    document.getElementById("menuBtn2").addEventListener("click", () => { state = "menu"; render(); });
+  }
+
+  (async function init(){
+    currentIdentity = await ensureIdentity();
+    await initProgress(currentIdentity);
+
+    const startParam = new URLSearchParams(window.location.search).get("start");
+    if(startParam === "random20"){
+      startRandomExam(20);
+    }else if(startParam === "wrong"){
+      startWrongReview();
+    }else if(startParam === "random"){
+      const pick = PTS_QUIZ_SECTIONS[Math.floor(Math.random() * PTS_QUIZ_SECTIONS.length)];
+      startQuiz(pick.id);
+    }else if(startParam && PTS_QUIZ_SECTIONS.some(s => s.id === startParam)){
+      startQuiz(startParam);
+    }else{
+      render();
     }
   })();
+})();
 </script>
 
 </body>
