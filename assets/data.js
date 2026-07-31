@@ -1,10 +1,11 @@
 // Module / topic data — structured to match the real course layout:
 // Exam Prep + Recap, then Modules 1–4, each containing several topics.
 //
-// Quizzes and tools have been stripped out for now (guides only) — add
-// them back in per topic as real quiz/tool content becomes available.
-// Each topic still has empty quizzes/tools arrays so module.html's
-// section-hiding logic just works automatically when they're populated.
+// Most topics are guides-only for now — quizzes/tools get added in per
+// topic as real content becomes available (see "booking-on-rostering-pts"
+// below for an example with a live quiz). Topics without one just keep
+// an empty quizzes/tools array so module.html's section-hiding logic
+// works automatically.
 
 const MODULE_GROUPS = [
   {
