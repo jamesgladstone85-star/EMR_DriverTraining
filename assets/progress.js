@@ -102,13 +102,16 @@ function setModulePinned(id, pinned, identity){
 
 // Records a new quiz attempt. Every attempt is kept — retaking a quiz never
 // erases past results, it just adds another entry to that quiz's history.
-function recordQuizAttempt(quizId, score, total, identity){
+// missedIds (optional) lists the question ids that were answered wrong on
+// this attempt — powers the "Wrong Answers" quick action.
+function recordQuizAttempt(quizId, score, total, identity, missedIds){
   const c = _ensureCache();
   c.quizAttempts[quizId] = c.quizAttempts[quizId] || [];
   c.quizAttempts[quizId].push({
     date: new Date().toISOString(),
     score,
     total,
+    missedIds: missedIds || [],
   });
   _saveLocal(c);
   _pushToServer(identity);
@@ -130,6 +133,24 @@ function getQuizBest(quizId){
 function getQuizLatest(quizId){
   const history = getQuizHistory(quizId);
   return history.length ? history[history.length - 1] : null;
+}
+
+// Aggregates question ids missed on the MOST RECENT attempt of every quiz
+// whose id starts with quizIdPrefix (e.g. all PTS quiz variants share the
+// prefix "PTS Master Assessment"). Used by the "Wrong Answers" quick action
+// and its retry mode — self-corrects as attempts improve, since only the
+// latest attempt per quiz counts.
+function getWrongQuestionIds(quizIdPrefix){
+  const c = _ensureCache();
+  const ids = new Set();
+  Object.keys(c.quizAttempts).forEach(quizId=>{
+    if(quizIdPrefix && quizId.indexOf(quizIdPrefix) !== 0) return;
+    const history = c.quizAttempts[quizId];
+    if(!history.length) return;
+    const latest = history[history.length - 1];
+    (latest.missedIds || []).forEach(id => ids.add(id));
+  });
+  return Array.from(ids);
 }
 
 // Merges the shared module list (names, guides, quizzes — same for
