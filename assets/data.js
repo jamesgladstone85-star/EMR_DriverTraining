@@ -10,32 +10,6 @@
 
 const MODULE_GROUPS = [
   {
-    id: "exam-prep",
-    label: "Exam Prep & Recap",
-    shortBadge: "EXAM PREP",
-    subtitle: "Practice exams, midterm recap and full-course revision tools",
-    color: "purple",
-    topics: [
-      {
-        id: "exam-prep",
-        name: "Exam Preparation & Full Recap",
-        description: "Master revision guide covering all modules, full course recap quiz and midterm recap.",
-        guides: [
-          { title: "Master Revision Guide — All Modules" },
-          { title: "Midterm Recap Guide" },
-          { title: "Post-Midterm Revision Guide — Module 4" },
-        ],
-        quizzes: [
-          { title: "Full Course Recap Quiz", bullets: ["50 questions across all modules", "MCQ, typed & picture questions", "Final run-through before assessment"] },
-          { title: "Midterm Recap Quiz", bullets: ["Modules 2 & 3 content", "Signalling, speeds & crossings", "Professional driving questions"] },
-          { title: "Recap Quiz", bullets: ["Mixed module knowledge check", "Core rules & procedures"] },
-          { title: "Post-Midterm Quiz — All Module 4 Topics", bullets: ["WDM & wrong direction", "Accidents & fires", "Emergencies & incidents", "Signalling irregularities", "PSAD, Possessions, EBW, TSR/ESR, SLW, Failed Train"] },
-        ],
-        tools: [],
-      },
-    ],
-  },
-  {
     id: "module-1",
     label: "Module 1 — Introduction & Communications",
     shortBadge: "MODULE 1",
@@ -305,6 +279,32 @@ const MODULE_GROUPS = [
           { title: "Possessions & EBW — Revision Guide 2" },
         ],
         quizzes: [{ title: "Possessions & EBW Quiz", bullets: ["Add real questions here"] }],
+        tools: [],
+      },
+    ],
+  },
+  {
+    id: "exam-prep",
+    label: "Exam Prep & Recap",
+    shortBadge: "EXAM PREP",
+    subtitle: "Practice exams, midterm recap and full-course revision tools",
+    color: "purple",
+    topics: [
+      {
+        id: "exam-prep",
+        name: "Exam Preparation & Full Recap",
+        description: "Master revision guide covering all modules, full course recap quiz and midterm recap.",
+        guides: [
+          { title: "Master Revision Guide — All Modules" },
+          { title: "Midterm Recap Guide" },
+          { title: "Post-Midterm Revision Guide — Module 4" },
+        ],
+        quizzes: [
+          { title: "Full Course Recap Quiz", bullets: ["50 questions across all modules", "MCQ, typed & picture questions", "Final run-through before assessment"] },
+          { title: "Midterm Recap Quiz", bullets: ["Modules 2 & 3 content", "Signalling, speeds & crossings", "Professional driving questions"] },
+          { title: "Recap Quiz", bullets: ["Mixed module knowledge check", "Core rules & procedures"] },
+          { title: "Post-Midterm Quiz — All Module 4 Topics", bullets: ["WDM & wrong direction", "Accidents & fires", "Emergencies & incidents", "Signalling irregularities", "PSAD, Possessions, EBW, TSR/ESR, SLW, Failed Train"] },
+        ],
         tools: [],
       },
     ],
