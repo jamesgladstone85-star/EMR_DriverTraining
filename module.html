@@ -7,7 +7,23 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
-<style>body{background:var(--bg-void);}</style>
+<style>
+  body{background:var(--bg-void);}
+  .module-progress{max-width:1180px;margin:18px auto 0;padding:0 28px;}
+  .module-progress-head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-bottom:8px;
+  }
+  .module-progress-head b{color:var(--text-hi);font-size:12.5px;}
+  .module-progress-track{
+    width:100%;height:8px;border-radius:6px;background:var(--bg-card);
+    border:1px solid var(--border-hair);overflow:hidden;
+  }
+  .module-progress-fill{
+    height:100%;background:linear-gradient(90deg, var(--accent-purple), var(--accent-purple-dim));
+    transition:width .4s ease;
+  }
+</style>
 </head>
 <body>
 
@@ -22,6 +38,14 @@
   <button class="btn btn-outline-white" id="markDoneBtn">Mark as done</button>
 </div>
 <div class="rail-strip"></div>
+
+<div class="module-progress" id="moduleProgressBlock" style="display:none;">
+  <div class="module-progress-head">
+    <span id="moduleProgressLabel">Module progress</span>
+    <b id="moduleProgressPct">0%</b>
+  </div>
+  <div class="module-progress-track"><div class="module-progress-fill" id="moduleProgressFill" style="width:0%;"></div></div>
+</div>
 
 <div class="page-body">
 
@@ -90,16 +114,38 @@
     pill.textContent = mod.badge;
     pill.classList.add(mod.badgeColor);
 
+    // Progress bar for the Module group this topic belongs to (e.g. all
+    // topics under "Module 1 — Introduction & Communications").
+    const groupTopics = getModulesWithProgress().filter(t => t.groupId === mod.groupId);
+    const groupDone = groupTopics.filter(t => t.covered).length;
+    const groupTotal = groupTopics.length;
+    const groupPct = groupTotal ? Math.round((groupDone / groupTotal) * 100) : 0;
+    document.getElementById("moduleProgressBlock").style.display = "block";
+    document.getElementById("moduleProgressLabel").textContent =
+      `${mod.groupLabel} — ${groupDone}/${groupTotal} topics`;
+    document.getElementById("moduleProgressPct").textContent = `${groupPct}%`;
+    document.getElementById("moduleProgressFill").style.width = groupPct + "%";
+
     const markBtn = document.getElementById("markDoneBtn");
     let done = getModuleProgress(mod.id).covered;
     function refreshMarkBtn(){
       markBtn.textContent = done ? "✓ Done" : "Mark as done";
     }
     refreshMarkBtn();
+    function refreshGroupProgressBar(){
+      const gt = getModulesWithProgress().filter(t => t.groupId === mod.groupId);
+      const gd = gt.filter(t => t.covered).length;
+      const gp = gt.length ? Math.round((gd / gt.length) * 100) : 0;
+      document.getElementById("moduleProgressLabel").textContent = `${mod.groupLabel} — ${gd}/${gt.length} topics`;
+      document.getElementById("moduleProgressPct").textContent = `${gp}%`;
+      document.getElementById("moduleProgressFill").style.width = gp + "%";
+    }
+
     markBtn.addEventListener("click", ()=>{
       done = !done;
       setModuleCovered(mod.id, done, currentIdentity);
       refreshMarkBtn();
+      refreshGroupProgressBar();
       toast(done ? `${mod.name} marked as done.` : `${mod.name} marked as not done.`);
     });
 
