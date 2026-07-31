@@ -119,7 +119,8 @@ function _ensureCache(){
 
 function getModuleProgress(id){
   const c = _ensureCache();
-  return c.topics[id] || { covered:false };
+  const t = c.topics[id] || {};
+  return { covered: !!t.covered, acedSections: t.acedSections || [] };
 }
 
 function setModuleCovered(id, covered, identity){
@@ -128,6 +129,35 @@ function setModuleCovered(id, covered, identity){
   c.topics[id].covered = covered;
   _saveLocal(c);
   _pushToServer(identity);
+}
+
+// Records that a specific quiz module-section (e.g. "m3") has been aced
+// (100%) for a topic. Cumulative and never regresses — once a section is
+// aced it stays counted even if a later attempt on that same section isn't
+// perfect. sectionKey is arbitrary (defined by the quiz itself, e.g. PTS's
+// m1..m8) — progress.js doesn't need to know what it means, just that it's
+// one distinct unit of credit toward that topic's completion.
+function addAcedQuizSection(topicId, sectionKey, identity){
+  const c = _ensureCache();
+  c.topics[topicId] = c.topics[topicId] || {};
+  c.topics[topicId].acedSections = c.topics[topicId].acedSections || [];
+  if(!c.topics[topicId].acedSections.includes(sectionKey)){
+    c.topics[topicId].acedSections.push(sectionKey);
+    _saveLocal(c);
+    _pushToServer(identity);
+  }
+}
+
+// Fractional completion for a topic based on quiz-section credit — e.g.
+// 3 of 8 PTS modules aced = 0.375. A topic manually marked (or otherwise)
+// "covered" is always fraction 1, regardless of section count. totalSections
+// is supplied by the caller (from that topic's quiz definition in data.js);
+// topics with no quiz sections defined return 0 unless covered.
+function getTopicQuizFraction(topicId, totalSections){
+  const p = getModuleProgress(topicId);
+  if(p.covered) return 1;
+  if(!totalSections) return 0;
+  return Math.min(1, p.acedSections.length / totalSections);
 }
 
 // Deterministic key for a single content item (one guide, quiz, or tool
@@ -228,16 +258,24 @@ function getWrongIds(){
 }
 
 // Merges the shared module list (names, guides, quizzes — same for
-// everyone) with this person's own covered state and whether the topic
-// currently has ANY pinned items inside it (used only for the homepage's
-// "Pinned" filter tab — the sidebar's own Pinned list uses getPinnedItems()
-// directly, at the item level).
+// everyone) with this person's own covered state, fractional quiz-section
+// completion, and whether the topic currently has ANY pinned items inside
+// it (used only for the homepage's "Pinned" filter tab — the sidebar's own
+// Pinned list uses getPinnedItems() directly, at the item level).
+//
+// quizFraction is 1 if manually/fully covered, otherwise (sections aced) /
+// (that topic's quiz's totalSections field, if any quiz on the topic
+// defines one) — this is what lets progress bars move incrementally as
+// individual module quizzes are aced, not just on full completion.
 function getModulesWithProgress(){
   const pinnedTopicIds = new Set(getPinnedItems().map(it => it.topicId));
   return MODULES.map(m=>{
     const p = getModuleProgress(m.id);
+    const quizWithSections = (m.quizzes || []).find(q => q.totalSections);
+    const totalSections = quizWithSections ? quizWithSections.totalSections : 0;
     return Object.assign({}, m, {
       covered: p.covered,
+      quizFraction: getTopicQuizFraction(m.id, totalSections),
       hasPinnedItems: pinnedTopicIds.has(m.id),
     });
   });
