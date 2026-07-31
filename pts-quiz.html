@@ -205,6 +205,12 @@
     return a.length === b.length && a.every((v,i) => v === b[i]);
   }
 
+  function acedSectionsSummary(){
+    const totalSections = PTS_QUIZ_SECTIONS.filter(s => s.id !== "all").length;
+    const aced = getModuleProgress(LINKED_TOPIC_ID).acedSections.length;
+    return `${aced}/${totalSections} modules aced for this topic — the "Booking On, Rostering &amp; PTS" progress bar has moved accordingly.`;
+  }
+
   function quizIdFor(id){
     const section = PTS_QUIZ_SECTIONS.find(s => s.id === id);
     return id === "all" ? QUIZ_TITLE_PREFIX : `${QUIZ_TITLE_PREFIX} — ${section ? section.title.split(":")[0] : id}`;
@@ -218,15 +224,24 @@
   }
 
   function renderMenu(){
+    const totalSections = PTS_QUIZ_SECTIONS.filter(s => s.id !== "all").length;
+    const acedCount = getModuleProgress(LINKED_TOPIC_ID).acedSections.length;
+    const topicDone = getModuleProgress(LINKED_TOPIC_ID).covered;
     let html = `
       <div class="quiz-intro">
         <h1>PTS Master Assessment</h1>
         <p>80 questions covering the full Personal Track Safety rule book (PTS 675-000 V4).
         Take the full assessment, or drill a single module. Pass mark is 90% on the full assessment.
         Every attempt is saved to your progress history.</p>
+        <p style="margin-top:10px;color:${topicDone ? 'var(--accent-green)' : 'var(--text-mid)'};font-family:var(--mono);font-size:11.5px;">
+          ${topicDone
+            ? "✓ Topic marked done — all modules covered."
+            : `${acedCount}/${totalSections} modules aced so far — ace all 8 (or the full 80 in one sitting) to mark the topic done.`}
+        </p>
       </div>
       <div class="section-grid">
     `;
+    const acedSet = new Set(getModuleProgress(LINKED_TOPIC_ID).acedSections);
     PTS_QUIZ_SECTIONS.forEach(sec => {
       const qid = quizIdFor(sec.id);
       const best = getQuizBest(qid);
@@ -235,9 +250,10 @@
         ? `<span class="s-best">Best: ${best.score}/${best.total} (${Math.round((best.score/best.total)*100)}%) · ${history.length} attempt${history.length===1?"":"s"}</span>`
         : `<span class="s-meta">Not attempted yet</span>`;
       const count = sec.id === "all" ? 80 : 10;
+      const isAced = sec.id !== "all" && acedSet.has(sec.id);
       html += `
         <button class="section-card ${sec.id==='all' ? 'full' : ''}" data-section="${sec.id}">
-          <span class="s-meta">${count} QUESTIONS</span>
+          <span class="s-meta">${count} QUESTIONS${isAced ? ' · ✓ ACED' : ''}</span>
           <h3 class="s-title">${sec.title}</h3>
           <p class="s-desc">${sec.desc}</p>
           ${bestLine}
@@ -424,6 +440,7 @@
   }
 
   let justAutoCompletedTopic = false;
+  let justAcedSectionId = null; // set when a single 10-question module is perfected this attempt
 
   function finishQuiz(){
     score = activeQuestions.reduce((acc, q, idx) => {
@@ -435,15 +452,42 @@
     const attemptedIds = activeQuestions.map(q => q.id);
     recordQuizAttempt(currentQuizId(), score, activeQuestions.length, currentIdentity, missedIds, attemptedIds);
 
-    // Perfect score on the full 80-question assessment = topic done.
-    // Doesn't apply to module quizzes, random-20 exam mode, or wrong-answer
-    // review — those are practice, not "the" quiz this topic is linked to.
+    const isPerfect = score === activeQuestions.length;
+    const isRealModuleSection = PTS_QUIZ_SECTIONS.some(s => s.id === sectionId && s.id !== "all");
+
     justAutoCompletedTopic = false;
-    if(sectionId === "all" && score === activeQuestions.length){
+    justAcedSectionId = null;
+
+    // Perfect score on the full 80-question assessment = topic done outright.
+    if(sectionId === "all" && isPerfect){
       const wasAlreadyDone = getModuleProgress(LINKED_TOPIC_ID).covered;
       setModuleCovered(LINKED_TOPIC_ID, true, currentIdentity);
       justAutoCompletedTopic = !wasAlreadyDone;
+      // Also bank every individual module as aced, so "sections aced" stays
+      // consistent even though completion already stands at 100% either way.
+      PTS_QUIZ_SECTIONS.forEach(s=>{
+        if(s.id !== "all") addAcedQuizSection(LINKED_TOPIC_ID, s.id, currentIdentity);
+      });
     }
+    // Perfect score on a SINGLE 10-question module banks partial credit —
+    // this is what lets the progress bars move after just one module,
+    // rather than requiring the full 80 in one sitting.
+    else if(isRealModuleSection && isPerfect){
+      addAcedQuizSection(LINKED_TOPIC_ID, sectionId, currentIdentity);
+      justAcedSectionId = sectionId;
+      // If that was the last of the 8 modules, the topic is now fully
+      // covered by section credit alone — sync the covered flag too, so
+      // "Mark as done" and the progress bars agree (both should read 100%).
+      const totalSections = PTS_QUIZ_SECTIONS.filter(s => s.id !== "all").length;
+      const acedNow = getModuleProgress(LINKED_TOPIC_ID).acedSections.length;
+      if(acedNow >= totalSections){
+        const wasAlreadyDone = getModuleProgress(LINKED_TOPIC_ID).covered;
+        setModuleCovered(LINKED_TOPIC_ID, true, currentIdentity);
+        justAutoCompletedTopic = !wasAlreadyDone;
+      }
+    }
+    // Random-20 and Wrong Answer Review are practice modes and don't bank
+    // section credit — they're not tied to one specific curriculum module.
 
     state = "results";
     render();
@@ -470,6 +514,10 @@
         ${justAutoCompletedTopic ? `
         <div class="pass-gate-box" style="border-color:rgba(62,214,160,0.35);">
           <p style="margin:0;color:var(--accent-green);"><b>✓ Perfect score!</b> The "Booking On, Rostering &amp; PTS" topic has been automatically marked as done.</p>
+        </div>` : ""}
+        ${justAcedSectionId ? `
+        <div class="pass-gate-box" style="border-color:rgba(62,214,160,0.35);">
+          <p style="margin:0;color:var(--accent-green);"><b>✓ Module aced!</b> ${acedSectionsSummary()}</p>
         </div>` : ""}
         <div style="display:flex;flex-direction:column;gap:10px;">
           <button class="btn btn-primary" id="reviewBtn" style="justify-content:center;padding:12px;">Review answers &amp; explanations</button>
