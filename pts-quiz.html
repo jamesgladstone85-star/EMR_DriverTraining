@@ -162,6 +162,11 @@
   const RANDOM20_QUIZ_ID = `${QUIZ_TITLE_PREFIX} — Random 20 (Exam Mode)`;
   const WRONG_QUIZ_ID = `${QUIZ_TITLE_PREFIX} — Wrong Answer Review`;
   const PASS_PCT = 0.9;
+  // The topic this quiz is linked from (assets/data.js). Only a perfect
+  // score on the FULL 80-question assessment auto-marks it as done —
+  // module quizzes, random-20 exam mode, and wrong-answer review are
+  // practice modes and don't count. Revision guides are never touched.
+  const LINKED_TOPIC_ID = "booking-on-rostering-pts";
   const app = document.getElementById("app");
 
   let currentIdentity = null;
@@ -256,7 +261,7 @@
     `;
 
     // --- Wrong Answer Review ---
-    const wrongIds = getWrongQuestionIds(QUIZ_TITLE_PREFIX);
+    const wrongIds = getWrongIds();
     const wLine = wrongIds.length
       ? `<span class="s-best">${wrongIds.length} question${wrongIds.length===1?"":"s"} queued for retry</span>`
       : `<span class="s-meta">Nothing queued — all clear</span>`;
@@ -325,7 +330,7 @@
   }
 
   function startWrongReview(){
-    const wrongIds = getWrongQuestionIds(QUIZ_TITLE_PREFIX);
+    const wrongIds = getWrongIds();
     if(wrongIds.length === 0){
       state = "menu";
       render();
@@ -418,6 +423,8 @@
     });
   }
 
+  let justAutoCompletedTopic = false;
+
   function finishQuiz(){
     score = activeQuestions.reduce((acc, q, idx) => {
       return acc + (isAnswerCorrect(q, userAnswers[idx]) ? 1 : 0);
@@ -425,7 +432,19 @@
     const missedIds = activeQuestions
       .filter((q, idx) => !isAnswerCorrect(q, userAnswers[idx]))
       .map(q => q.id);
-    recordQuizAttempt(currentQuizId(), score, activeQuestions.length, currentIdentity, missedIds);
+    const attemptedIds = activeQuestions.map(q => q.id);
+    recordQuizAttempt(currentQuizId(), score, activeQuestions.length, currentIdentity, missedIds, attemptedIds);
+
+    // Perfect score on the full 80-question assessment = topic done.
+    // Doesn't apply to module quizzes, random-20 exam mode, or wrong-answer
+    // review — those are practice, not "the" quiz this topic is linked to.
+    justAutoCompletedTopic = false;
+    if(sectionId === "all" && score === activeQuestions.length){
+      const wasAlreadyDone = getModuleProgress(LINKED_TOPIC_ID).covered;
+      setModuleCovered(LINKED_TOPIC_ID, true, currentIdentity);
+      justAutoCompletedTopic = !wasAlreadyDone;
+    }
+
     state = "results";
     render();
     window.scrollTo(0,0);
@@ -448,6 +467,10 @@
             ? "You've met the required standard for Personal Track Safety."
             : "You didn't reach the 90% pass mark this time. Review the rulebook explanations below and try again."}</p>
         </div>
+        ${justAutoCompletedTopic ? `
+        <div class="pass-gate-box" style="border-color:rgba(62,214,160,0.35);">
+          <p style="margin:0;color:var(--accent-green);"><b>✓ Perfect score!</b> The "Booking On, Rostering &amp; PTS" topic has been automatically marked as done.</p>
+        </div>` : ""}
         <div style="display:flex;flex-direction:column;gap:10px;">
           <button class="btn btn-primary" id="reviewBtn" style="justify-content:center;padding:12px;">Review answers &amp; explanations</button>
           <button class="btn btn-outline-white" id="menuBtn" style="justify-content:center;padding:12px;">Return to menu</button>
