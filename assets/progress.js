@@ -4,8 +4,17 @@
 // {
 //   topics: { [topicId]: { covered: bool } },
 //   pinnedItems: { [itemKey]: { topicId, topicName, type, title, file?, link? } },
-//   quizAttempts: { [quizId]: [ { date: isoString, score: number, total: number, missedIds: [] }, ... ] }
+//   quizAttempts: { [quizId]: [ { date: isoString, score: number, total: number, missedIds: [] }, ... ] },
+//   wrongIds: [ questionId, ... ]  — single persistent "currently wrong" set
 // }
+//
+// wrongIds is the ONE source of truth for what's still queued for retry.
+// Every recorded attempt updates it directly: a question answered correctly
+// is removed from the set (even if a different quiz variant once flagged it
+// wrong), and a question answered incorrectly is added/kept. This means
+// fixing a question inside Wrong Answer Review actually clears it — it
+// isn't re-derived from other quizzes' old attempt history, which was the
+// previous (buggy) approach.
 //
 // Pinning is per CONTENT ITEM (a single guide, quiz, or tool) — not per
 // topic. Each item's pin button toggles its own entry in pinnedItems, and
@@ -24,13 +33,34 @@ const API = "/api/progress";
 let _cache = null; // in-memory working copy once loaded
 
 function _emptyState(){
-  return { topics: {}, pinnedItems: {}, quizAttempts: {} };
+  return { topics: {}, pinnedItems: {}, quizAttempts: {}, wrongIds: [] };
+}
+
+// One-time migration for progress saved before wrongIds existed: rebuilds
+// an initial guess by unioning each quiz variant's latest missedIds (the
+// old, buggy derivation) so previously-flagged questions aren't silently
+// lost on upgrade. Only runs when the raw saved object never had a
+// wrongIds key at all — a legitimately empty array is left alone.
+function _migrateLegacyWrongIds(rawParsed, merged){
+  if(rawParsed && rawParsed.wrongIds !== undefined) return merged;
+  const ids = new Set();
+  Object.keys(merged.quizAttempts || {}).forEach(quizId=>{
+    const hist = merged.quizAttempts[quizId];
+    if(!hist || !hist.length) return;
+    const latest = hist[hist.length - 1];
+    (latest.missedIds || []).forEach(id => ids.add(id));
+  });
+  merged.wrongIds = Array.from(ids);
+  return merged;
 }
 
 function _loadLocal(){
   try{
     const raw = window.localStorage.getItem(PROGRESS_KEY);
-    return raw ? JSON.parse(raw) : _emptyState();
+    if(!raw) return _emptyState();
+    const parsed = JSON.parse(raw);
+    const merged = Object.assign(_emptyState(), parsed);
+    return _migrateLegacyWrongIds(parsed, merged);
   }catch(e){
     return window.__progressFallback || _emptyState();
   }
@@ -70,8 +100,9 @@ async function initProgress(identity){
     const res = await fetch(`${API}?${qs}`);
     if(res.ok){
       const remote = await res.json();
-      if(remote && (remote.topics || remote.quizAttempts)){
-        _cache = Object.assign(_emptyState(), remote);
+      if(remote && (remote.topics || remote.quizAttempts || remote.pinnedItems)){
+        const merged = Object.assign(_emptyState(), remote);
+        _cache = _migrateLegacyWrongIds(remote, merged);
         _saveLocal(_cache);
       }
     }
@@ -136,11 +167,18 @@ function getPinnedItemsForTopic(topicId){
   return getPinnedItems().filter(it => it.topicId === topicId);
 }
 
-// Records a new quiz attempt. Every attempt is kept — retaking a quiz never
-// erases past results, it just adds another entry to that quiz's history.
-// missedIds (optional) lists the question ids that were answered wrong on
-// this attempt — powers the "Wrong Answers" quick action.
-function recordQuizAttempt(quizId, score, total, identity, missedIds){
+// Records a new quiz attempt. Every attempt is kept in quizAttempts history
+// (for Best/attempts-so-far display) — retaking a quiz never erases past
+// results, it just adds another entry.
+//
+// attemptedIds/missedIds ALSO update the single persistent wrongIds set
+// directly: every question in attemptedIds that's NOT in missedIds gets
+// cleared from the wrong-answers queue (even if a different quiz variant
+// had flagged it before), and every question in missedIds gets added/kept.
+// This is what makes "answer it correctly and it clears" actually true,
+// regardless of which quiz mode (full/module/random20/wrong-review) it was
+// answered in.
+function recordQuizAttempt(quizId, score, total, identity, missedIds, attemptedIds){
   const c = _ensureCache();
   c.quizAttempts[quizId] = c.quizAttempts[quizId] || [];
   c.quizAttempts[quizId].push({
@@ -149,6 +187,17 @@ function recordQuizAttempt(quizId, score, total, identity, missedIds){
     total,
     missedIds: missedIds || [],
   });
+
+  if(attemptedIds && attemptedIds.length){
+    const wrongSet = new Set(c.wrongIds || []);
+    const missedSet = new Set(missedIds || []);
+    attemptedIds.forEach(id=>{
+      if(missedSet.has(id)) wrongSet.add(id);
+      else wrongSet.delete(id);
+    });
+    c.wrongIds = Array.from(wrongSet);
+  }
+
   _saveLocal(c);
   _pushToServer(identity);
 }
@@ -171,22 +220,11 @@ function getQuizLatest(quizId){
   return history.length ? history[history.length - 1] : null;
 }
 
-// Aggregates question ids missed on the MOST RECENT attempt of every quiz
-// whose id starts with quizIdPrefix (e.g. all PTS quiz variants share the
-// prefix "PTS Master Assessment"). Used by the "Wrong Answers" quick action
-// and its retry mode — self-corrects as attempts improve, since only the
-// latest attempt per quiz counts.
-function getWrongQuestionIds(quizIdPrefix){
+// The current "still wrong, needs retry" question ids — a single persistent
+// set, not derived from quiz history. Kept in sync by recordQuizAttempt.
+function getWrongIds(){
   const c = _ensureCache();
-  const ids = new Set();
-  Object.keys(c.quizAttempts).forEach(quizId=>{
-    if(quizIdPrefix && quizId.indexOf(quizIdPrefix) !== 0) return;
-    const history = c.quizAttempts[quizId];
-    if(!history.length) return;
-    const latest = history[history.length - 1];
-    (latest.missedIds || []).forEach(id => ids.add(id));
-  });
-  return Array.from(ids);
+  return c.wrongIds || [];
 }
 
 // Merges the shared module list (names, guides, quizzes — same for
