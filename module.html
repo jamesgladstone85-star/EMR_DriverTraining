@@ -103,15 +103,30 @@
       toast(done ? `${mod.name} marked as done.` : `${mod.name} marked as not done.`);
     });
 
+    // "Pinned" is a topic-level flag (same granularity as "covered") — every
+    // guide/quiz/tool card on this page shares one pin button per topic, so
+    // pinning any one of them pins the whole topic and all buttons stay in sync.
+    let pinned = getModuleProgress(mod.id).pinned;
+    function pinBtnTitle(){
+      return pinned ? "Unpin this topic" : "Pin for review";
+    }
+    function syncPinButtons(){
+      document.querySelectorAll(".pin-btn").forEach(btn=>{
+        btn.classList.toggle("active", pinned);
+        btn.title = pinBtnTitle();
+      });
+    }
     function pinButton(){
       const b = document.createElement("button");
-      b.className = "pin-btn";
+      b.className = "pin-btn" + (pinned ? " active" : "");
       b.textContent = "📌";
-      b.title = "Pin for review";
+      b.title = pinBtnTitle();
       b.addEventListener("click", (e)=>{
         e.preventDefault();
-        b.classList.toggle("active");
-        toast(b.classList.contains("active") ? "Pinned for review." : "Unpinned.");
+        pinned = !pinned;
+        setModulePinned(mod.id, pinned, currentIdentity);
+        syncPinButtons();
+        toast(pinned ? `${mod.name} pinned for review.` : `${mod.name} unpinned.`);
       });
       return b;
     }
