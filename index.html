@@ -272,7 +272,7 @@
           <span class="ic">🎯</span>
           <span class="txt"><span class="lbl">Random Questions</span><span class="sub">20 Qs — exam mode</span></span>
         </button>
-        <button class="action-item" onclick="toast('Opening a random revision guide…')">
+        <button class="action-item" onclick="openRandomGuide()">
           <span class="ic">📖</span>
           <span class="txt"><span class="lbl">Random Guide</span><span class="sub">Jump to a PDF at random</span></span>
         </button>
@@ -476,6 +476,21 @@
   document.getElementById("searchInput").addEventListener("input", (e)=>{
     renderGroups(currentFilter, e.target.value);
   });
+
+  function openRandomGuide(){
+    const guidesWithFiles = MODULES.flatMap(m =>
+      (m.guides || [])
+        .filter(g => g.file)
+        .map(g => ({ topic: m.name, title: g.title, file: g.file }))
+    );
+    if(guidesWithFiles.length === 0){
+      toast("No revision guides uploaded yet.");
+      return;
+    }
+    const pick = guidesWithFiles[Math.floor(Math.random() * guidesWithFiles.length)];
+    toast(`Opening: ${pick.title}`);
+    window.open(pick.file, "_blank", "noopener");
+  }
 
   let toastTimeout;
   function toast(msg){
