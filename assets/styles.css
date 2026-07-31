@@ -13,6 +13,8 @@
   --green-go:#2E8B57;
   --blue-info:#3A6EA5;
   --pink-flag:#C23B6B;
+  --mod-orange:#B24A16;
+  --mod-red:#9C2148;
   --radius:14px;
   --shadow:0 8px 24px rgba(61,18,64,0.12);
 }
@@ -90,6 +92,8 @@ a{color:inherit;}
 .badge-pill.green{background:#DDF0E4;color:var(--green-go);}
 .badge-pill.pink{background:#F8DDE7;color:var(--pink-flag);}
 .badge-pill.amber{background:#FBEBD2;color:var(--amber-deep);}
+.badge-pill.orange{background:#FBE3D3;color:var(--mod-orange);}
+.badge-pill.red{background:#F6D9E0;color:var(--mod-red);}
 
 .title-block{display:flex;flex-direction:column;gap:2px;}
 
