@@ -156,6 +156,21 @@
   }
   .subtitle{color:var(--text-dim);font-size:13.5px;font-weight:300;margin:8px 0 0;max-width:460px;}
 
+  .top-progress{margin-bottom:32px;}
+  .top-progress-head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-bottom:8px;
+  }
+  .top-progress-head b{color:var(--text-hi);font-size:12.5px;}
+  .top-progress-track{
+    width:100%;height:8px;border-radius:6px;background:var(--bg-card);
+    border:1px solid var(--border-hair);overflow:hidden;
+  }
+  .top-progress-fill{
+    height:100%;background:linear-gradient(90deg, var(--accent-purple), var(--accent-purple-dim));
+    transition:width .4s ease;
+  }
+
   .group-block{margin-bottom:44px;}
   .group-head{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
   .group-eyebrow{font-family:var(--display);font-size:15px;font-weight:700;letter-spacing:-0.005em;margin:0;}
@@ -323,6 +338,14 @@
       </div>
     </div>
 
+    <div class="top-progress">
+      <div class="top-progress-head">
+        <span>Overall course progress</span>
+        <b id="topProgressLabel">0 / 23 topics · 0%</b>
+      </div>
+      <div class="top-progress-track"><div class="top-progress-fill" id="topProgressFill" style="width:0%;"></div></div>
+    </div>
+
     <section id="groupsSection"></section>
 
     <section class="pinned-section">
@@ -445,6 +468,8 @@
     document.getElementById("pctBig").textContent = `${pct}%`;
     document.getElementById("railFill").style.height = pct + "%";
     document.getElementById("railMarker").style.bottom = pct + "%";
+    document.getElementById("topProgressLabel").textContent = `${done} / ${total} topics · ${pct}%`;
+    document.getElementById("topProgressFill").style.width = pct + "%";
   }
 
   function renderPinned(){
