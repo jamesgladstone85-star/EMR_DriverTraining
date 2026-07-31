@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Driver Training — Route to Competency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  header{
+    background:linear-gradient(135deg, var(--purple-deep), var(--purple) 60%, var(--purple-bright));
+    color:var(--white);
+    padding:0;
+    position:relative;
+    overflow:hidden;
+  }
+  .header-inner{max-width:1100px;margin:0 auto;padding:36px 24px 44px;display:flex;flex-direction:column;gap:6px;}
+  .brand-row{display:flex;align-items:center;gap:12px;margin-bottom:22px;}
+  .brand-mark{width:38px;height:38px;flex:none;}
+  .brand-name{font-family:'Space Grotesk', sans-serif;font-weight:600;font-size:15px;letter-spacing:0.14em;text-transform:uppercase;color:var(--lilac);}
+  h1.title{font-size:clamp(28px,4.4vw,44px);font-weight:700;margin:0;color:var(--white);}
+  .subtitle{color:var(--lilac);font-size:16px;margin:6px 0 0;max-width:520px;}
+
+  .quick-actions{max-width:1100px;margin:-30px auto 0;padding:0 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;position:relative;z-index:2;}
+  .action-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;display:flex;flex-direction:column;gap:4px;cursor:pointer;border:1px solid transparent;transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;text-align:left;text-decoration:none;color:inherit;}
+  .action-card:hover{transform:translateY(-3px);border-color:var(--purple-bright);box-shadow:0 12px 28px rgba(61,18,64,0.18);}
+  .action-card:focus-visible{outline:3px solid var(--amber);outline-offset:2px;}
+  .action-icon{font-size:22px;line-height:1;}
+  .action-label{font-weight:600;font-size:15.5px;color:var(--ink);}
+  .action-sub{font-size:13px;color:var(--steel);}
+  .action-card.wrong .action-label{color:var(--purple-bright);}
+  .badge-count{display:inline-block;background:var(--lilac-pale);color:var(--purple);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:2px 8px;border-radius:20px;margin-left:6px;}
+
+  section.progress-rail{max-width:1100px;margin:56px auto 0;padding:0 24px;}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px;}
+  .section-head h2{font-size:20px;margin:0;color:var(--purple-deep);}
+  .section-head .pct{font-family:'IBM Plex Mono',monospace;color:var(--steel);font-size:13px;}
+
+  .line-diagram{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:34px 28px 26px;position:relative;overflow-x:auto;}
+  .track-wrap{position:relative;min-width:640px;padding:0 6px;}
+  .track-base{position:absolute;top:22px;left:0;right:0;height:4px;background:var(--steel-line);border-radius:4px;}
+  .track-fill{position:absolute;top:22px;left:0;height:4px;background:var(--amber);border-radius:4px;transition:width .6s ease;}
+  .train-marker{position:absolute;top:-2px;transform:translateX(-50%);transition:left .6s ease;font-size:26px;filter:drop-shadow(0 3px 4px rgba(61,18,64,0.3));}
+  .stations{display:flex;justify-content:space-between;position:relative;padding-top:44px;}
+  .station{display:flex;flex-direction:column;align-items:center;gap:8px;width:80px;text-align:center;cursor:pointer;text-decoration:none;color:inherit;}
+  .station-dot{width:16px;height:16px;border-radius:50%;background:var(--white);border:3px solid var(--steel-line);z-index:2;}
+  .station.done .station-dot{background:var(--green-go);border-color:var(--green-go);}
+  .station.pinned .station-dot{background:var(--amber);border-color:var(--amber-deep);}
+  .station-label{font-size:11.5px;color:var(--steel);font-weight:500;line-height:1.25;}
+  .station.done .station-label{color:var(--green-go);}
+
+  .topics-section{max-width:1100px;margin:48px auto 0;padding:0 24px;}
+  .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+  .tab{border:1px solid var(--steel-line);background:var(--white);color:var(--steel);padding:8px 16px;border-radius:20px;font-size:13.5px;font-weight:500;cursor:pointer;}
+  .tab.active{background:var(--purple);border-color:var(--purple);color:var(--white);}
+  .topics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+  .topic-card{background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border-left:5px solid var(--steel-line);display:flex;flex-direction:column;gap:10px;transition:transform .15s ease;}
+  .topic-card:hover{transform:translateY(-2px);}
+  .topic-card.done{border-left-color:var(--green-go);}
+  .topic-card.pinned{border-left-color:var(--amber);}
+  .topic-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+  .topic-code{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--purple-bright);background:var(--lilac-pale);padding:2px 7px;border-radius:5px;letter-spacing:.04em;}
+  .topic-name{font-size:16px;font-weight:600;margin:0;}
+  .topic-meta{font-size:12.5px;color:var(--steel);display:flex;gap:10px;}
+  .topic-actions{display:flex;gap:8px;margin-top:4px;}
+
+  .exam-banner{max-width:1100px;margin:48px auto 0;padding:0 24px;}
+  .exam-banner a{display:flex;align-items:center;justify-content:space-between;gap:16px;background:linear-gradient(120deg, var(--purple-deep), var(--purple-bright));color:var(--white);border-radius:var(--radius);padding:22px 26px;text-decoration:none;flex-wrap:wrap;}
+  .exam-banner h2{margin:0;font-size:18px;color:var(--white);}
+  .exam-banner p{margin:4px 0 0;color:var(--lilac);font-size:13.5px;}
+  .exam-banner .go{font-weight:700;font-size:14px;white-space:nowrap;}
+
+  .pinned-section{max-width:1100px;margin:48px auto 0;padding:0 24px;}
+  .pinned-box{background:var(--purple-deep);color:var(--white);border-radius:var(--radius);padding:24px 26px;display:flex;gap:18px;align-items:flex-start;}
+  .pinned-box .icon{font-size:22px;}
+  .pinned-box h2{color:var(--white);font-size:17px;margin:0 0 4px;}
+  .pinned-box p{margin:0;color:var(--lilac);font-size:13.5px;line-height:1.5;}
+  .pinned-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+  .pinned-tag{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);padding:5px 12px;border-radius:20px;font-size:12.5px;text-decoration:none;color:var(--white);}
+
+  footer{max-width:1100px;margin:56px auto 0;padding:20px 24px 40px;text-align:center;color:var(--steel);font-size:12.5px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand-row">
+      <svg class="brand-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6" y="10" width="36" height="24" rx="6" fill="#FFFFFF"/>
+        <rect x="6" y="10" width="36" height="14" rx="6" fill="var(--amber)"/>
+        <circle cx="15" cy="38" r="4" fill="var(--purple-deep)"/>
+        <circle cx="33" cy="38" r="4" fill="var(--purple-deep)"/>
+        <rect x="12" y="16" width="8" height="6" rx="1.5" fill="var(--purple)"/>
+        <rect x="28" y="16" width="8" height="6" rx="1.5" fill="var(--purple)"/>
+      </svg>
+      <span class="brand-name">Driver Training</span>
+    </div>
+    <h1 class="title">Route to Competency</h1>
+    <p class="subtitle">Select a module to revise, test yourself, or pick up your practice exam where you left off.</p>
+  </div>
+  <div class="rail-strip"></div>
+</header>
+
+<div class="quick-actions">
+  <button class="action-card" onclick="toast('Opening a random quiz…')">
+    <span class="action-icon">🎲</span>
+    <span class="action-label">Random Quiz</span>
+    <span class="action-sub">Opens a random quiz from any module</span>
+  </button>
+  <button class="action-card" onclick="toast('Starting exam mode — 20 questions…')">
+    <span class="action-icon">🎯</span>
+    <span class="action-label">Random Questions</span>
+    <span class="action-sub">20 Qs across all modules — exam mode</span>
+  </button>
+  <button class="action-card" onclick="toast('Opening a random revision guide…')">
+    <span class="action-icon">📖</span>
+    <span class="action-label">Random Revision Guide</span>
+    <span class="action-sub">Jumps to a revision PDF at random</span>
+  </button>
+  <button class="action-card" onclick="toast('Resuming Signalling — Q7 of 15…')">
+    <span class="action-icon">▶</span>
+    <span class="action-label">Continue</span>
+    <span class="action-sub">Pick up where you left off</span>
+  </button>
+  <button class="action-card wrong" onclick="toast('No wrong answers queued yet.')">
+    <span class="action-icon">⚡</span>
+    <span class="action-label">Wrong Answers <span class="badge-count" id="wrongCount">0</span></span>
+    <span class="action-sub">Retry questions you got wrong</span>
+  </button>
+</div>
+
+<section class="progress-rail">
+  <div class="section-head">
+    <h2>Line Progress</h2>
+    <span class="pct" id="pctLabel">2 of 8 modules complete — 25%</span>
+  </div>
+  <div class="line-diagram">
+    <div class="track-wrap">
+      <div class="track-base"></div>
+      <div class="track-fill" id="trackFill" style="width:25%"></div>
+      <div class="train-marker" id="trainMarker" style="left:25%">🚆</div>
+      <div class="stations" id="stationsRow"></div>
+    </div>
+  </div>
+</section>
+
+<section class="topics-section">
+  <div class="section-head">
+    <h2>Modules</h2>
+    <span class="pct">All content sourced from your rule book material</span>
+  </div>
+  <div class="tabs">
+    <button class="tab active" data-filter="all">All</button>
+    <button class="tab" data-filter="covered">✅ Covered</button>
+    <button class="tab" data-filter="todo">📝 Still to cover</button>
+    <button class="tab" data-filter="pinned">⚠️ Pinned</button>
+  </div>
+  <div class="topics-grid" id="topicsGrid"></div>
+</section>
+
+<div class="exam-banner">
+  <a href="module.html?id=exam-prep">
+    <div>
+      <h2>🎯 Exam Preparation &amp; Full Recap</h2>
+      <p>All-module guides and recap quizzes — your final run-through before assessment.</p>
+    </div>
+    <span class="go">Open →</span>
+  </a>
+</div>
+
+<section class="pinned-section">
+  <div class="pinned-box">
+    <span class="icon">⚠️</span>
+    <div>
+      <h2>Pinned — focus on these</h2>
+      <p>Flagged as Need Review in your last practice exam. Clear these before your next assessment.</p>
+      <div class="pinned-tags" id="pinnedTags"></div>
+    </div>
+  </div>
+</section>
+
+<footer>All content sourced from your rule book material.</footer>
+
+<script src="assets/data.js"></script>
+<script>
+  const modules = MODULES.filter(m => !m.isExamPrep);
+
+  function render(filter="all"){
+    const grid = document.getElementById("topicsGrid");
+    grid.innerHTML = "";
+    modules
+      .filter(m => filter==="all" ? true
+        : filter==="covered" ? m.covered
+        : filter==="todo" ? !m.covered
+        : filter==="pinned" ? m.pinned
+        : true)
+      .forEach(m=>{
+        const card = document.createElement("div");
+        card.className = "topic-card" + (m.covered?" done":"") + (m.pinned?" pinned":"");
+        card.innerHTML = `
+          <div class="topic-top">
+            <span class="topic-code">${m.code}</span>
+            <span class="pin-flag">${m.pinned ? "⚠️" : (m.covered ? "✅" : "")}</span>
+          </div>
+          <h3 class="topic-name">${m.name}</h3>
+          <div class="topic-meta"><span>${(m.quizzes||[]).length} quiz${(m.quizzes||[]).length===1?"":"zes"}</span><span>${m.covered ? "Covered" : "Not started"}</span></div>
+          <div class="topic-actions">
+            <a class="btn btn-primary" href="module.html?id=${m.id}">Open module</a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+  }
+
+  function renderStations(){
+    const row = document.getElementById("stationsRow");
+    row.innerHTML = "";
+    modules.forEach(m=>{
+      const s = document.createElement("a");
+      s.href = `module.html?id=${m.id}`;
+      s.className = "station" + (m.covered?" done":"") + (m.pinned?" pinned":"");
+      s.innerHTML = `<div class="station-dot"></div><div class="station-label">${m.name}</div>`;
+      row.appendChild(s);
+    });
+  }
+
+  function updateProgress(){
+    const total = modules.length;
+    const done = modules.filter(m=>m.covered).length;
+    const pct = Math.round((done/total)*100);
+    document.getElementById("pctLabel").textContent = `${done} of ${total} modules complete — ${pct}%`;
+    document.getElementById("trackFill").style.width = pct + "%";
+    document.getElementById("trainMarker").style.left = pct + "%";
+  }
+
+  function renderPinned(){
+    const wrap = document.getElementById("pinnedTags");
+    wrap.innerHTML = "";
+    modules.filter(m=>m.pinned).forEach(m=>{
+      const t = document.createElement("a");
+      t.className = "pinned-tag";
+      t.href = `module.html?id=${m.id}`;
+      t.textContent = m.name;
+      wrap.appendChild(t);
+    });
+  }
+
+  document.querySelectorAll(".tab").forEach(tab=>{
+    tab.addEventListener("click", ()=>{
+      document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+      tab.classList.add("active");
+      render(tab.dataset.filter);
+    });
+  });
+
+  let toastTimeout;
+  function toast(msg){
+    let el = document.getElementById("toastEl");
+    if(!el){
+      el = document.createElement("div");
+      el.id = "toastEl";
+      Object.assign(el.style, {
+        position:"fixed", bottom:"24px", left:"50%", transform:"translateX(-50%)",
+        background:"var(--purple-deep)", color:"#fff", padding:"10px 18px",
+        borderRadius:"10px", fontSize:"13.5px", boxShadow:"0 8px 24px rgba(61,18,64,0.3)",
+        zIndex:"999", fontFamily:"'IBM Plex Sans', sans-serif"
+      });
+      document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    el.style.opacity = "1";
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(()=>{ el.style.opacity = "0"; }, 1800);
+  }
+
+  render();
+  renderStations();
+  updateProgress();
+  renderPinned();
+</script>
+
+</body>
+</html>

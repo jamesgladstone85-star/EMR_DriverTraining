@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module — Driver Training</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<div class="module-header">
+  <div class="left">
+    <a class="btn btn-outline-white" href="index.html">← Back</a>
+    <div class="title-block">
+      <span class="badge-pill" id="badgePill">MODULE</span>
+      <h1 id="pageTitle">Loading…</h1>
+    </div>
+  </div>
+  <button class="btn btn-outline-white" id="markDoneBtn">Mark as done</button>
+</div>
+<div class="rail-strip"></div>
+
+<div class="page-body">
+
+  <div class="content-section" id="guidesSection">
+    <div class="section-title guides"><span class="dot">📄</span> Revision Guides</div>
+    <div class="card-grid" id="guidesGrid"></div>
+  </div>
+
+  <div class="content-section" id="quizzesSection">
+    <div class="section-title quizzes"><span class="dot">✏️</span> Quizzes</div>
+    <div class="card-grid" id="quizzesGrid"></div>
+  </div>
+
+  <div class="content-section" id="toolsSection" style="display:none;">
+    <div class="section-title tools"><span class="dot">🔧</span> Tools</div>
+    <div class="card-grid" id="toolsGrid"></div>
+  </div>
+
+</div>
+
+<div class="footer-note">All content sourced from your rule book material</div>
+
+<script src="assets/data.js"></script>
+<script>
+  function getParam(name){
+    return new URLSearchParams(window.location.search).get(name);
+  }
+
+  function toast(msg){
+    let el = document.getElementById("toastEl");
+    if(!el){
+      el = document.createElement("div");
+      el.id = "toastEl";
+      Object.assign(el.style, {
+        position:"fixed", bottom:"24px", left:"50%", transform:"translateX(-50%)",
+        background:"var(--purple-deep)", color:"#fff", padding:"10px 18px",
+        borderRadius:"10px", fontSize:"13.5px", boxShadow:"0 8px 24px rgba(61,18,64,0.3)",
+        zIndex:"999", fontFamily:"'IBM Plex Sans', sans-serif"
+      });
+      document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    el.style.opacity = "1";
+    clearTimeout(window.__toastT);
+    window.__toastT = setTimeout(()=>{ el.style.opacity = "0"; }, 1800);
+  }
+
+  const id = getParam("id") || "m2";
+  const mod = getModule(id);
+
+  if(!mod){
+    document.getElementById("pageTitle").textContent = "Module not found";
+  } else {
+    document.getElementById("pageTitle").textContent = mod.name;
+    const pill = document.getElementById("badgePill");
+    pill.textContent = mod.badge;
+    pill.classList.add(mod.badgeColor);
+
+    const markBtn = document.getElementById("markDoneBtn");
+    let done = mod.covered;
+    function refreshMarkBtn(){
+      markBtn.textContent = done ? "✓ Done" : "Mark as done";
+    }
+    refreshMarkBtn();
+    markBtn.addEventListener("click", ()=>{
+      done = !done;
+      refreshMarkBtn();
+      toast(done ? `${mod.name} marked as done.` : `${mod.name} marked as not done.`);
+    });
+
+    function pinButton(){
+      const b = document.createElement("button");
+      b.className = "pin-btn";
+      b.textContent = "📌";
+      b.title = "Pin for review";
+      b.addEventListener("click", (e)=>{
+        e.preventDefault();
+        b.classList.toggle("active");
+        toast(b.classList.contains("active") ? "Pinned for review." : "Unpinned.");
+      });
+      return b;
+    }
+
+    const guidesGrid = document.getElementById("guidesGrid");
+    (mod.guides || []).forEach(g=>{
+      const card = document.createElement("div");
+      card.className = "content-card guide";
+      card.appendChild(pinButton());
+      const subtitle = g.subtitle ? `<span class="card-subtitle">${g.subtitle}</span>` : "";
+      const linkAttrs = g.file
+        ? `href="${g.file}" target="_blank" rel="noopener"`
+        : `href="#" onclick="toast('Opening ${g.title}…');return false;"`;
+      card.insertAdjacentHTML("beforeend", `
+        <span class="card-icon">📘</span>
+        <h3 class="card-title">${g.title}</h3>
+        ${subtitle}
+        <a class="card-action guide-action" ${linkAttrs}>Open PDF →</a>
+      `);
+      guidesGrid.appendChild(card);
+    });
+    if(!mod.guides || mod.guides.length===0) document.getElementById("guidesSection").style.display = "none";
+
+    const quizzesGrid = document.getElementById("quizzesGrid");
+    (mod.quizzes || []).forEach(q=>{
+      const card = document.createElement("div");
+      card.className = "content-card quiz";
+      card.appendChild(pinButton());
+      const bullets = (q.bullets||[]).map(b=>`<li>${b}</li>`).join("");
+      card.insertAdjacentHTML("beforeend", `
+        <span class="card-icon">📝</span>
+        <h3 class="card-title">${q.title}</h3>
+        <ul class="card-bullets">${bullets}</ul>
+        <a class="card-action quiz-action" href="#" onclick="toast('Starting ${q.title}…');return false;">Start quiz →</a>
+      `);
+      quizzesGrid.appendChild(card);
+    });
+    if(!mod.quizzes || mod.quizzes.length===0) document.getElementById("quizzesSection").style.display = "none";
+
+    if(mod.tools && mod.tools.length){
+      document.getElementById("toolsSection").style.display = "block";
+      const toolsGrid = document.getElementById("toolsGrid");
+      mod.tools.forEach(t=>{
+        const card = document.createElement("div");
+        card.className = "content-card tool";
+        card.appendChild(pinButton());
+        card.insertAdjacentHTML("beforeend", `
+          <span class="card-icon">⚙️</span>
+          <h3 class="card-title">${t.title}</h3>
+          <a class="card-action tool-action" href="#" onclick="toast('Opening ${t.title}…');return false;">Open →</a>
+        `);
+        toolsGrid.appendChild(card);
+      });
+    }
+  }
+</script>
+
+</body>
+</html>
