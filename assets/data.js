@@ -33,8 +33,12 @@ const MODULE_GROUPS = [
         id: "gsm-r-communications",
         name: "GSM-R Communications",
         description: "GSM-R radio system, cab secure radio and driver communications procedures.",
-        guides: [{ title: "GSM-R Communications — Revision Guide" }],
-        quizzes: [{ title: "GSM-R Communications Quiz", bullets: ["Add real questions here"] }],
+        guides: [
+          { title: "GSM-R — Revision Guide", subtitle: "RS523 Issue 2 / GERT8000-TW5 Issue 14", file: "assets/guides/gsm-r-revision-notes.pdf" },
+        ],
+        quizzes: [
+          { title: "GSM-R Communications Quiz", bullets: ["Add real questions here"] },
+        ],
         tools: [],
       },
     ],
