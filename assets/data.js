@@ -30,7 +30,13 @@ const MODULE_GROUPS = [
             "file": "assets/guides/pts-revision-notes.pdf"
           }
         ],
-        "quizzes": [],
+        "quizzes": [
+          {
+            "title": "PTS Master Assessment (80 Questions)",
+            "bullets": ["Full 80-question exam or pick a single module (10 questions each)", "Pass mark: 90%", "Every attempt saved to your progress history"],
+            "link": "pts-quiz.html"
+          }
+        ],
         "tools": []
       },
       {
