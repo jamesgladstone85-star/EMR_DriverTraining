@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Reset PIN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  body{background:var(--bg-void);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+  .panel{background:var(--bg-panel);border:1px solid var(--border-hair-strong);border-radius:14px;padding:30px 32px;max-width:380px;width:100%;}
+  h1{font-size:19px;margin:0 0 6px;}
+  p.desc{font-size:12.5px;color:var(--text-mid);line-height:1.5;margin:0 0 20px;}
+  label{display:block;font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase;}
+  input, select{
+    width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border-hair-strong);
+    background:var(--bg-card);color:var(--text-hi);font-family:var(--ui);font-size:13px;
+    outline:none;box-sizing:border-box;margin-bottom:16px;
+  }
+  input[type="password"]{font-family:var(--mono);letter-spacing:0.1em;}
+  #resultMsg{font-size:12.5px;min-height:16px;margin:0 0 14px;}
+  #resultMsg.ok{color:var(--accent-green);}
+  #resultMsg.err{color:var(--accent-red);}
+  .back-link{display:inline-block;margin-top:16px;font-size:12px;color:var(--text-dim);text-decoration:none;}
+  .back-link:hover{color:var(--text-hi);}
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <h1>Reset a forgotten PIN</h1>
+  <p class="desc">Clears the PIN for a name only — their revision progress and quiz history are untouched. They'll set a new PIN next time they pick their name.</p>
+
+  <label for="adminSecretInput">Admin secret</label>
+  <input type="password" id="adminSecretInput" placeholder="Set in Netlify env vars as ADMIN_SECRET">
+
+  <label for="nameSelect">Name to reset</label>
+  <select id="nameSelect"></select>
+
+  <p id="resultMsg"></p>
+
+  <button class="btn btn-primary" id="resetBtn" style="width:100%;justify-content:center;">Reset PIN</button>
+
+  <a class="back-link" href="index.html">← Back to training site</a>
+</div>
+
+<script src="assets/team.js"></script>
+<script>
+  const select = document.getElementById("nameSelect");
+  TEAM_MEMBERS.forEach(name=>{
+    const opt = document.createElement("option");
+    opt.value = name;
+    opt.textContent = name;
+    select.appendChild(opt);
+  });
+
+  const resultMsg = document.getElementById("resultMsg");
+  const resetBtn = document.getElementById("resetBtn");
+
+  resetBtn.addEventListener("click", async ()=>{
+    resultMsg.textContent = "";
+    resultMsg.className = "";
+    const adminSecret = document.getElementById("adminSecretInput").value;
+    const user = select.value;
+
+    if(!adminSecret){
+      resultMsg.textContent = "Enter the admin secret.";
+      resultMsg.className = "err";
+      return;
+    }
+
+    resetBtn.disabled = true;
+    resetBtn.textContent = "Resetting…";
+
+    try{
+      const res = await fetch("/api/admin-reset-pin", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ adminSecret, user }),
+      });
+      const body = await res.json().catch(()=>({}));
+      if(res.ok && body.ok){
+        resultMsg.textContent = `PIN cleared for ${user}. They can pick their name and set a new PIN next time.`;
+        resultMsg.className = "ok";
+      }else{
+        resultMsg.textContent = body.error || "Something went wrong.";
+        resultMsg.className = "err";
+      }
+    }catch(e){
+      resultMsg.textContent = "Couldn't reach the server — try again.";
+      resultMsg.className = "err";
+    }finally{
+      resetBtn.disabled = false;
+      resetBtn.textContent = "Reset PIN";
+    }
+  });
+</script>
+
+</body>
+</html>
