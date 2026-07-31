@@ -159,6 +159,8 @@
 <script>
 (function(){
   const QUIZ_TITLE_PREFIX = "PTS Master Assessment";
+  const RANDOM20_QUIZ_ID = `${QUIZ_TITLE_PREFIX} — Random 20 (Exam Mode)`;
+  const WRONG_QUIZ_ID = `${QUIZ_TITLE_PREFIX} — Wrong Answer Review`;
   const PASS_PCT = 0.9;
   const app = document.getElementById("app");
 
@@ -237,12 +239,46 @@
         </button>
       `;
     });
+
+    // --- Random 20 (Exam Mode) ---
+    const r20Best = getQuizBest(RANDOM20_QUIZ_ID);
+    const r20History = getQuizHistory(RANDOM20_QUIZ_ID);
+    const r20Line = r20Best
+      ? `<span class="s-best">Best: ${r20Best.score}/${r20Best.total} (${Math.round((r20Best.score/r20Best.total)*100)}%) · ${r20History.length} attempt${r20History.length===1?"":"s"}</span>`
+      : `<span class="s-meta">Not attempted yet</span>`;
+    html += `
+      <button class="section-card" data-mode="random20">
+        <span class="s-meta">20 QUESTIONS</span>
+        <h3 class="s-title">🎯 Random 20 — Exam Mode</h3>
+        <p class="s-desc">20 random questions pulled from the full 80-question bank, freshly shuffled each time.</p>
+        ${r20Line}
+      </button>
+    `;
+
+    // --- Wrong Answer Review ---
+    const wrongIds = getWrongQuestionIds(QUIZ_TITLE_PREFIX);
+    const wLine = wrongIds.length
+      ? `<span class="s-best">${wrongIds.length} question${wrongIds.length===1?"":"s"} queued for retry</span>`
+      : `<span class="s-meta">Nothing queued — all clear</span>`;
+    html += `
+      <button class="section-card" data-mode="wrong" ${wrongIds.length===0 ? "style=\"opacity:0.55;cursor:default;\"" : ""}>
+        <span class="s-meta">${wrongIds.length || 0} QUESTIONS</span>
+        <h3 class="s-title">⚡ Wrong Answer Review</h3>
+        <p class="s-desc">Retry only the questions you got wrong on your most recent attempts.</p>
+        ${wLine}
+      </button>
+    `;
+
     html += `</div>`;
     app.innerHTML = html;
 
-    app.querySelectorAll(".section-card").forEach(btn => {
+    app.querySelectorAll(".section-card[data-section]").forEach(btn => {
       btn.addEventListener("click", () => startQuiz(btn.dataset.section));
     });
+    const r20Btn = app.querySelector('[data-mode="random20"]');
+    if(r20Btn) r20Btn.addEventListener("click", () => startRandomExam(20));
+    const wrongBtn = app.querySelector('[data-mode="wrong"]');
+    if(wrongBtn) wrongBtn.addEventListener("click", () => startWrongReview());
   }
 
   function startQuiz(id){
@@ -255,6 +291,68 @@
     state = "quiz";
     render();
     window.scrollTo(0,0);
+  }
+
+  function startRandomExam(n){
+    sectionId = "random20";
+    activeQuestions = shuffle(PTS_QUIZ_QUESTIONS).slice(0, n).map(shuffleOptions);
+    currentIndex = 0;
+    userAnswers = {};
+    score = 0;
+    state = "quiz";
+    render();
+    window.scrollTo(0,0);
+  }
+
+  function toast(msg){
+    let el = document.getElementById("toastEl");
+    if(!el){
+      el = document.createElement("div");
+      el.id = "toastEl";
+      Object.assign(el.style, {
+        position:"fixed", bottom:"24px", left:"50%", transform:"translateX(-50%)",
+        background:"var(--bg-card)", color:"var(--text-hi)", padding:"10px 18px",
+        border:"1px solid var(--border-hair-strong)",
+        borderRadius:"10px", fontSize:"13px", boxShadow:"0 12px 32px rgba(0,0,0,0.5)",
+        zIndex:"999", fontFamily:"var(--ui)"
+      });
+      document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    el.style.opacity = "1";
+    clearTimeout(window.__toastT);
+    window.__toastT = setTimeout(()=>{ el.style.opacity = "0"; }, 2200);
+  }
+
+  function startWrongReview(){
+    const wrongIds = getWrongQuestionIds(QUIZ_TITLE_PREFIX);
+    if(wrongIds.length === 0){
+      state = "menu";
+      render();
+      toast("Nothing to retry — no wrong answers queued.");
+      return;
+    }
+    sectionId = "wrong";
+    const pool = PTS_QUIZ_QUESTIONS.filter(q => wrongIds.includes(q.id));
+    activeQuestions = shuffle(pool).map(shuffleOptions);
+    currentIndex = 0;
+    userAnswers = {};
+    score = 0;
+    state = "quiz";
+    render();
+    window.scrollTo(0,0);
+  }
+
+  function currentQuizId(){
+    if(sectionId === "random20") return RANDOM20_QUIZ_ID;
+    if(sectionId === "wrong") return WRONG_QUIZ_ID;
+    return quizIdFor(sectionId);
+  }
+
+  function currentModeLabel(){
+    if(sectionId === "random20") return "RANDOM 20 — EXAM MODE";
+    if(sectionId === "wrong") return "WRONG ANSWER REVIEW";
+    return sectionId === "all" ? "FULL ASSESSMENT" : sectionId.toUpperCase();
   }
 
   function renderQuiz(){
@@ -273,7 +371,7 @@
 
     app.innerHTML = `
       <div class="quiz-header">
-        <span class="badge-pill purple">${sectionId === 'all' ? 'FULL ASSESSMENT' : sectionId.toUpperCase()}</span>
+        <span class="badge-pill purple">${currentModeLabel()}</span>
         <span class="q-count">Question ${currentIndex + 1} of ${total}${isMulti ? " · select all that apply" : ""}</span>
       </div>
       <div class="progress-track"><div class="progress-fill" style="width:${pct}%;"></div></div>
@@ -324,8 +422,10 @@
     score = activeQuestions.reduce((acc, q, idx) => {
       return acc + (isAnswerCorrect(q, userAnswers[idx]) ? 1 : 0);
     }, 0);
-    const qid = quizIdFor(sectionId);
-    recordQuizAttempt(qid, score, activeQuestions.length, currentIdentity);
+    const missedIds = activeQuestions
+      .filter((q, idx) => !isAnswerCorrect(q, userAnswers[idx]))
+      .map(q => q.id);
+    recordQuizAttempt(currentQuizId(), score, activeQuestions.length, currentIdentity, missedIds);
     state = "results";
     render();
     window.scrollTo(0,0);
@@ -412,7 +512,20 @@
   (async function init(){
     currentIdentity = await ensureIdentity();
     await initProgress(currentIdentity);
-    render();
+
+    const startParam = new URLSearchParams(window.location.search).get("start");
+    if(startParam === "random20"){
+      startRandomExam(20);
+    }else if(startParam === "wrong"){
+      startWrongReview();
+    }else if(startParam === "random"){
+      const pick = PTS_QUIZ_SECTIONS[Math.floor(Math.random() * PTS_QUIZ_SECTIONS.length)];
+      startQuiz(pick.id);
+    }else if(startParam && PTS_QUIZ_SECTIONS.some(s => s.id === startParam)){
+      startQuiz(startParam);
+    }else{
+      render();
+    }
   })();
 })();
 </script>
