@@ -2,9 +2,16 @@
 //
 // Data shape (per person, stored server-side as one JSON blob):
 // {
-//   topics: { [topicId]: { covered: bool, pinned: bool } },
-//   quizAttempts: { [quizId]: [ { date: isoString, score: number, total: number }, ... ] }
+//   topics: { [topicId]: { covered: bool } },
+//   pinnedItems: { [itemKey]: { topicId, topicName, type, title, file?, link? } },
+//   quizAttempts: { [quizId]: [ { date: isoString, score: number, total: number, missedIds: [] }, ... ] }
 // }
+//
+// Pinning is per CONTENT ITEM (a single guide, quiz, or tool) — not per
+// topic. Each item's pin button toggles its own entry in pinnedItems, and
+// the sidebar's Pinned list shows those individual items, not the topic
+// they came from. itemKey is deterministic (topicId + type + title) so the
+// same button always maps to the same stored entry.
 //
 // Local storage holds a cached copy so the page renders instantly and still
 // works offline; every write also gets pushed to the server so it follows
@@ -17,7 +24,7 @@ const API = "/api/progress";
 let _cache = null; // in-memory working copy once loaded
 
 function _emptyState(){
-  return { topics: {}, quizAttempts: {} };
+  return { topics: {}, pinnedItems: {}, quizAttempts: {} };
 }
 
 function _loadLocal(){
@@ -81,7 +88,7 @@ function _ensureCache(){
 
 function getModuleProgress(id){
   const c = _ensureCache();
-  return c.topics[id] || { covered:false, pinned:false };
+  return c.topics[id] || { covered:false };
 }
 
 function setModuleCovered(id, covered, identity){
@@ -92,12 +99,41 @@ function setModuleCovered(id, covered, identity){
   _pushToServer(identity);
 }
 
-function setModulePinned(id, pinned, identity){
+// Deterministic key for a single content item (one guide, quiz, or tool
+// card) — same topic + type + title always maps to the same stored entry.
+function itemKey(topicId, type, title){
+  return `${topicId}::${type}::${title}`;
+}
+
+function isItemPinned(topicId, type, title){
   const c = _ensureCache();
-  c.topics[id] = c.topics[id] || {};
-  c.topics[id].pinned = pinned;
+  return !!c.pinnedItems[itemKey(topicId, type, title)];
+}
+
+// Pins/unpins a single item. `extra` can carry display/link info (topicName,
+// file, link) so the sidebar can render and deep-link to it without needing
+// to re-look-up the topic's full data.
+function setItemPinned(topicId, type, title, pinned, identity, extra){
+  const c = _ensureCache();
+  const key = itemKey(topicId, type, title);
+  if(pinned){
+    c.pinnedItems[key] = Object.assign({ topicId, type, title }, extra || {});
+  }else{
+    delete c.pinnedItems[key];
+  }
   _saveLocal(c);
   _pushToServer(identity);
+}
+
+// All currently-pinned items, across every topic — this is what the
+// sidebar's Pinned list renders directly.
+function getPinnedItems(){
+  const c = _ensureCache();
+  return Object.values(c.pinnedItems);
+}
+
+function getPinnedItemsForTopic(topicId){
+  return getPinnedItems().filter(it => it.topicId === topicId);
 }
 
 // Records a new quiz attempt. Every attempt is kept — retaking a quiz never
@@ -154,13 +190,17 @@ function getWrongQuestionIds(quizIdPrefix){
 }
 
 // Merges the shared module list (names, guides, quizzes — same for
-// everyone) with this person's own covered/pinned state.
+// everyone) with this person's own covered state and whether the topic
+// currently has ANY pinned items inside it (used only for the homepage's
+// "Pinned" filter tab — the sidebar's own Pinned list uses getPinnedItems()
+// directly, at the item level).
 function getModulesWithProgress(){
+  const pinnedTopicIds = new Set(getPinnedItems().map(it => it.topicId));
   return MODULES.map(m=>{
     const p = getModuleProgress(m.id);
     return Object.assign({}, m, {
       covered: p.covered,
-      pinned: p.pinned,
+      hasPinnedItems: pinnedTopicIds.has(m.id),
     });
   });
 }
