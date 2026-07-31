@@ -28,12 +28,25 @@ their current docs before assuming this structure is still right.)
 - `src/index.js` — **the entire backend in one file**: routes `/api/progress`, `/api/auth`, `/api/admin-reset-pin`, and passes everything else through to static assets. PIN required on every progress read/write.
 - `.assetsignore` — keeps `src/`, `wrangler.jsonc`, etc. from being served as public static files
 
-## Cloudflare setup (one-time, dashboard only — not in this repo)
-1. Workers & Pages → your `dc64` worker was created via Git integration already.
-2. Storage & Databases → KV → create a namespace (e.g. `progress`) if not already done.
-3. Bind it: worker → **Bindings** tab → Add binding → KV namespace → variable name `PROGRESS_KV` → select the `progress` namespace. (If the dashboard's binding picker misbehaves, the fallback is adding a `kv_namespaces` entry directly to `wrangler.jsonc` with the namespace's ID — ask whoever's set this up for that ID if needed.)
-4. Settings → Variables → add `ADMIN_SECRET` (any passphrase, known only to the admin).
-5. Push a commit (or manually retrigger a deploy) so the binding/env var take effect.
+## Cloudflare setup (status: done, live and working)
+Live at: **https://dc64.drivertraining.workers.dev/**
+
+- KV namespace `progress` created, bound in code via `wrangler.jsonc`'s
+  `kv_namespaces` entry (ID `3163a60339474220ae8dd7613f7c8756`) — no
+  dashboard binding needed, it's fully in version control.
+- `ADMIN_SECRET` set as an encrypted Secret under the `dc64` worker's
+  Settings → Variables and secrets. **Confirmed working** (admin.html
+  PIN reset tested successfully).
+- One Cloudflare quirk worth remembering: saving a new variable/secret
+  in the dashboard creates a new *version* but does **not** automatically
+  make it the active deployment — you have to go to Deployments →
+  find that version → use the `...` menu → promote/deploy it. Easy to
+  miss, cost real time working this out once already.
+- If the KV binding ever needs redoing from scratch: Storage & Databases
+  → Workers KV → Create Instance → name it → copy its ID → add a
+  `kv_namespaces` entry to `wrangler.jsonc` with that ID (don't rely on
+  the dashboard's own "Add binding" KV picker — it was unreliable/showed
+  only docs with no actual input fields when this was set up).
 
 ## How content is structured (`assets/data.js`)
 23 topics total across 5 groups (Modules 1–4, then Exam Prep last). Each
@@ -65,8 +78,8 @@ were "just add the PDF, don't touch the quiz."
 - Quiz retakes: **every attempt is kept** (full history), never
   overwritten — this was an explicit decision, don't change to
   "latest only" or "best only" without asking.
-- Forgotten PIN → `admin.html`, requires `ADMIN_SECRET` (Netlify env var,
-  known only to James).
+- Forgotten PIN → `admin.html`, requires `ADMIN_SECRET` (Cloudflare
+  secret, known only to James).
 
 ## Known gaps / not yet built
 - No actual quiz-taking interface yet (cards say "Start quiz →" but it's
@@ -75,8 +88,13 @@ were "just add the PDF, don't touch the quiz."
   `data.js` for which ones ("Add real questions here" marks placeholders).
 
 ## Working conventions
-- Deploy is just: edit files → `git push` to `main` → Cloudflare Pages
-  auto-builds (no build command, static site + Pages Functions).
+- Deploy is just: edit files → `git push` to `main` → Cloudflare Workers
+  auto-builds (no build command; `wrangler.jsonc` defines the entry
+  script + static assets directory + KV binding).
+- **Reminder about the deploy quirk**: pushing code auto-deploys fine,
+  but dashboard-only changes (like adding/editing a secret) create a
+  new version that needs manually promoting in the Deployments tab —
+  see the Cloudflare setup section above.
 - Always `node --check` any edited `.js` file before pushing.
 - Sync (`git pull`) before editing, since edits may happen outside a
   given chat session too.
