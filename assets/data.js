@@ -34,6 +34,7 @@ const MODULE_GROUPS = [
           {
             "title": "PTS Master Assessment (80 Questions)",
             "quizId": "PTS Master Assessment",
+            "totalSections": 8,
             "bullets": ["Full 80-question exam or pick a single module (10 questions each)", "Pass mark: 90%", "Every attempt saved to your progress history"],
             "link": "pts-quiz.html"
           }
