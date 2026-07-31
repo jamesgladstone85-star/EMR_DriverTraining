@@ -543,16 +543,14 @@
     }
   }
 
-  const WRONG_ANSWERS_PREFIX = "PTS Master Assessment";
-
   function updateWrongCount(){
-    const count = getWrongQuestionIds(WRONG_ANSWERS_PREFIX).length;
+    const count = getWrongIds().length;
     const el = document.getElementById("wrongCount");
     if(el) el.textContent = count;
   }
 
   function goToWrongAnswers(){
-    const count = getWrongQuestionIds(WRONG_ANSWERS_PREFIX).length;
+    const count = getWrongIds().length;
     if(count === 0){
       toast("No wrong answers queued yet.");
       return;
