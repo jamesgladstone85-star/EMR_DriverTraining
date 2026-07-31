@@ -463,7 +463,11 @@
     const allTopics = getModulesWithProgress();
     const total = allTopics.length;
     const done = allTopics.filter(t=>t.covered).length;
-    const pct = total ? Math.round((done/total)*100) : 0;
+    // Percentage blends in partial quiz-section credit (e.g. acing one of
+    // 8 PTS modules), so the bar moves even before a topic is fully done —
+    // the "X / Y topics" label stays as a whole-topic count for clarity.
+    const blendedSum = allTopics.reduce((sum, t) => sum + (t.covered ? 1 : (t.quizFraction || 0)), 0);
+    const pct = total ? Math.round((blendedSum / total) * 100) : 0;
     document.getElementById("pctLabel").textContent = `${done} / ${total}`;
     document.getElementById("pctBig").textContent = `${pct}%`;
     document.getElementById("railFill").style.height = pct + "%";
