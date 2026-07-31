@@ -149,30 +149,23 @@
       toast(done ? `${mod.name} marked as done.` : `${mod.name} marked as not done.`);
     });
 
-    // "Pinned" is a topic-level flag (same granularity as "covered") — every
-    // guide/quiz/tool card on this page shares one pin button per topic, so
-    // pinning any one of them pins the whole topic and all buttons stay in sync.
-    let pinned = getModuleProgress(mod.id).pinned;
-    function pinBtnTitle(){
-      return pinned ? "Unpin this topic" : "Pin for review";
-    }
-    function syncPinButtons(){
-      document.querySelectorAll(".pin-btn").forEach(btn=>{
-        btn.classList.toggle("active", pinned);
-        btn.title = pinBtnTitle();
-      });
-    }
-    function pinButton(){
+    // Each guide/quiz/tool card gets its OWN independent pin button — pinning
+    // one item doesn't affect the others, and each is tracked individually
+    // in progress.js's pinnedItems store.
+    function pinButton(type, title, extra){
+      let itemPinned = isItemPinned(mod.id, type, title);
       const b = document.createElement("button");
-      b.className = "pin-btn" + (pinned ? " active" : "");
+      b.className = "pin-btn" + (itemPinned ? " active" : "");
       b.textContent = "📌";
-      b.title = pinBtnTitle();
+      b.title = itemPinned ? "Unpin this item" : "Pin for review";
       b.addEventListener("click", (e)=>{
         e.preventDefault();
-        pinned = !pinned;
-        setModulePinned(mod.id, pinned, currentIdentity);
-        syncPinButtons();
-        toast(pinned ? `${mod.name} pinned for review.` : `${mod.name} unpinned.`);
+        itemPinned = !itemPinned;
+        setItemPinned(mod.id, type, title, itemPinned, currentIdentity,
+          Object.assign({ topicName: mod.name }, extra || {}));
+        b.classList.toggle("active", itemPinned);
+        b.title = itemPinned ? "Unpin this item" : "Pin for review";
+        toast(itemPinned ? `${title} pinned for review.` : `${title} unpinned.`);
       });
       return b;
     }
@@ -181,7 +174,7 @@
     (mod.guides || []).forEach(g=>{
       const card = document.createElement("div");
       card.className = "content-card guide";
-      card.appendChild(pinButton());
+      card.appendChild(pinButton("guide", g.title, { file: g.file }));
       const subtitle = g.subtitle ? `<span class="card-subtitle">${g.subtitle}</span>` : "";
       const linkAttrs = g.file
         ? `href="${g.file}" target="_blank" rel="noopener"`
@@ -200,7 +193,7 @@
     (mod.quizzes || []).forEach(q=>{
       const card = document.createElement("div");
       card.className = "content-card quiz";
-      card.appendChild(pinButton());
+      card.appendChild(pinButton("quiz", q.title, { link: q.link }));
       const bullets = (q.bullets||[]).map(b=>`<li>${b}</li>`).join("");
       const history = getQuizHistory(q.title);
       const best = getQuizBest(q.title);
@@ -227,7 +220,7 @@
       mod.tools.forEach(t=>{
         const card = document.createElement("div");
         card.className = "content-card tool";
-        card.appendChild(pinButton());
+        card.appendChild(pinButton("tool", t.title, {}));
         card.insertAdjacentHTML("beforeend", `
           <span class="card-icon">⚙️</span>
           <h3 class="card-title">${t.title}</h3>
