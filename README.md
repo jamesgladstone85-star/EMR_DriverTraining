@@ -4,9 +4,12 @@ Read this first in any new chat before making changes. It explains what
 exists, how it's wired together, and what's still placeholder vs real.
 
 ## What this is
-A static training site for 10 train drivers, deployed on Netlify at
-**dc64resources.netlify.app**, source in this repo, auto-deploys on every
-push to `main`.
+A static training site for 10 train drivers, hosted on **Cloudflare
+Pages**, source in this repo, auto-deploys on every push to `main`.
+(Previously on Netlify — migrated to Cloudflare because Netlify's
+credit-based free tier charges per production deploy, which we were
+hitting often; Cloudflare Pages + Workers KV covers the same job for
+free at this scale.)
 
 ## File structure
 - `index.html` — homepage: sidebar (quick actions, progress rail, search/filter), main area (module groups + topic cards)
@@ -18,9 +21,16 @@ push to `main`.
 - `assets/identity.js` — name + PIN sign-in modal
 - `assets/progress.js` — progress state: local cache + syncs to the server so it follows people across devices
 - `assets/guides/*.pdf` — real uploaded revision guide PDFs, referenced by `file:` in `data.js`
-- `netlify/functions/progress.mjs` — GET/POST progress data (Netlify Blobs), PIN required on every call
-- `netlify/functions/progress-auth.mjs` — first-use claims a name+PIN; later uses must match
-- `netlify/functions/admin-reset-pin.mjs` — clears a forgotten PIN without touching that person's progress (needs `ADMIN_SECRET` env var set in Netlify, not in this repo)
+- `functions/api/progress.js` — GET/POST progress data (Cloudflare Workers KV), PIN required on every call
+- `functions/api/auth.js` — first-use claims a name+PIN; later uses must match
+- `functions/api/admin-reset-pin.js` — clears a forgotten PIN without touching that person's progress (needs `ADMIN_SECRET` env var set in Cloudflare, not in this repo)
+
+## Cloudflare setup (one-time, dashboard only — not in this repo)
+1. Cloudflare dashboard → Workers & Pages → Create → Pages → connect this GitHub repo. Framework preset: None. Build command: blank. Build output directory: `/` (repo root).
+2. Workers & Pages → KV → create a namespace (e.g. `progress`).
+3. Back on the Pages project → Settings → Functions → KV namespace bindings → add binding: variable name `PROGRESS_KV` → the namespace from step 2. Do this for both Production and Preview.
+4. Settings → Environment variables → add `ADMIN_SECRET` (any passphrase, known only to the admin).
+5. Trigger a redeploy after adding bindings/env vars so they take effect.
 
 ## How content is structured (`assets/data.js`)
 23 topics total across 5 groups (Modules 1–4, then Exam Prep last). Each
@@ -62,8 +72,13 @@ were "just add the PDF, don't touch the quiz."
   `data.js` for which ones ("Add real questions here" marks placeholders).
 
 ## Working conventions
-- Deploy is just: edit files → `git push` to `main` → Netlify auto-builds
-  (no build command, static site + Netlify Functions).
-- Always `node --check` any edited `.js`/`.mjs` file before pushing.
+- Deploy is just: edit files → `git push` to `main` → Cloudflare Pages
+  auto-builds (no build command, static site + Pages Functions).
+- Always `node --check` any edited `.js` file before pushing.
 - Sync (`git pull`) before editing, since edits may happen outside a
   given chat session too.
+- Migrating away from Cloudflare later? The API paths (`/api/progress`,
+  `/api/auth`, `/api/admin-reset-pin`) are deliberately host-agnostic —
+  only the three files in `functions/api/` need rewriting for whatever
+  new platform's function/storage API looks like; nothing in `assets/`
+  needs to change.
