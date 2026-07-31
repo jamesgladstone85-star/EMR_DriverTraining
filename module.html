@@ -44,6 +44,7 @@
 <div class="footer-note">All content sourced from your rule book material</div>
 
 <script src="assets/data.js"></script>
+<script src="assets/progress.js"></script>
 <script>
   function getParam(name){
     return new URLSearchParams(window.location.search).get(name);
@@ -80,13 +81,14 @@
     pill.classList.add(mod.badgeColor);
 
     const markBtn = document.getElementById("markDoneBtn");
-    let done = mod.covered;
+    let done = getModuleProgress(mod.id).covered;
     function refreshMarkBtn(){
       markBtn.textContent = done ? "✓ Done" : "Mark as done";
     }
     refreshMarkBtn();
     markBtn.addEventListener("click", ()=>{
       done = !done;
+      setModuleCovered(mod.id, done);
       refreshMarkBtn();
       toast(done ? `${mod.name} marked as done.` : `${mod.name} marked as not done.`);
     });

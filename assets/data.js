@@ -41,7 +41,7 @@ const MODULES = [
     badge: "MODULE 2",
     badgeColor: "blue",
     name: "Signals — Colour Light & Semaphore",
-    covered: true,
+    covered: false,
     pinned: false,
     guides: [
       { title: "Colour Light Signals Revision" },
@@ -68,7 +68,7 @@ const MODULES = [
     badgeColor: "green",
     name: "Near Misses, Obstructions & Lineside Fires",
     covered: false,
-    pinned: true,
+    pinned: false,
     guides: [
       { title: "AC, Near Misses & Obstructions Revision Guide" },
       { title: "Lineside Fires Quick Reference" },
@@ -92,7 +92,7 @@ const MODULES = [
     badgeColor: "pink",
     name: "Wrong Direction Movements",
     covered: false,
-    pinned: true,
+    pinned: false,
     guides: [
       { title: "Wrong Direction Movements Revision Guide" },
     ],

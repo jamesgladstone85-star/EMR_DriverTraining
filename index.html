@@ -184,8 +184,9 @@
 <footer>All content sourced from your rule book material.</footer>
 
 <script src="assets/data.js"></script>
+<script src="assets/progress.js"></script>
 <script>
-  const modules = MODULES.filter(m => !m.isExamPrep);
+  const modules = getModulesWithProgress().filter(m => !m.isExamPrep);
 
   function render(filter="all"){
     const grid = document.getElementById("topicsGrid");
