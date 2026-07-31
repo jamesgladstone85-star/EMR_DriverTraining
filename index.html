@@ -379,7 +379,7 @@
   function topicMatchesFilter(t, filter){
     if(filter==="covered") return t.covered;
     if(filter==="todo") return !t.covered;
-    if(filter==="pinned") return t.pinned;
+    if(filter==="pinned") return t.hasPinnedItems;
     return true;
   }
 
@@ -472,19 +472,33 @@
     document.getElementById("topProgressFill").style.width = pct + "%";
   }
 
+  const TYPE_ICON = { guide: "📘", quiz: "📝", tool: "⚙️" };
+
   function renderPinned(){
     const wrap = document.getElementById("pinnedTags");
     wrap.innerHTML = "";
-    const pinned = getModulesWithProgress().filter(t=>t.pinned);
+    const pinned = getPinnedItems();
     if(pinned.length === 0){
       wrap.innerHTML = `<span style="color:var(--text-dim);font-size:11.5px;font-family:var(--mono);">Nothing pinned yet.</span>`;
       return;
     }
-    pinned.forEach(t=>{
+    pinned.forEach(item=>{
       const a = document.createElement("a");
       a.className = "pinned-tag";
-      a.href = `module.html?id=${t.id}`;
-      a.textContent = t.name;
+      // Deep-link to the most useful destination: the PDF itself for a
+      // pinned guide, the quiz page for a pinned quiz, otherwise back to
+      // the topic page (tools, or guides without an uploaded file yet).
+      if(item.type === "guide" && item.file){
+        a.href = item.file;
+        a.target = "_blank";
+        a.rel = "noopener";
+      }else if(item.type === "quiz" && item.link){
+        a.href = item.link;
+      }else{
+        a.href = `module.html?id=${item.topicId}`;
+      }
+      a.textContent = `${TYPE_ICON[item.type] || "📌"} ${item.title}`;
+      a.title = item.topicName ? `From: ${item.topicName}` : "";
       wrap.appendChild(a);
     });
   }
