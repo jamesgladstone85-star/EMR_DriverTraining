@@ -146,12 +146,15 @@
       const historyLine = history.length
         ? `<span class="card-subtitle">Best: ${best.score}/${best.total} · ${history.length} attempt${history.length===1?"":"s"} so far</span>`
         : "";
+      const quizLinkAttrs = q.link
+        ? `href="${q.link}"`
+        : `href="#" onclick="toast('Starting ${q.title}…');return false;"`;
       card.insertAdjacentHTML("beforeend", `
         <span class="card-icon">📝</span>
         <h3 class="card-title">${q.title}</h3>
         <ul class="card-bullets">${bullets}</ul>
         ${historyLine}
-        <a class="card-action quiz-action" href="#" onclick="toast('Starting ${q.title}…');return false;">Start quiz →</a>
+        <a class="card-action quiz-action" ${quizLinkAttrs}>Start quiz →</a>
       `);
       quizzesGrid.appendChild(card);
     });
