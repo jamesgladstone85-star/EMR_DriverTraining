@@ -195,8 +195,8 @@
       card.className = "content-card quiz";
       card.appendChild(pinButton("quiz", q.title, { link: q.link }));
       const bullets = (q.bullets||[]).map(b=>`<li>${b}</li>`).join("");
-      const history = getQuizHistory(q.title);
-      const best = getQuizBest(q.title);
+      const history = getQuizHistory(q.quizId || q.title);
+      const best = getQuizBest(q.quizId || q.title);
       const historyLine = history.length
         ? `<span class="card-subtitle">Best: ${best.score}/${best.total} · ${history.length} attempt${history.length===1?"":"s"} so far</span>`
         : "";
