@@ -54,7 +54,7 @@ const MODULE_GROUPS = [
         id: "shunting",
         name: "Shunting",
         description: "Shunting movements, authority, signals and safety rules.",
-        guides: [{ title: "Shunting — Revision Guide" }],
+        guides: [{ title: "Shunting — Revision Guide", subtitle: "GERT8000-SS2 Issue 7", file: "assets/guides/shunting-revision-notes.pdf" }],
         quizzes: [{ title: "Shunting Quiz", bullets: ["Add real questions here"] }],
         tools: [],
       },
