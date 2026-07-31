@@ -115,16 +115,11 @@
     pill.classList.add(mod.badgeColor);
 
     // Progress bar for the Module group this topic belongs to (e.g. all
-    // topics under "Module 1 — Introduction & Communications").
-    const groupTopics = getModulesWithProgress().filter(t => t.groupId === mod.groupId);
-    const groupDone = groupTopics.filter(t => t.covered).length;
-    const groupTotal = groupTopics.length;
-    const groupPct = groupTotal ? Math.round((groupDone / groupTotal) * 100) : 0;
+    // topics under "Module 1 — Introduction & Communications"). Blends in
+    // quizFraction for partially-aced quizzes, matching index.html's
+    // updateProgress() so the two bars never drift out of sync.
     document.getElementById("moduleProgressBlock").style.display = "block";
-    document.getElementById("moduleProgressLabel").textContent =
-      `${mod.groupLabel} — ${groupDone}/${groupTotal} topics`;
-    document.getElementById("moduleProgressPct").textContent = `${groupPct}%`;
-    document.getElementById("moduleProgressFill").style.width = groupPct + "%";
+    refreshGroupProgressBar();
 
     const markBtn = document.getElementById("markDoneBtn");
     let done = getModuleProgress(mod.id).covered;
@@ -135,7 +130,8 @@
     function refreshGroupProgressBar(){
       const gt = getModulesWithProgress().filter(t => t.groupId === mod.groupId);
       const gd = gt.filter(t => t.covered).length;
-      const gp = gt.length ? Math.round((gd / gt.length) * 100) : 0;
+      const blendedSum = gt.reduce((sum, t) => sum + (t.covered ? 1 : (t.quizFraction || 0)), 0);
+      const gp = gt.length ? Math.round((blendedSum / gt.length) * 100) : 0;
       document.getElementById("moduleProgressLabel").textContent = `${mod.groupLabel} — ${gd}/${gt.length} topics`;
       document.getElementById("moduleProgressPct").textContent = `${gp}%`;
       document.getElementById("moduleProgressFill").style.width = gp + "%";
