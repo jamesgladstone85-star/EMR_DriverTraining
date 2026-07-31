@@ -5,11 +5,14 @@ exists, how it's wired together, and what's still placeholder vs real.
 
 ## What this is
 A static training site for 10 train drivers, hosted on **Cloudflare
-Pages**, source in this repo, auto-deploys on every push to `main`.
-(Previously on Netlify — migrated to Cloudflare because Netlify's
-credit-based free tier charges per production deploy, which we were
-hitting often; Cloudflare Pages + Workers KV covers the same job for
-free at this scale.)
+Workers (with Static Assets)**, source in this repo, auto-deploys on
+every push to `main`.
+(Previously Netlify, then briefly attempted as Cloudflare Pages —
+Cloudflare has since merged Pages into a unified Workers platform, so
+the backend is structured as a single Worker script + `wrangler.jsonc`
+config rather than a Pages Functions folder. If you're reading this in
+a future chat and Cloudflare's dashboard looks different again, check
+their current docs before assuming this structure is still right.)
 
 ## File structure
 - `index.html` — homepage: sidebar (quick actions, progress rail, search/filter), main area (module groups + topic cards)
@@ -21,16 +24,16 @@ free at this scale.)
 - `assets/identity.js` — name + PIN sign-in modal
 - `assets/progress.js` — progress state: local cache + syncs to the server so it follows people across devices
 - `assets/guides/*.pdf` — real uploaded revision guide PDFs, referenced by `file:` in `data.js`
-- `functions/api/progress.js` — GET/POST progress data (Cloudflare Workers KV), PIN required on every call
-- `functions/api/auth.js` — first-use claims a name+PIN; later uses must match
-- `functions/api/admin-reset-pin.js` — clears a forgotten PIN without touching that person's progress (needs `ADMIN_SECRET` env var set in Cloudflare, not in this repo)
+- `wrangler.jsonc` — Worker config: entry script, static assets directory, (once bound) the KV namespace
+- `src/index.js` — **the entire backend in one file**: routes `/api/progress`, `/api/auth`, `/api/admin-reset-pin`, and passes everything else through to static assets. PIN required on every progress read/write.
+- `.assetsignore` — keeps `src/`, `wrangler.jsonc`, etc. from being served as public static files
 
 ## Cloudflare setup (one-time, dashboard only — not in this repo)
-1. Cloudflare dashboard → Workers & Pages → Create → Pages → connect this GitHub repo. Framework preset: None. Build command: blank. Build output directory: `/` (repo root).
-2. Workers & Pages → KV → create a namespace (e.g. `progress`).
-3. Back on the Pages project → Settings → Functions → KV namespace bindings → add binding: variable name `PROGRESS_KV` → the namespace from step 2. Do this for both Production and Preview.
-4. Settings → Environment variables → add `ADMIN_SECRET` (any passphrase, known only to the admin).
-5. Trigger a redeploy after adding bindings/env vars so they take effect.
+1. Workers & Pages → your `dc64` worker was created via Git integration already.
+2. Storage & Databases → KV → create a namespace (e.g. `progress`) if not already done.
+3. Bind it: worker → **Bindings** tab → Add binding → KV namespace → variable name `PROGRESS_KV` → select the `progress` namespace. (If the dashboard's binding picker misbehaves, the fallback is adding a `kv_namespaces` entry directly to `wrangler.jsonc` with the namespace's ID — ask whoever's set this up for that ID if needed.)
+4. Settings → Variables → add `ADMIN_SECRET` (any passphrase, known only to the admin).
+5. Push a commit (or manually retrigger a deploy) so the binding/env var take effect.
 
 ## How content is structured (`assets/data.js`)
 23 topics total across 5 groups (Modules 1–4, then Exam Prep last). Each
@@ -79,6 +82,6 @@ were "just add the PDF, don't touch the quiz."
   given chat session too.
 - Migrating away from Cloudflare later? The API paths (`/api/progress`,
   `/api/auth`, `/api/admin-reset-pin`) are deliberately host-agnostic —
-  only the three files in `functions/api/` need rewriting for whatever
-  new platform's function/storage API looks like; nothing in `assets/`
-  needs to change.
+  only `src/index.js` (plus whatever config file the new host wants)
+  needs rewriting for that platform's function/storage API; nothing in
+  `assets/` needs to change.
