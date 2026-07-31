@@ -37,13 +37,13 @@ function _saveLocal(data){
   }
 }
 
-async function _pushToServer(user){
-  if(!user || !_cache) return;
+async function _pushToServer(identity){
+  if(!identity || !identity.name || !_cache) return;
   try{
     await fetch(API, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ user, data: _cache }),
+      body: JSON.stringify({ user: identity.name, pin: identity.pin, data: _cache }),
     });
   }catch(e){
     // offline or function unavailable — local cache still has the data,
@@ -52,14 +52,15 @@ async function _pushToServer(user){
   }
 }
 
-// Call once on page load, after identity is known. Tries the server first;
-// falls back to whatever's cached locally if the server can't be reached.
-async function initProgress(user){
+// Call once on page load, after identity ({name, pin}) is known. Tries the
+// server first; falls back to whatever's cached locally if unreachable.
+async function initProgress(identity){
   _cache = _loadLocal();
-  if(!user) return _cache;
+  if(!identity || !identity.name) return _cache;
 
   try{
-    const res = await fetch(`${API}?user=${encodeURIComponent(user)}`);
+    const qs = `user=${encodeURIComponent(identity.name)}&pin=${encodeURIComponent(identity.pin)}`;
+    const res = await fetch(`${API}?${qs}`);
     if(res.ok){
       const remote = await res.json();
       if(remote && (remote.topics || remote.quizAttempts)){
@@ -83,25 +84,25 @@ function getModuleProgress(id){
   return c.topics[id] || { covered:false, pinned:false };
 }
 
-function setModuleCovered(id, covered, user){
+function setModuleCovered(id, covered, identity){
   const c = _ensureCache();
   c.topics[id] = c.topics[id] || {};
   c.topics[id].covered = covered;
   _saveLocal(c);
-  _pushToServer(user);
+  _pushToServer(identity);
 }
 
-function setModulePinned(id, pinned, user){
+function setModulePinned(id, pinned, identity){
   const c = _ensureCache();
   c.topics[id] = c.topics[id] || {};
   c.topics[id].pinned = pinned;
   _saveLocal(c);
-  _pushToServer(user);
+  _pushToServer(identity);
 }
 
 // Records a new quiz attempt. Every attempt is kept — retaking a quiz never
 // erases past results, it just adds another entry to that quiz's history.
-function recordQuizAttempt(quizId, score, total, user){
+function recordQuizAttempt(quizId, score, total, identity){
   const c = _ensureCache();
   c.quizAttempts[quizId] = c.quizAttempts[quizId] || [];
   c.quizAttempts[quizId].push({
@@ -110,7 +111,7 @@ function recordQuizAttempt(quizId, score, total, user){
     total,
   });
   _saveLocal(c);
-  _pushToServer(user);
+  _pushToServer(identity);
 }
 
 function getQuizHistory(quizId){

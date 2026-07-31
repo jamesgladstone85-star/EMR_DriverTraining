@@ -341,6 +341,7 @@
 </div>
 
 <script src="assets/data.js"></script>
+<script src="assets/team.js"></script>
 <script src="assets/identity.js"></script>
 <script src="assets/progress.js"></script>
 <script>
@@ -497,17 +498,17 @@
     toastTimeout = setTimeout(()=>{ el.style.opacity = "0"; }, 1800);
   }
 
-  let currentUser = null;
+  let currentIdentity = null;
 
   (async function init(){
-    currentUser = await ensureIdentity();
-    document.getElementById("identityLabel").textContent = currentUser;
+    currentIdentity = await ensureIdentity();
+    document.getElementById("identityLabel").textContent = currentIdentity.name;
     document.getElementById("switchUserBtn").addEventListener("click", ()=>{
       clearIdentity();
       window.location.reload();
     });
 
-    await initProgress(currentUser);
+    await initProgress(currentIdentity);
 
     renderGroups();
     renderRailGroups();

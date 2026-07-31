@@ -45,6 +45,7 @@
 <div class="footer-note">All content sourced from your rule book material</div>
 
 <script src="assets/data.js"></script>
+<script src="assets/team.js"></script>
 <script src="assets/identity.js"></script>
 <script src="assets/progress.js"></script>
 <script>
@@ -76,8 +77,8 @@
   const mod = getModule(id);
 
   (async function init(){
-    const currentUser = await ensureIdentity();
-    await initProgress(currentUser);
+    const currentIdentity = await ensureIdentity();
+    await initProgress(currentIdentity);
 
     if(!mod){
       document.getElementById("pageTitle").textContent = "Module not found";
@@ -97,7 +98,7 @@
     refreshMarkBtn();
     markBtn.addEventListener("click", ()=>{
       done = !done;
-      setModuleCovered(mod.id, done, currentUser);
+      setModuleCovered(mod.id, done, currentIdentity);
       refreshMarkBtn();
       toast(done ? `${mod.name} marked as done.` : `${mod.name} marked as not done.`);
     });
