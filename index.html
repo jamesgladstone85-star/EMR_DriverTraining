@@ -235,6 +235,11 @@
     .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border-hair);}
     .main{padding:28px 20px 60px;}
   }
+
+  @media (max-width: 640px){
+    .topics-grid{grid-template-columns:1fr;}
+    .topic-card.wide{grid-column:span 1;}
+  }
 </style>
 </head>
 <body>
