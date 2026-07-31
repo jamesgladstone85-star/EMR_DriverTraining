@@ -45,6 +45,7 @@
 <div class="footer-note">All content sourced from your rule book material</div>
 
 <script src="assets/data.js"></script>
+<script src="assets/identity.js"></script>
 <script src="assets/progress.js"></script>
 <script>
   function getParam(name){
@@ -74,9 +75,15 @@
   const id = getParam("id") || "m2";
   const mod = getModule(id);
 
-  if(!mod){
-    document.getElementById("pageTitle").textContent = "Module not found";
-  } else {
+  (async function init(){
+    const currentUser = await ensureIdentity();
+    await initProgress(currentUser);
+
+    if(!mod){
+      document.getElementById("pageTitle").textContent = "Module not found";
+      return;
+    }
+
     document.getElementById("pageTitle").textContent = mod.name;
     const pill = document.getElementById("badgePill");
     pill.textContent = mod.badge;
@@ -90,7 +97,7 @@
     refreshMarkBtn();
     markBtn.addEventListener("click", ()=>{
       done = !done;
-      setModuleCovered(mod.id, done);
+      setModuleCovered(mod.id, done, currentUser);
       refreshMarkBtn();
       toast(done ? `${mod.name} marked as done.` : `${mod.name} marked as not done.`);
     });
@@ -133,10 +140,16 @@
       card.className = "content-card quiz";
       card.appendChild(pinButton());
       const bullets = (q.bullets||[]).map(b=>`<li>${b}</li>`).join("");
+      const history = getQuizHistory(q.title);
+      const best = getQuizBest(q.title);
+      const historyLine = history.length
+        ? `<span class="card-subtitle">Best: ${best.score}/${best.total} · ${history.length} attempt${history.length===1?"":"s"} so far</span>`
+        : "";
       card.insertAdjacentHTML("beforeend", `
         <span class="card-icon">📝</span>
         <h3 class="card-title">${q.title}</h3>
         <ul class="card-bullets">${bullets}</ul>
+        ${historyLine}
         <a class="card-action quiz-action" href="#" onclick="toast('Starting ${q.title}…');return false;">Start quiz →</a>
       `);
       quizzesGrid.appendChild(card);
@@ -158,7 +171,7 @@
         toolsGrid.appendChild(card);
       });
     }
-  }
+  })();
 </script>
 
 </body>

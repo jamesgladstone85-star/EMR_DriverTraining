@@ -1,0 +1,8 @@
+{
+  "name": "emr-driver-training",
+  "private": true,
+  "description": "Static training site with a small Netlify Function + Blobs backend for cross-device progress sync.",
+  "dependencies": {
+    "@netlify/blobs": "^8"
+  }
+}
