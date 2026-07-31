@@ -264,11 +264,11 @@
     <div>
       <p class="side-heading">Quick Actions</p>
       <div class="action-list">
-        <button class="action-item" onclick="toast('Opening a random quiz…')">
+        <button class="action-item" onclick="location.href='pts-quiz.html?start=random'">
           <span class="ic">🎲</span>
           <span class="txt"><span class="lbl">Random Quiz</span><span class="sub">Any topic, random pick</span></span>
         </button>
-        <button class="action-item" onclick="toast('Starting exam mode — 20 questions…')">
+        <button class="action-item" onclick="location.href='pts-quiz.html?start=random20'">
           <span class="ic">🎯</span>
           <span class="txt"><span class="lbl">Random Questions</span><span class="sub">20 Qs — exam mode</span></span>
         </button>
@@ -276,11 +276,11 @@
           <span class="ic">📖</span>
           <span class="txt"><span class="lbl">Random Guide</span><span class="sub">Jump to a PDF at random</span></span>
         </button>
-        <button class="action-item" onclick="toast('Nothing to continue yet — start a topic below.')">
+        <button class="action-item" onclick="continueLearning()">
           <span class="ic">▶</span>
           <span class="txt"><span class="lbl">Continue</span><span class="sub">Pick up where you left off</span></span>
         </button>
-        <button class="action-item" onclick="toast('No wrong answers queued yet.')">
+        <button class="action-item" onclick="goToWrongAnswers()">
           <span class="ic">⚡</span>
           <span class="txt"><span class="lbl">Wrong Answers</span><span class="sub">Retry missed questions</span></span>
           <span class="cnt" id="wrongCount">0</span>
@@ -492,6 +492,35 @@
     window.open(pick.file, "_blank", "noopener");
   }
 
+  // "Continue" jumps to the first topic not yet marked as done, in course
+  // order. If everything's covered, there's nothing to continue to.
+  function continueLearning(){
+    const allTopics = getModulesWithProgress();
+    const next = allTopics.find(t => !t.covered);
+    if(next){
+      window.location.href = `module.html?id=${next.id}`;
+    }else{
+      toast("Every topic is marked as done — nice work! Try a quiz for a refresher.");
+    }
+  }
+
+  const WRONG_ANSWERS_PREFIX = "PTS Master Assessment";
+
+  function updateWrongCount(){
+    const count = getWrongQuestionIds(WRONG_ANSWERS_PREFIX).length;
+    const el = document.getElementById("wrongCount");
+    if(el) el.textContent = count;
+  }
+
+  function goToWrongAnswers(){
+    const count = getWrongQuestionIds(WRONG_ANSWERS_PREFIX).length;
+    if(count === 0){
+      toast("No wrong answers queued yet.");
+      return;
+    }
+    window.location.href = "pts-quiz.html?start=wrong";
+  }
+
   let toastTimeout;
   function toast(msg){
     let el = document.getElementById("toastEl");
@@ -529,6 +558,7 @@
     renderRailGroups();
     updateProgress();
     renderPinned();
+    updateWrongCount();
   })();
 </script>
 
