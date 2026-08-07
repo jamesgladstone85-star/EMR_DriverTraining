@@ -39,6 +39,17 @@ async function handleProgressGet(request, env){
   if (!existing) return json({ error: "not signed in yet" }, 404);
   if (existing.pin && existing.pin !== pin) return json({ error: "incorrect PIN" }, 401);
 
+  // Visit tracking: count as a new visit if last seen more than 30 minutes
+  // ago, so browsing several pages in one sitting counts as one visit.
+  const now = new Date();
+  const lastVisit = existing.lastVisit ? new Date(existing.lastVisit) : null;
+  const THIRTY_MIN = 30 * 60 * 1000;
+  if (!lastVisit || (now - lastVisit) > THIRTY_MIN) {
+    existing.visits = (existing.visits || 0) + 1;
+  }
+  existing.lastVisit = now.toISOString();
+  await env.PROGRESS_KV.put(user, JSON.stringify(existing));
+
   const { pin: _omit, ...safe } = existing;
   return json(safe);
 }
@@ -99,6 +110,72 @@ async function handleAuth(request, env){
   return json({ ok:true, isNew:false });
 }
 
+// Kept in sync with assets/team.js — used only to show proper display
+// names in the admin stats table (KV keys are lowercased).
+const TEAM_MEMBERS = [
+  "Daniel Cox",
+  "Daniel Fretwell",
+  "Daniel Patterson",
+  "Donna'Ree Bennett",
+  "Lee Palmer",
+  "Lukas Jotautas",
+  "Luke Yusuf",
+  "Oliver Stretton",
+  "Tom Rose",
+  "James Gladstone",
+];
+
+function displayName(key){
+  const match = TEAM_MEMBERS.find(n => n.toLowerCase() === key);
+  return match || key;
+}
+
+async function handleAdminStats(request, env){
+  const adminSecret = env.ADMIN_SECRET;
+  if(!adminSecret){
+    return json({ ok:false, error:"ADMIN_SECRET is not set in Cloudflare's environment variables yet." }, 500);
+  }
+  if (!env.PROGRESS_KV) return kvMissing();
+
+  let body;
+  try{
+    body = await request.json();
+  }catch(e){
+    return json({ ok:false, error:"Invalid request." }, 400);
+  }
+
+  if(body.adminSecret !== adminSecret){
+    return json({ ok:false, error:"Incorrect admin secret." }, 401);
+  }
+
+  const list = await env.PROGRESS_KV.list();
+  const stats = [];
+  for(const entry of list.keys){
+    const raw = await env.PROGRESS_KV.get(entry.name);
+    if(!raw) continue;
+    const rec = JSON.parse(raw);
+    const topicsCovered = Object.values(rec.topics || {}).filter(t => t.covered).length;
+    stats.push({
+      name: displayName(entry.name),
+      visits: rec.visits || 0,
+      lastVisit: rec.lastVisit || null,
+      hasPin: !!rec.pin,
+      topicsCovered,
+    });
+  }
+
+  // Include team members who've never signed in at all, for completeness.
+  TEAM_MEMBERS.forEach(name => {
+    if(!stats.find(s => s.name === name)){
+      stats.push({ name, visits: 0, lastVisit: null, hasPin: false, topicsCovered: 0 });
+    }
+  });
+
+  stats.sort((a, b) => b.visits - a.visits);
+
+  return json({ ok:true, stats });
+}
+
 async function handleAdminReset(request, env){
   const adminSecret = env.ADMIN_SECRET;
   if(!adminSecret){
@@ -150,6 +227,11 @@ export default {
 
     if(url.pathname === "/api/admin-reset-pin"){
       if(request.method === "POST") return handleAdminReset(request, env);
+      return new Response("Method not allowed", { status: 405 });
+    }
+
+    if(url.pathname === "/api/admin-stats"){
+      if(request.method === "POST") return handleAdminStats(request, env);
       return new Response("Method not allowed", { status: 405 });
     }
 

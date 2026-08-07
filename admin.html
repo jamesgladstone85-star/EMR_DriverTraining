@@ -24,6 +24,13 @@
   #resultMsg.err{color:var(--accent-red);}
   .back-link{display:inline-block;margin-top:16px;font-size:12px;color:var(--text-dim);text-decoration:none;}
   .back-link:hover{color:var(--text-hi);}
+
+  .stats-panel{max-width:600px;width:100%;margin-top:20px;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  th, td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border-hair);}
+  th{font-family:var(--mono);font-size:10.5px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;}
+  td{color:var(--text-hi);}
+  .no-pin{color:var(--text-dim);font-style:italic;}
 </style>
 </head>
 <body>
@@ -41,8 +48,20 @@
   <p id="resultMsg"></p>
 
   <button class="btn btn-primary" id="resetBtn" style="width:100%;justify-content:center;">Reset PIN</button>
+  <button class="btn btn-ghost" id="statsBtn" style="width:100%;justify-content:center;margin-top:10px;">View Visit Stats</button>
 
   <a class="back-link" href="index.html">← Back to training site</a>
+</div>
+
+<div class="panel stats-panel" id="statsPanel" style="display:none;">
+  <h1>Visit Stats</h1>
+  <p class="desc">How many times each person has signed in, and their last visit.</p>
+  <table id="statsTable">
+    <thead>
+      <tr><th>Name</th><th>Visits</th><th>Last Visit</th><th>PIN Set</th><th>Topics Done</th></tr>
+    </thead>
+    <tbody id="statsBody"></tbody>
+  </table>
 </div>
 
 <script src="assets/team.js"></script>
@@ -93,6 +112,61 @@
     }finally{
       resetBtn.disabled = false;
       resetBtn.textContent = "Reset PIN";
+    }
+  });
+
+  const statsBtn = document.getElementById("statsBtn");
+  const statsPanel = document.getElementById("statsPanel");
+  const statsBody = document.getElementById("statsBody");
+
+  function formatDate(iso){
+    if(!iso) return "Never";
+    const d = new Date(iso);
+    return d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
+  }
+
+  statsBtn.addEventListener("click", async ()=>{
+    resultMsg.textContent = "";
+    resultMsg.className = "";
+    const adminSecret = document.getElementById("adminSecretInput").value;
+
+    if(!adminSecret){
+      resultMsg.textContent = "Enter the admin secret.";
+      resultMsg.className = "err";
+      return;
+    }
+
+    statsBtn.disabled = true;
+    statsBtn.textContent = "Loading…";
+
+    try{
+      const res = await fetch("/api/admin-stats", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ adminSecret }),
+      });
+      const body = await res.json().catch(()=>({}));
+      if(res.ok && body.ok){
+        statsBody.innerHTML = body.stats.map(s => `
+          <tr>
+            <td>${s.name}</td>
+            <td>${s.visits}</td>
+            <td>${formatDate(s.lastVisit)}</td>
+            <td>${s.hasPin ? "Yes" : '<span class="no-pin">Not yet</span>'}</td>
+            <td>${s.topicsCovered} / 23</td>
+          </tr>
+        `).join("");
+        statsPanel.style.display = "block";
+      }else{
+        resultMsg.textContent = body.error || "Something went wrong.";
+        resultMsg.className = "err";
+      }
+    }catch(e){
+      resultMsg.textContent = "Couldn't reach the server — try again.";
+      resultMsg.className = "err";
+    }finally{
+      statsBtn.disabled = false;
+      statsBtn.textContent = "View Visit Stats";
     }
   });
 </script>
