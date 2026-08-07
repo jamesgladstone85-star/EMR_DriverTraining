@@ -80,6 +80,14 @@ were "just add the PDF, don't touch the quiz."
   "latest only" or "best only" without asking.
 - Forgotten PIN → `admin.html`, requires `ADMIN_SECRET` (Cloudflare
   secret, known only to James).
+- **Visit tracking**: each record also stores `visits` (count) and
+  `lastVisit` (ISO timestamp), incremented server-side on every
+  `/api/progress` GET — but only counted as a new visit if the last one
+  was more than 30 minutes ago, so browsing several pages in one sitting
+  is one visit, not five. View via `admin.html`'s "View Visit Stats"
+  button (same admin secret). `TEAM_MEMBERS` is duplicated in
+  `src/index.js` (server-side, for display-name lookup) — keep it in
+  sync with `assets/team.js` if the roster ever changes.
 
 ## Known gaps / not yet built
 - No actual quiz-taking interface yet (cards say "Start quiz →" but it's
