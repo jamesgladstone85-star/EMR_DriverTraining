@@ -38,6 +38,13 @@ const MODULE_GROUPS = [
             "totalSections": 8,
             "bullets": ["Full 80-question exam or pick a single module (10 questions each)", "Pass mark: 90%", "Every attempt saved to your progress history"],
             "link": "pts-quiz.html"
+          },
+          {
+            "title": "Booking On, Rostering & Publications Assessment (60 Questions)",
+            "quizId": "Booking On, Rostering & Publications Assessment",
+            "totalSections": 7,
+            "bullets": ["Full 60-question exam or pick a single module", "Includes select-all-that-apply questions with close distractors", "Deep-dive modules on the Rule Book and Sectional Appendix", "Pass mark: 85%", "Every attempt saved to your progress history"],
+            "link": "booking-rostering-quiz.html"
           }
         ],
         "tools": []
