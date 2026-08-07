@@ -92,10 +92,12 @@ const MODULE_GROUPS = [
         "description": "Signal aspects, sequences, junction indicators, semaphore signals and absolute block working.",
         "guides": [
           {
-            "title": "Colour Light Signals Revision"
+            "title": "Colour Light Signals Revision",
+            "file": "assets/guides/colour-light-signals-revision.pdf"
           },
           {
-            "title": "Semaphore Signals Revision Notes"
+            "title": "Semaphore Signals Revision Notes",
+            "file": "assets/guides/semaphore-signals-revision-notes.pdf"
           }
         ],
         "quizzes": [],
@@ -107,13 +109,16 @@ const MODULE_GROUPS = [
         "description": "AWS operation, fault codes, TPWS OSS/TSS, trains controlled by AWS and defective equipment rules.",
         "guides": [
           {
-            "title": "AWS & TPWS — Revision Guide 1"
+            "title": "AWS & TPWS — Revision Guide 1",
+            "file": "assets/guides/aws-revision-notes.pdf"
           },
           {
-            "title": "AWS & TPWS — Revision Guide 2"
+            "title": "AWS & TPWS — Revision Guide 2",
+            "file": "assets/guides/tpws-revision-notes.pdf"
           },
           {
-            "title": "AWS & TPWS — Revision Guide 3"
+            "title": "AWS & TPWS — Revision Guide 3",
+            "file": "assets/guides/trains-detained-tca-revision-guide.pdf"
           }
         ],
         "quizzes": [],
@@ -125,10 +130,12 @@ const MODULE_GROUPS = [
         "description": "100-question bank, M1/M3 rule book practice and combined quizzes for assessment preparation.",
         "guides": [
           {
-            "title": "Module 2 Practice — Revision Guide 1"
+            "title": "Module 2 Practice — Revision Guide 1",
+            "file": "assets/guides/module-2-100-question-bank.pdf"
           },
           {
-            "title": "Module 2 Practice — Revision Guide 2"
+            "title": "Module 2 Practice — Revision Guide 2",
+            "file": "assets/guides/m1-m3-revision-guide.pdf"
           }
         ],
         "quizzes": [],
@@ -149,7 +156,8 @@ const MODULE_GROUPS = [
         "description": "AHBC, ABCL, AOCL, CCTV, MG, OC, Foot and Barrow crossings — driver actions and failure procedures.",
         "guides": [
           {
-            "title": "Level Crossings — Revision Guide"
+            "title": "Level Crossings — Revision Guide",
+            "file": "assets/guides/level-crossings-revision-guide.pdf"
           }
         ],
         "quizzes": [],
@@ -161,7 +169,8 @@ const MODULE_GROUPS = [
         "description": "Lineside signs, OHLE, low adhesion boards, countdown markers and permanent speed indicators.",
         "guides": [
           {
-            "title": "Line Side Signage — Revision Guide"
+            "title": "Line Side Signage — Revision Guide",
+            "file": "assets/guides/line-side-signage-revision-guide.pdf"
           }
         ],
         "quizzes": [],
@@ -173,10 +182,12 @@ const MODULE_GROUPS = [
         "description": "PSR, TSR and ESR — trackside boards, WON, set speeds and the full speeds reference guide.",
         "guides": [
           {
-            "title": "Speed Restrictions — Revision Guide 1"
+            "title": "Speed Restrictions — Revision Guide 1",
+            "file": "assets/guides/speed-restrictions-revision-guide.pdf"
           },
           {
-            "title": "Speed Restrictions — Revision Guide 2"
+            "title": "Speed Restrictions — Revision Guide 2",
+            "file": "assets/guides/tsr-esr-revision-guide.pdf"
           },
           {
             "title": "Speed Restrictions — Revision Guide 3"
@@ -197,7 +208,8 @@ const MODULE_GROUPS = [
         "description": "Entry into an occupied section, approach speeds, platform and shunting yard permissive working.",
         "guides": [
           {
-            "title": "Permissive Working — Revision Guide"
+            "title": "Permissive Working — Revision Guide",
+            "file": "assets/guides/permissive-working-revision-guide.pdf"
           }
         ],
         "quizzes": [],
@@ -209,10 +221,12 @@ const MODULE_GROUPS = [
         "description": "Token working, pilotman, wrong-direction operations and entering a section without a token.",
         "guides": [
           {
-            "title": "Single Line Working — Revision Guide 1"
+            "title": "Single Line Working — Revision Guide 1",
+            "file": "assets/guides/single-line-working-revision-guide.pdf"
           },
           {
-            "title": "Single Line Working — Revision Guide 2"
+            "title": "Single Line Working — Revision Guide 2",
+            "file": "assets/guides/single-line-working-module3-revision-guide.pdf"
           }
         ],
         "quizzes": [],
@@ -224,7 +238,8 @@ const MODULE_GROUPS = [
         "description": "Train dispatch, platform train interface, authority to start, DOO procedures and commentary driving.",
         "guides": [
           {
-            "title": "Professional Driving & Train Dispatch — Revision Guide"
+            "title": "Professional Driving & Train Dispatch — Revision Guide",
+            "file": "assets/guides/professional-driving-revision-guide.pdf"
           }
         ],
         "quizzes": [],
@@ -236,7 +251,8 @@ const MODULE_GROUPS = [
         "description": "Route competency, advance diversions, short-notice notification sources and route proving.",
         "guides": [
           {
-            "title": "Planned & Unplanned Routes — Revision Guide"
+            "title": "Planned & Unplanned Routes — Revision Guide",
+            "file": "assets/guides/planned-unplanned-routes-revision-guide.pdf"
           }
         ],
         "quizzes": [],
@@ -260,7 +276,8 @@ const MODULE_GROUPS = [
         "description": "HABD alerts, obtaining a line block, checking a hot axle, permitted speeds and wheel rotation tests.",
         "guides": [
           {
-            "title": "Hot Axle Boxes & Rotational Tests — Revision Guide"
+            "title": "Hot Axle Boxes & Rotational Tests — Revision Guide",
+            "file": "assets/guides/hot-axle-boxes-rotational-tests-revision-guide.pdf"
           }
         ],
         "quizzes": [],
@@ -272,10 +289,12 @@ const MODULE_GROUPS = [
         "description": "SMIS reporting, obstruction on line, fires on board, driver actions and protection procedures.",
         "guides": [
           {
-            "title": "AC, Near Misses & Obstructions Revision Guide"
+            "title": "AC, Near Misses & Obstructions Revision Guide",
+            "file": "assets/guides/ac-near-miss-obstructions-revision-guide.pdf"
           },
           {
-            "title": "Lineside Fires Quick Reference"
+            "title": "Lineside Fires Quick Reference",
+            "file": "assets/guides/lineside-fires-quick-reference.pdf"
           }
         ],
         "quizzes": [],
@@ -296,7 +315,8 @@ const MODULE_GROUPS = [
         "description": "FEW AS GOOD GTP — 12 authorised WDM scenarios, authority conditions, speed and level crossing rules.",
         "guides": [
           {
-            "title": "Wrong Direction Movements Revision Guide"
+            "title": "Wrong Direction Movements Revision Guide",
+            "file": "assets/guides/wrong-direction-movements-revision-guide.pdf"
           }
         ],
         "quizzes": [],
@@ -308,7 +328,8 @@ const MODULE_GROUPS = [
         "description": "Train accidents, fires on board, derailments and obstructions — driver actions, protection and reporting.",
         "guides": [
           {
-            "title": "Accidents, Fires & Derailments — Revision Guide"
+            "title": "Accidents, Fires & Derailments — Revision Guide",
+            "file": "assets/guides/accidents-fires-derailments-revision-guide.pdf"
           }
         ],
         "quizzes": [],
@@ -320,7 +341,8 @@ const MODULE_GROUPS = [
         "description": "Assisting a failed train, station overruns, stopping short and failing to call — procedures, limits and driver actions.",
         "guides": [
           {
-            "title": "Failed Train & Station Incidents — Revision Guide"
+            "title": "Failed Train & Station Incidents — Revision Guide",
+            "file": "assets/guides/failed-train-station-overruns-revision-guide.pdf"
           }
         ],
         "quizzes": [],
@@ -332,7 +354,8 @@ const MODULE_GROUPS = [
         "description": "Train collisions, divided trains, passenger emergencies, PCA rules and evacuation procedures.",
         "guides": [
           {
-            "title": "Emergencies & Incidents — Revision Guide"
+            "title": "Emergencies & Incidents — Revision Guide",
+            "file": "assets/guides/emergencies-incidents-revision-guide.pdf"
           }
         ],
         "quizzes": [],
@@ -344,10 +367,12 @@ const MODULE_GROUPS = [
         "description": "SPAD procedures, authority to pass, track circuit failures and signalling irregularity rules.",
         "guides": [
           {
-            "title": "Signalling Irregularities & SPAD — Revision Guide 1"
+            "title": "Signalling Irregularities & SPAD — Revision Guide 1",
+            "file": "assets/guides/signalling-irregularities-revision-guide.pdf"
           },
           {
-            "title": "Signalling Irregularities & SPAD — Revision Guide 2"
+            "title": "Signalling Irregularities & SPAD — Revision Guide 2",
+            "file": "assets/guides/passing-signals-at-danger-revision-guide.pdf"
           }
         ],
         "quizzes": [],
@@ -359,10 +384,12 @@ const MODULE_GROUPS = [
         "description": "Line possessions, block working within a possession and Emergency Braking Warning procedures.",
         "guides": [
           {
-            "title": "Possessions & EBW — Revision Guide 1"
+            "title": "Possessions & EBW — Revision Guide 1",
+            "file": "assets/guides/possessions-revision-guide.pdf"
           },
           {
-            "title": "Possessions & EBW — Revision Guide 2"
+            "title": "Possessions & EBW — Revision Guide 2",
+            "file": "assets/guides/ebw-revision-guide.pdf"
           }
         ],
         "quizzes": [],
