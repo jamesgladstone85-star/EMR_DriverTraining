@@ -109,15 +109,15 @@ const MODULE_GROUPS = [
         "description": "AWS operation, fault codes, TPWS OSS/TSS, trains controlled by AWS and defective equipment rules.",
         "guides": [
           {
-            "title": "AWS & TPWS — Revision Guide 1",
+            "title": "AWS Revision Notes",
             "file": "assets/guides/aws-revision-notes.pdf"
           },
           {
-            "title": "AWS & TPWS — Revision Guide 2",
+            "title": "TPWS Revision Notes",
             "file": "assets/guides/tpws-revision-notes.pdf"
           },
           {
-            "title": "AWS & TPWS — Revision Guide 3",
+            "title": "Trains Detained and TCA Revision Guide",
             "file": "assets/guides/trains-detained-tca-revision-guide.pdf"
           }
         ],
