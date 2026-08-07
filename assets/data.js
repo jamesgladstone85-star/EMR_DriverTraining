@@ -130,11 +130,11 @@ const MODULE_GROUPS = [
         "description": "100-question bank, M1/M3 rule book practice and combined quizzes for assessment preparation.",
         "guides": [
           {
-            "title": "Module 2 Practice — Revision Guide 1",
+            "title": "Module 2 100 Question Bank",
             "file": "assets/guides/module-2-100-question-bank.pdf"
           },
           {
-            "title": "Module 2 Practice — Revision Guide 2",
+            "title": "M1/M3 Revision Guide",
             "file": "assets/guides/m1-m3-revision-guide.pdf"
           }
         ],
@@ -182,11 +182,11 @@ const MODULE_GROUPS = [
         "description": "PSR, TSR and ESR — trackside boards, WON, set speeds and the full speeds reference guide.",
         "guides": [
           {
-            "title": "Speed Restrictions — Revision Guide 1",
+            "title": "Speed Restrictions Revision Guide",
             "file": "assets/guides/speed-restrictions-revision-guide.pdf"
           },
           {
-            "title": "Speed Restrictions — Revision Guide 2",
+            "title": "TSR & ESR Revision Guide",
             "file": "assets/guides/tsr-esr-revision-guide.pdf"
           },
           {
@@ -221,11 +221,11 @@ const MODULE_GROUPS = [
         "description": "Token working, pilotman, wrong-direction operations and entering a section without a token.",
         "guides": [
           {
-            "title": "Single Line Working — Revision Guide 1",
+            "title": "Single Line Working Revision Guide",
             "file": "assets/guides/single-line-working-revision-guide.pdf"
           },
           {
-            "title": "Single Line Working — Revision Guide 2",
+            "title": "Single Line Working Module 3 Revision Guide",
             "file": "assets/guides/single-line-working-module3-revision-guide.pdf"
           }
         ],
@@ -367,11 +367,11 @@ const MODULE_GROUPS = [
         "description": "SPAD procedures, authority to pass, track circuit failures and signalling irregularity rules.",
         "guides": [
           {
-            "title": "Signalling Irregularities & SPAD — Revision Guide 1",
+            "title": "Signalling Irregularities Revision Guide",
             "file": "assets/guides/signalling-irregularities-revision-guide.pdf"
           },
           {
-            "title": "Signalling Irregularities & SPAD — Revision Guide 2",
+            "title": "Passing Signals at Danger Revision Guide",
             "file": "assets/guides/passing-signals-at-danger-revision-guide.pdf"
           }
         ],
@@ -384,11 +384,11 @@ const MODULE_GROUPS = [
         "description": "Line possessions, block working within a possession and Emergency Braking Warning procedures.",
         "guides": [
           {
-            "title": "Possessions & EBW — Revision Guide 1",
+            "title": "Possessions Revision Guide",
             "file": "assets/guides/possessions-revision-guide.pdf"
           },
           {
-            "title": "Possessions & EBW — Revision Guide 2",
+            "title": "EBW Revision Guide",
             "file": "assets/guides/ebw-revision-guide.pdf"
           }
         ],
