@@ -91,7 +91,15 @@ const MODULE_GROUPS = [
             "file": "assets/guides/shunting-revision-notes.pdf"
           }
         ],
-        "quizzes": [],
+        "quizzes": [
+          {
+            "title": "Shunting & Train Preparation Assessment (34 Questions)",
+            "quizId": "Shunting & Train Preparation Assessment",
+            "totalSections": 0,
+            "bullets": ["Full 34-question exam covering the whole guide", "Includes select-all-that-apply questions with close distractors", "Pass mark: 85%", "Every attempt saved to your progress history"],
+            "link": "shunting-quiz.html"
+          }
+        ],
         "tools": []
       },
       {
