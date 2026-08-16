@@ -6,6 +6,7 @@
 //   pinnedItems: { [itemKey]: { topicId, topicName, type, title, file?, link? } },
 //   quizAttempts: { [quizId]: [ { date: isoString, score: number, total: number, missedIds: [] }, ... ] },
 //   wrongIds: [ questionId, ... ]  — single persistent "currently wrong" set
+//   quizSessions: { [quizId]: { sectionId, currentIndex, userAnswers, activeQuestions, savedAt } }
 // }
 //
 // wrongIds is the ONE source of truth for what's still queued for retry.
@@ -33,7 +34,7 @@ const API = "/api/progress";
 let _cache = null; // in-memory working copy once loaded
 
 function _emptyState(){
-  return { topics: {}, pinnedItems: {}, quizAttempts: {}, wrongIds: [] };
+  return { topics: {}, pinnedItems: {}, quizAttempts: {}, wrongIds: [], quizSessions: {} };
 }
 
 // One-time migration for progress saved before wrongIds existed: rebuilds
@@ -230,6 +231,35 @@ function recordQuizAttempt(quizId, score, total, identity, missedIds, attemptedI
 
   _saveLocal(c);
   _pushToServer(identity);
+}
+
+// ---- In-progress quiz attempts (save & return) ----
+//
+// One saved session per quizId (the same id used by quizAttempts/pinning),
+// so a person can leave mid-attempt — from any device, since this rides the
+// same local-cache + server-push path as everything else — and pick back up
+// exactly where they left off. Stores the exact shuffled question set that
+// was in play (not just a seed) so resuming never re-shuffles or drifts.
+function saveQuizSession(quizId, session, identity){
+  const c = _ensureCache();
+  c.quizSessions = c.quizSessions || {};
+  c.quizSessions[quizId] = Object.assign({}, session, { savedAt: new Date().toISOString() });
+  _saveLocal(c);
+  _pushToServer(identity);
+}
+
+function getQuizSession(quizId){
+  const c = _ensureCache();
+  return (c.quizSessions || {})[quizId] || null;
+}
+
+function clearQuizSession(quizId, identity){
+  const c = _ensureCache();
+  if(c.quizSessions && c.quizSessions[quizId]){
+    delete c.quizSessions[quizId];
+    _saveLocal(c);
+    _pushToServer(identity);
+  }
 }
 
 function getQuizHistory(quizId){

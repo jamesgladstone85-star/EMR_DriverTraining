@@ -255,7 +255,45 @@ const MODULE_GROUPS = [
             "file": "assets/guides/trains-detained-tca-revision-guide.pdf"
           }
         ],
-        "quizzes": [],
+        "quizzes": [
+          {
+            "title": "AWS & TPWS Combined Quiz",
+            "link": "aws-tpws-combined-quiz.html",
+            "bullets": [
+              "AWS magnets, equipment & fault codes",
+              "TPWS OSS/TSS, panels & signal box view",
+              "Defective equipment rules (TW5)",
+              "Brake demand & override procedure"
+            ]
+          },
+          {
+            "title": "RS522 AWS Quiz (v3)",
+            "link": "rs522-aws-v3-quiz.html",
+            "bullets": [
+              "Magnets, positioning & gap areas",
+              "Indications & acknowledgement timing",
+              "Equipment & driver responsibility"
+            ]
+          },
+          {
+            "title": "RS522 AWS Quiz (v2)",
+            "link": "rs522-aws-v2-quiz.html",
+            "bullets": [
+              "Write-your-own-answer format",
+              "AWS equipment & magnet types",
+              "In-cab operation & response"
+            ]
+          },
+          {
+            "title": "TW5 — Defective Equipment Quiz",
+            "link": "tw5-quiz.html",
+            "bullets": [
+              "All 29 on-train equipment categories",
+              "Defect reporting & competent person rules",
+              "Speed limits & conditions per equipment type"
+            ]
+          }
+        ],
         "tools": [
           {
             "title": "AWS Fault Codes Flashcards",

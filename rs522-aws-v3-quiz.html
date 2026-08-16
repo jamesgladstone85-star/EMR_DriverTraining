@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GSM-R Communications Assessment — Driver Training</title>
+<title>RS522 AWS Quiz (Hard) — Driver Training</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
@@ -139,10 +139,10 @@
 
 <div class="module-header">
   <div class="left">
-    <a class="btn btn-outline-white" href="module.html?id=gsm-r-communications">← Back</a>
+    <a class="btn btn-outline-white" href="module.html?id=aws-tpws">← Back</a>
     <div class="title-block">
       <span class="badge-pill green">QUIZ</span>
-      <h1 id="pageTitle">GSM-R Communications Assessment</h1>
+      <h1 id="pageTitle">RS522 AWS Quiz (Hard)</h1>
     </div>
   </div>
 </div>
@@ -150,25 +150,24 @@
 
 <div class="quiz-wrap" id="app"></div>
 
-<div class="footer-note">All content sourced from the GSM-R Revision Guide (RS523 Issue 2 / GERT8000-TW5 Issue 14)</div>
+<div class="footer-note">All questions from RS522 Issue 3 (AWS section) only</div>
 
 <script src="assets/team.js"></script>
 <script src="assets/identity.js"></script>
 <script src="assets/progress.js"></script>
-<script src="assets/gsm-r-quiz-data.js"></script>
+<script src="assets/rs522-v3-quiz-data.js"></script>
 <script src="assets/quiz-engine.js"></script>
 <script>
   QuizEngine.init({
     appEl: document.getElementById("app"),
-    title: "GSM-R Communications Assessment",
-    introHtml: `<p>${GSMR_QUIZ_QUESTIONS.length} questions covering the full GSM-R Revision Guide
-        (RS523 Issue 2 / GERT8000-TW5 Issue 14) — call types, the driver's control panel,
-        registration and deregistration, the Railway Emergency Group Call (REC), urgent calls,
-        broadcast messages, DSD and PA calls, short dial codes, and defective radio / TW5 rules.
+    title: "RS522 AWS Quiz (Hard)",
+    introHtml: `<p>${RS522V3_QUIZ_QUESTIONS.length} tough, close-distractor questions drawn entirely from the
+        AWS section of RS522 Issue 3 — magnet types and positioning, gap areas, indications and acknowledgement
+        timing, cancelling indicators, in-cab equipment and isolation states, and driver responsibility.
         Pass mark is 85%. Every attempt is saved to your progress history.</p>`,
-    questions: GSMR_QUIZ_QUESTIONS,
-    sections: GSMR_QUIZ_SECTIONS,
-    linkedTopicId: "gsm-r-communications",
+    questions: RS522V3_QUIZ_QUESTIONS,
+    sections: RS522V3_QUIZ_SECTIONS,
+    linkedTopicId: "aws-tpws",
     passPct: 0.85,
     modularCredit: false,
     randomExamSize: 15,

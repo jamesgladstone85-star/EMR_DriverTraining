@@ -203,3 +203,73 @@ a{color:inherit;}
 @media (prefers-reduced-motion: reduce){
   *{transition:none !important;}
 }
+
+/* ---- Quiz engine: written-answer question type ---- */
+.written-input{
+  width:100%;
+  min-height:110px;
+  background:var(--bg-panel);
+  border:1px solid var(--border-hair-strong);
+  border-radius:10px;
+  padding:13px 16px;
+  color:var(--text-hi);
+  font-family:var(--ui);
+  font-size:13.5px;
+  line-height:1.6;
+  resize:vertical;
+  box-sizing:border-box;
+}
+.written-input:focus{outline:none;border-color:var(--accent-purple);}
+.written-answer-box{
+  background:var(--bg-panel);
+  border:1px solid var(--border-hair);
+  border-radius:10px;
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.written-user-answer, .written-model-answer{
+  font-size:13px;
+  color:var(--text-mid);
+  line-height:1.6;
+}
+.written-user-answer b, .written-model-answer b{
+  display:block;
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--text-dim);
+  margin-bottom:4px;
+}
+.written-model-answer{color:var(--text-hi);}
+.written-model-answer b{color:var(--accent-green);}
+.self-mark-buttons{display:flex;gap:10px;flex-wrap:wrap;}
+.grade-result{
+  font-family:var(--mono);
+  font-size:12px;
+  padding:10px 14px;
+  border-radius:8px;
+  background:rgba(255,255,255,0.03);
+}
+.grade-result.correct{color:var(--accent-green);border:1px solid rgba(62,214,160,0.3);}
+.grade-result.incorrect{color:var(--accent-red);border:1px solid rgba(255,93,143,0.3);}
+
+/* ---- Quiz engine: save & resume banner ---- */
+.resume-banner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+  background:rgba(199,125,255,0.08);
+  border:1px solid rgba(199,125,255,0.3);
+  border-radius:var(--radius-md);
+  padding:14px 18px;
+  margin-bottom:16px;
+  font-size:13px;
+  color:var(--text-hi);
+}
+.resume-banner b{color:var(--accent-purple);}
+.resume-banner-actions{display:flex;gap:8px;flex-shrink:0;}

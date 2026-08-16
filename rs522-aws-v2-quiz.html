@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GSM-R Communications Assessment — Driver Training</title>
+<title>RS522 AWS Quiz — Driver Training</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
@@ -139,10 +139,10 @@
 
 <div class="module-header">
   <div class="left">
-    <a class="btn btn-outline-white" href="module.html?id=gsm-r-communications">← Back</a>
+    <a class="btn btn-outline-white" href="module.html?id=aws-tpws">← Back</a>
     <div class="title-block">
       <span class="badge-pill green">QUIZ</span>
-      <h1 id="pageTitle">GSM-R Communications Assessment</h1>
+      <h1 id="pageTitle">RS522 AWS Quiz</h1>
     </div>
   </div>
 </div>
@@ -150,28 +150,26 @@
 
 <div class="quiz-wrap" id="app"></div>
 
-<div class="footer-note">All content sourced from the GSM-R Revision Guide (RS523 Issue 2 / GERT8000-TW5 Issue 14)</div>
+<div class="footer-note">All content sourced from RS522 Issue 3 (AWS and TPWS Handbook, December 2015)</div>
 
 <script src="assets/team.js"></script>
 <script src="assets/identity.js"></script>
 <script src="assets/progress.js"></script>
-<script src="assets/gsm-r-quiz-data.js"></script>
+<script src="assets/rs522-v2-quiz-data.js"></script>
 <script src="assets/quiz-engine.js"></script>
 <script>
   QuizEngine.init({
     appEl: document.getElementById("app"),
-    title: "GSM-R Communications Assessment",
-    introHtml: `<p>${GSMR_QUIZ_QUESTIONS.length} questions covering the full GSM-R Revision Guide
-        (RS523 Issue 2 / GERT8000-TW5 Issue 14) — call types, the driver's control panel,
-        registration and deregistration, the Railway Emergency Group Call (REC), urgent calls,
-        broadcast messages, DSD and PA calls, short dial codes, and defective radio / TW5 rules.
-        Pass mark is 85%. Every attempt is saved to your progress history.</p>`,
-    questions: GSMR_QUIZ_QUESTIONS,
-    sections: GSMR_QUIZ_SECTIONS,
-    linkedTopicId: "gsm-r-communications",
-    passPct: 0.85,
+    title: "RS522 AWS Quiz",
+    introHtml: `<p>${RS522V2_QUIZ_QUESTIONS.length} questions, straight from RS522 Issue 3. Write your own
+        answer, reveal the model answer, then mark yourself honestly — there's real value in the self-assessment,
+        so take it seriously. Pass mark is 75%. Every attempt is saved to your progress history.</p>`,
+    questions: RS522V2_QUIZ_QUESTIONS,
+    sections: RS522V2_QUIZ_SECTIONS,
+    linkedTopicId: "aws-tpws",
+    passPct: 0.75,
     modularCredit: false,
-    randomExamSize: 15,
+    randomExamSize: 10,
   });
 </script>
 

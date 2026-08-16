@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GSM-R Communications Assessment — Driver Training</title>
+<title>AWS & TPWS Combined Assessment — Driver Training</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
@@ -139,10 +139,10 @@
 
 <div class="module-header">
   <div class="left">
-    <a class="btn btn-outline-white" href="module.html?id=gsm-r-communications">← Back</a>
+    <a class="btn btn-outline-white" href="module.html?id=aws-tpws">← Back</a>
     <div class="title-block">
       <span class="badge-pill green">QUIZ</span>
-      <h1 id="pageTitle">GSM-R Communications Assessment</h1>
+      <h1 id="pageTitle">AWS & TPWS Combined Assessment</h1>
     </div>
   </div>
 </div>
@@ -150,28 +150,29 @@
 
 <div class="quiz-wrap" id="app"></div>
 
-<div class="footer-note">All content sourced from the GSM-R Revision Guide (RS523 Issue 2 / GERT8000-TW5 Issue 14)</div>
+<div class="footer-note">All content sourced from the AWS &amp; TPWS revision notes, RS522 Issue 3, and GERT8000-TW5 Issue 14</div>
 
 <script src="assets/team.js"></script>
 <script src="assets/identity.js"></script>
 <script src="assets/progress.js"></script>
-<script src="assets/gsm-r-quiz-data.js"></script>
+<script src="assets/aws-tpws-combined-quiz-data.js"></script>
 <script src="assets/quiz-engine.js"></script>
 <script>
   QuizEngine.init({
     appEl: document.getElementById("app"),
-    title: "GSM-R Communications Assessment",
-    introHtml: `<p>${GSMR_QUIZ_QUESTIONS.length} questions covering the full GSM-R Revision Guide
-        (RS523 Issue 2 / GERT8000-TW5 Issue 14) — call types, the driver's control panel,
-        registration and deregistration, the Railway Emergency Group Call (REC), urgent calls,
-        broadcast messages, DSD and PA calls, short dial codes, and defective radio / TW5 rules.
-        Pass mark is 85%. Every attempt is saved to your progress history.</p>`,
-    questions: GSMR_QUIZ_QUESTIONS,
-    sections: GSMR_QUIZ_SECTIONS,
-    linkedTopicId: "gsm-r-communications",
-    passPct: 0.85,
+    title: "AWS & TPWS Combined Assessment",
+    introHtml: `<p>${AWSTPWS_QUIZ_QUESTIONS.length} questions covering AWS and TPWS together in full —
+        fundamentals, in-cab equipment and indications, the fault code table, TPWS track/train/signal box
+        equipment, defective/isolated equipment rules from TW5, the brake demand and override procedure, and
+        applied scenarios. A mix of multiple choice, multiple-select and written questions — written answers
+        are auto-graded with some leniency for spelling and phrasing. Pass mark is 80%. Every attempt is saved
+        to your progress history.</p>`,
+    questions: AWSTPWS_QUIZ_QUESTIONS,
+    sections: AWSTPWS_QUIZ_SECTIONS,
+    linkedTopicId: "aws-tpws",
+    passPct: 0.8,
     modularCredit: false,
-    randomExamSize: 15,
+    randomExamSize: 25,
   });
 </script>
 
