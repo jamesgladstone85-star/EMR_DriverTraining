@@ -60,7 +60,15 @@ const MODULE_GROUPS = [
             "file": "assets/guides/gsm-r-revision-notes.pdf"
           }
         ],
-        "quizzes": [],
+        "quizzes": [
+          {
+            "title": "GSM-R Communications Assessment (25 Questions)",
+            "quizId": "GSM-R Communications Assessment",
+            "totalSections": 0,
+            "bullets": ["Full 25-question exam covering the whole guide", "Includes select-all-that-apply questions with close distractors", "Pass mark: 85%", "Every attempt saved to your progress history"],
+            "link": "gsm-r-quiz.html"
+          }
+        ],
         "tools": []
       }
     ]
