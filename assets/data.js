@@ -29,6 +29,21 @@ const MODULE_GROUPS = [
             "title": "Personal Track Safety (PTS) — Revision Notes",
             "subtitle": "PTS 675-000 V4",
             "file": "assets/guides/pts-revision-notes.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — General Safety Responsibilities & Personal Track Safety",
+            "subtitle": "GERT8000-G1 Issue 10",
+            "file": "assets/guides/rulebook/gert8000-g1-iss-10.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [
@@ -36,14 +51,24 @@ const MODULE_GROUPS = [
             "title": "PTS Master Assessment (80 Questions)",
             "quizId": "PTS Master Assessment",
             "totalSections": 8,
-            "bullets": ["Full 80-question exam or pick a single module (10 questions each)", "Pass mark: 90%", "Every attempt saved to your progress history"],
+            "bullets": [
+              "Full 80-question exam or pick a single module (10 questions each)",
+              "Pass mark: 90%",
+              "Every attempt saved to your progress history"
+            ],
             "link": "pts-quiz.html"
           },
           {
             "title": "Booking On, Rostering & Publications Assessment (60 Questions)",
             "quizId": "Booking On, Rostering & Publications Assessment",
             "totalSections": 7,
-            "bullets": ["Full 60-question exam or pick a single module", "Includes select-all-that-apply questions with close distractors", "Deep-dive modules on the Rule Book and Sectional Appendix", "Pass mark: 85%", "Every attempt saved to your progress history"],
+            "bullets": [
+              "Full 60-question exam or pick a single module",
+              "Includes select-all-that-apply questions with close distractors",
+              "Deep-dive modules on the Rule Book and Sectional Appendix",
+              "Pass mark: 85%",
+              "Every attempt saved to your progress history"
+            ],
             "link": "booking-rostering-quiz.html"
           }
         ],
@@ -58,6 +83,21 @@ const MODULE_GROUPS = [
             "title": "GSM-R — Revision Guide",
             "subtitle": "RS523 Issue 2 / GERT8000-TW5 Issue 14",
             "file": "assets/guides/gsm-r-revision-notes.pdf"
+          },
+          {
+            "title": "Rule Book — GSM-R Handbook",
+            "subtitle": "RS523 Issue 2",
+            "file": "assets/guides/rulebook/rs523-gsm-r-iss-2.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
           }
         ],
         "quizzes": [
@@ -65,7 +105,12 @@ const MODULE_GROUPS = [
             "title": "GSM-R Communications Assessment (25 Questions)",
             "quizId": "GSM-R Communications Assessment",
             "totalSections": 0,
-            "bullets": ["Full 25-question exam covering the whole guide", "Includes select-all-that-apply questions with close distractors", "Pass mark: 85%", "Every attempt saved to your progress history"],
+            "bullets": [
+              "Full 25-question exam covering the whole guide",
+              "Includes select-all-that-apply questions with close distractors",
+              "Pass mark: 85%",
+              "Every attempt saved to your progress history"
+            ],
             "link": "gsm-r-quiz.html"
           }
         ],
@@ -89,6 +134,21 @@ const MODULE_GROUPS = [
             "title": "Shunting — Revision Guide",
             "subtitle": "GERT8000-SS2 Issue 7",
             "file": "assets/guides/shunting-revision-notes.pdf"
+          },
+          {
+            "title": "Rule Book — Shunting",
+            "subtitle": "GERT8000-SS2 Issue 7",
+            "file": "assets/guides/rulebook/gert8000-ss2-iss-7.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [
@@ -96,7 +156,12 @@ const MODULE_GROUPS = [
             "title": "Shunting & Train Preparation Assessment (34 Questions)",
             "quizId": "Shunting & Train Preparation Assessment",
             "totalSections": 0,
-            "bullets": ["Full 34-question exam covering the whole guide", "Includes select-all-that-apply questions with close distractors", "Pass mark: 85%", "Every attempt saved to your progress history"],
+            "bullets": [
+              "Full 34-question exam covering the whole guide",
+              "Includes select-all-that-apply questions with close distractors",
+              "Pass mark: 85%",
+              "Every attempt saved to your progress history"
+            ],
             "link": "shunting-quiz.html"
           }
         ],
@@ -114,6 +179,26 @@ const MODULE_GROUPS = [
           {
             "title": "Semaphore Signals Revision Notes",
             "file": "assets/guides/semaphore-signals-revision-notes.pdf"
+          },
+          {
+            "title": "Rule Book — Signals, Handsignals, Indicators and Signs",
+            "subtitle": "RS521 Issue 9",
+            "file": "assets/guides/rulebook/rs521-iss-9.pdf"
+          },
+          {
+            "title": "Rule Book — Observing & Obeying Signalling Indications, Train Warning Systems",
+            "subtitle": "GERT8000-S7 Issue 7",
+            "file": "assets/guides/rulebook/gert8000-s7-iss-7.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [
@@ -121,14 +206,24 @@ const MODULE_GROUPS = [
             "title": "Colour Light Signals Assessment (40 Questions)",
             "quizId": "Colour Light Signals Assessment",
             "totalSections": 0,
-            "bullets": ["Full 40-question exam covering the whole guide", "Includes select-all-that-apply questions with close distractors", "Pass mark: 85%", "Every attempt saved to your progress history"],
+            "bullets": [
+              "Full 40-question exam covering the whole guide",
+              "Includes select-all-that-apply questions with close distractors",
+              "Pass mark: 85%",
+              "Every attempt saved to your progress history"
+            ],
             "link": "colourlight-quiz.html"
           },
           {
             "title": "Semaphore Signals Assessment (40 Questions)",
             "quizId": "Semaphore Signals Assessment",
             "totalSections": 0,
-            "bullets": ["Full 40-question exam covering the whole guide", "Includes select-all-that-apply questions with close distractors", "Pass mark: 85%", "Every attempt saved to your progress history"],
+            "bullets": [
+              "Full 40-question exam covering the whole guide",
+              "Includes select-all-that-apply questions with close distractors",
+              "Pass mark: 85%",
+              "Every attempt saved to your progress history"
+            ],
             "link": "semaphore-quiz.html"
           }
         ],
@@ -150,6 +245,31 @@ const MODULE_GROUPS = [
           {
             "title": "Trains Detained and TCA Revision Guide",
             "file": "assets/guides/trains-detained-tca-revision-guide.pdf"
+          },
+          {
+            "title": "Rule Book — AWS and TPWS Handbook",
+            "subtitle": "RS522 Issue 3",
+            "file": "assets/guides/rulebook/rs522-iss-3.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
+          },
+          {
+            "title": "Rule Book — Trains or Shunting Movements Detained on Running Lines",
+            "subtitle": "GERT8000-S4 Issue 5",
+            "file": "assets/guides/rulebook/gert8000-s4-iss-5.pdf"
+          },
+          {
+            "title": "Rule Book — Observing & Obeying Signalling Indications, Train Warning Systems",
+            "subtitle": "GERT8000-S7 Issue 7",
+            "file": "assets/guides/rulebook/gert8000-s7-iss-7.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
           }
         ],
         "quizzes": [],
@@ -176,6 +296,16 @@ const MODULE_GROUPS = [
           {
             "title": "M1/M3 Revision Guide",
             "file": "assets/guides/m1-m3-revision-guide.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -198,6 +328,21 @@ const MODULE_GROUPS = [
           {
             "title": "Level Crossings — Revision Guide",
             "file": "assets/guides/level-crossings-revision-guide.pdf"
+          },
+          {
+            "title": "Rule Book — Level Crossings, Drivers' Instructions",
+            "subtitle": "GERT8000-TW8 Issue 10",
+            "file": "assets/guides/rulebook/gert8000-tw8-iss-10.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -211,6 +356,21 @@ const MODULE_GROUPS = [
           {
             "title": "Line Side Signage — Revision Guide",
             "file": "assets/guides/line-side-signage-revision-guide.pdf"
+          },
+          {
+            "title": "Rule Book — Signals, Handsignals, Indicators and Signs",
+            "subtitle": "RS521 Issue 9",
+            "file": "assets/guides/rulebook/rs521-iss-9.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -237,6 +397,21 @@ const MODULE_GROUPS = [
           },
           {
             "title": "Speed Restrictions — Revision Guide 5"
+          },
+          {
+            "title": "Rule Book — Speeds",
+            "subtitle": "GERT8000-SP Issue 7",
+            "file": "assets/guides/rulebook/gert8000-sp-iss-7.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -250,6 +425,16 @@ const MODULE_GROUPS = [
           {
             "title": "Permissive Working — Revision Guide",
             "file": "assets/guides/permissive-working-revision-guide.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -267,6 +452,26 @@ const MODULE_GROUPS = [
           {
             "title": "Single Line Working Module 3 Revision Guide",
             "file": "assets/guides/single-line-working-module3-revision-guide.pdf"
+          },
+          {
+            "title": "Rule Book — Single Line Working",
+            "subtitle": "GERT8000-P1 Issue 9",
+            "file": "assets/guides/rulebook/gert8000-p1-iss-9.pdf"
+          },
+          {
+            "title": "Rule Book — Working Single & Bi-Directional Lines by Pilot",
+            "subtitle": "GERT8000-P2 Issue 8",
+            "file": "assets/guides/rulebook/gert8000-p2-iss-8.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -280,6 +485,21 @@ const MODULE_GROUPS = [
           {
             "title": "Professional Driving & Train Dispatch — Revision Guide",
             "file": "assets/guides/professional-driving-revision-guide.pdf"
+          },
+          {
+            "title": "Rule Book — Station Duties and Train Dispatch",
+            "subtitle": "GERT8000-SS1 Issue 10",
+            "file": "assets/guides/rulebook/gert8000-ss1-iss-10.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -293,6 +513,16 @@ const MODULE_GROUPS = [
           {
             "title": "Planned & Unplanned Routes — Revision Guide",
             "file": "assets/guides/planned-unplanned-routes-revision-guide.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -305,6 +535,26 @@ const MODULE_GROUPS = [
         "guides": [
           {
             "title": "AC Electrified Lines — Revision Guide"
+          },
+          {
+            "title": "Rule Book — AC Electrified Lines",
+            "subtitle": "GERT8000-AC Issue 10",
+            "file": "assets/guides/rulebook/gert8000-ac-iss-10.pdf"
+          },
+          {
+            "title": "Rule Book — DC Electrified Lines",
+            "subtitle": "GERT8000-DC Issue 8",
+            "file": "assets/guides/rulebook/gert8000-dc-iss-8.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -318,6 +568,16 @@ const MODULE_GROUPS = [
           {
             "title": "Hot Axle Boxes & Rotational Tests — Revision Guide",
             "file": "assets/guides/hot-axle-boxes-rotational-tests-revision-guide.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -335,6 +595,16 @@ const MODULE_GROUPS = [
           {
             "title": "Lineside Fires Quick Reference",
             "file": "assets/guides/lineside-fires-quick-reference.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -357,6 +627,21 @@ const MODULE_GROUPS = [
           {
             "title": "Wrong Direction Movements Revision Guide",
             "file": "assets/guides/wrong-direction-movements-revision-guide.pdf"
+          },
+          {
+            "title": "Rule Book — Wrong-Direction Movements",
+            "subtitle": "GERT8000-TW7 Issue 10",
+            "file": "assets/guides/rulebook/gert8000-tw7-iss-10.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -370,6 +655,21 @@ const MODULE_GROUPS = [
           {
             "title": "Accidents, Fires & Derailments — Revision Guide",
             "file": "assets/guides/accidents-fires-derailments-revision-guide.pdf"
+          },
+          {
+            "title": "Rule Book — Dealing with a Train Accident or Train Evacuation",
+            "subtitle": "GERT8000-M1 Issue 9",
+            "file": "assets/guides/rulebook/gert8000-m1-iss-9.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -383,6 +683,21 @@ const MODULE_GROUPS = [
           {
             "title": "Failed Train & Station Incidents — Revision Guide",
             "file": "assets/guides/failed-train-station-overruns-revision-guide.pdf"
+          },
+          {
+            "title": "Rule Book — Train Stopped by Train Failure",
+            "subtitle": "GERT8000-M2 Issue 9",
+            "file": "assets/guides/rulebook/gert8000-m2-iss-9.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -396,6 +711,21 @@ const MODULE_GROUPS = [
           {
             "title": "Emergencies & Incidents — Revision Guide",
             "file": "assets/guides/emergencies-incidents-revision-guide.pdf"
+          },
+          {
+            "title": "Rule Book — Managing Incidents, Floods and Snow",
+            "subtitle": "GERT8000-M3 Issue 5",
+            "file": "assets/guides/rulebook/gert8000-m3-iss-5.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -413,6 +743,26 @@ const MODULE_GROUPS = [
           {
             "title": "Passing Signals at Danger Revision Guide",
             "file": "assets/guides/passing-signals-at-danger-revision-guide.pdf"
+          },
+          {
+            "title": "Rule Book — Passing a Signal at Danger or an EoA Without Authority",
+            "subtitle": "GERT8000-S5 Issue 13",
+            "file": "assets/guides/rulebook/gert8000-s5-iss-13.pdf"
+          },
+          {
+            "title": "Rule Book — Proceed-on-Sight Authority (PoSA)",
+            "subtitle": "GERT8000-PoSA Issue 3",
+            "file": "assets/guides/rulebook/gert8000-posa-iss-3.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -430,6 +780,31 @@ const MODULE_GROUPS = [
           {
             "title": "EBW Revision Guide",
             "file": "assets/guides/ebw-revision-guide.pdf"
+          },
+          {
+            "title": "Rule Book — Possession of a Running Line for Engineering Work",
+            "subtitle": "GERT8000-T3 Issue 13",
+            "file": "assets/guides/rulebook/gert8000-t3-iss-13.pdf"
+          },
+          {
+            "title": "Rule Book — Possession of a Running Line for Engineering Work (ERTMS)",
+            "subtitle": "GERT8000-T3 ERTMS Issue 4.1",
+            "file": "assets/guides/rulebook/gert8000-t3-ertms-iss-4-1.pdf"
+          },
+          {
+            "title": "Rule Book — ERTMS Handbook",
+            "subtitle": "RS525 Issue 1",
+            "file": "assets/guides/rulebook/rs525-iss-1.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
           }
         ],
         "quizzes": [],
@@ -457,6 +832,229 @@ const MODULE_GROUPS = [
           },
           {
             "title": "Post-Midterm Revision Guide — Module 4"
+          },
+          {
+            "title": "Rule Book — Glossary of Railway Terminology",
+            "subtitle": "GERT8000-Gloss Issue 7",
+            "file": "assets/guides/rulebook/gert8000-gloss-iss-7.pdf"
+          },
+          {
+            "title": "Rule Book — Preparation and Movement of Trains",
+            "subtitle": "GERT8000-TW1 Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "Rule Book — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "GERT8000-TW5 Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
+          }
+        ],
+        "quizzes": [],
+        "tools": []
+      }
+    ]
+  },
+  {
+    "id": "rule-book-library",
+    "label": "Rule Book Library — Official RSSB Reference",
+    "shortBadge": "RULE BOOK",
+    "subtitle": "The full official GERT8000 Rule Book modules and RSSB handbooks, for reference alongside every topic above",
+    "color": "amber",
+    "topics": [
+      {
+        "id": "rulebook-rs-handbooks",
+        "name": "RS Handbooks",
+        "description": "The core RSSB handbooks referenced throughout the Rule Book — signals, AWS/TPWS, GSM-R, dangerous goods and ERTMS.",
+        "guides": [
+          {
+            "title": "RS521 — Signals, Handsignals, Indicators and Signs",
+            "subtitle": "Issue 9",
+            "file": "assets/guides/rulebook/rs521-iss-9.pdf"
+          },
+          {
+            "title": "RS522 — AWS and TPWS Handbook",
+            "subtitle": "Issue 3",
+            "file": "assets/guides/rulebook/rs522-iss-3.pdf"
+          },
+          {
+            "title": "RS523 — GSM-R Handbook",
+            "subtitle": "Issue 2",
+            "file": "assets/guides/rulebook/rs523-gsm-r-iss-2.pdf"
+          },
+          {
+            "title": "RS524 — List of Dangerous Goods and their UN Numbers",
+            "subtitle": "Issue 1.2",
+            "file": "assets/guides/rulebook/rs524-iss-1-2.pdf"
+          },
+          {
+            "title": "RS525 — ERTMS Handbook",
+            "subtitle": "Issue 1",
+            "file": "assets/guides/rulebook/rs525-iss-1.pdf"
+          }
+        ],
+        "quizzes": [],
+        "tools": []
+      },
+      {
+        "id": "rulebook-general-safety",
+        "name": "General & Safety",
+        "description": "Foundational modules covering safety responsibilities, personal track safety and Rule Book terminology.",
+        "guides": [
+          {
+            "title": "G1 — General Safety Responsibilities and Personal Track Safety",
+            "subtitle": "Issue 10",
+            "file": "assets/guides/rulebook/gert8000-g1-iss-10.pdf"
+          },
+          {
+            "title": "Gloss — Glossary of Railway Terminology",
+            "subtitle": "Issue 7",
+            "file": "assets/guides/rulebook/gert8000-gloss-iss-7.pdf"
+          }
+        ],
+        "quizzes": [],
+        "tools": []
+      },
+      {
+        "id": "rulebook-preparation-movement",
+        "name": "Preparation, Movement & Equipment",
+        "description": "Preparing and moving trains, defective on-train equipment, wrong-direction movements and level crossings.",
+        "guides": [
+          {
+            "title": "TW1 — Preparation and Movement of Trains",
+            "subtitle": "Issue 22",
+            "file": "assets/guides/rulebook/gert8000-tw1-iss-22.pdf"
+          },
+          {
+            "title": "TW4 — Preparation and Working of Freight Trains",
+            "subtitle": "Issue 2",
+            "file": "assets/guides/rulebook/gert8000-tw4-iss-2.pdf"
+          },
+          {
+            "title": "TW5 — Defective or Isolated Vehicles & On-Train Equipment",
+            "subtitle": "Issue 14",
+            "file": "assets/guides/rulebook/gert8000-tw5-iss-14.pdf"
+          },
+          {
+            "title": "TW7 — Wrong-Direction Movements",
+            "subtitle": "Issue 10",
+            "file": "assets/guides/rulebook/gert8000-tw7-iss-10.pdf"
+          },
+          {
+            "title": "TW8 — Level Crossings, Drivers' Instructions",
+            "subtitle": "Issue 10",
+            "file": "assets/guides/rulebook/gert8000-tw8-iss-10.pdf"
+          }
+        ],
+        "quizzes": [],
+        "tools": []
+      },
+      {
+        "id": "rulebook-signalling-speed",
+        "name": "Signalling & Speed",
+        "description": "Trains detained on running lines, SPADs, signalling indications, train warning systems and speeds.",
+        "guides": [
+          {
+            "title": "S4 — Trains or Shunting Movements Detained on Running Lines",
+            "subtitle": "Issue 5",
+            "file": "assets/guides/rulebook/gert8000-s4-iss-5.pdf"
+          },
+          {
+            "title": "S5 — Passing a Signal at Danger or an EoA Without Authority",
+            "subtitle": "Issue 13",
+            "file": "assets/guides/rulebook/gert8000-s5-iss-13.pdf"
+          },
+          {
+            "title": "S7 — Observing & Obeying Signalling Indications, Train Warning Systems",
+            "subtitle": "Issue 7",
+            "file": "assets/guides/rulebook/gert8000-s7-iss-7.pdf"
+          },
+          {
+            "title": "SP — Speeds",
+            "subtitle": "Issue 7",
+            "file": "assets/guides/rulebook/gert8000-sp-iss-7.pdf"
+          }
+        ],
+        "quizzes": [],
+        "tools": []
+      },
+      {
+        "id": "rulebook-special-working-incidents",
+        "name": "Special Working & Incidents",
+        "description": "Accidents, failures, incidents, on-track machines, single line and pilot working, dispatch, shunting and possessions.",
+        "guides": [
+          {
+            "title": "M1 — Dealing with a Train Accident or Train Evacuation",
+            "subtitle": "Issue 9",
+            "file": "assets/guides/rulebook/gert8000-m1-iss-9.pdf"
+          },
+          {
+            "title": "M2 — Train Stopped by Train Failure",
+            "subtitle": "Issue 9",
+            "file": "assets/guides/rulebook/gert8000-m2-iss-9.pdf"
+          },
+          {
+            "title": "M3 — Managing Incidents, Floods and Snow",
+            "subtitle": "Issue 5",
+            "file": "assets/guides/rulebook/gert8000-m3-iss-5.pdf"
+          },
+          {
+            "title": "OTM — Working of On-Track Machines",
+            "subtitle": "Issue 12",
+            "file": "assets/guides/rulebook/gert8000-otm-iss-12.pdf"
+          },
+          {
+            "title": "P1 — Single Line Working",
+            "subtitle": "Issue 9",
+            "file": "assets/guides/rulebook/gert8000-p1-iss-9.pdf"
+          },
+          {
+            "title": "P2 — Working Single & Bi-Directional Lines by Pilot",
+            "subtitle": "Issue 8",
+            "file": "assets/guides/rulebook/gert8000-p2-iss-8.pdf"
+          },
+          {
+            "title": "PoSA — Proceed-on-Sight Authority",
+            "subtitle": "Issue 3",
+            "file": "assets/guides/rulebook/gert8000-posa-iss-3.pdf"
+          },
+          {
+            "title": "SS1 — Station Duties and Train Dispatch",
+            "subtitle": "Issue 10",
+            "file": "assets/guides/rulebook/gert8000-ss1-iss-10.pdf"
+          },
+          {
+            "title": "SS2 — Shunting",
+            "subtitle": "Issue 7",
+            "file": "assets/guides/rulebook/gert8000-ss2-iss-7.pdf"
+          },
+          {
+            "title": "T3 — Possession of a Running Line for Engineering Work",
+            "subtitle": "Issue 13",
+            "file": "assets/guides/rulebook/gert8000-t3-iss-13.pdf"
+          },
+          {
+            "title": "T3 ERTMS — Possession of a Running Line for Engineering Work (ERTMS)",
+            "subtitle": "Issue 4.1",
+            "file": "assets/guides/rulebook/gert8000-t3-ertms-iss-4-1.pdf"
+          }
+        ],
+        "quizzes": [],
+        "tools": []
+      },
+      {
+        "id": "rulebook-electrification",
+        "name": "Electrification",
+        "description": "AC and DC electrified line procedures.",
+        "guides": [
+          {
+            "title": "AC — AC Electrified Lines",
+            "subtitle": "Issue 10",
+            "file": "assets/guides/rulebook/gert8000-ac-iss-10.pdf"
+          },
+          {
+            "title": "DC — DC Electrified Lines",
+            "subtitle": "Issue 8",
+            "file": "assets/guides/rulebook/gert8000-dc-iss-8.pdf"
           }
         ],
         "quizzes": [],
