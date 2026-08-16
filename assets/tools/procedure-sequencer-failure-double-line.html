@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procedure Sequencer — Failure on a Double Line</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="tools-common.css">
+</head>
+<body class="tools-page">
+
+<div class="ps-header">
+  <h1>Procedure Sequencer</h1>
+  <p>Drag the steps (or use the arrows) into the correct rule book order, then check.</p>
+  <a href="procedure-sequencer.html">← Back to quiz index</a>
+</div>
+
+<div class="ps-body">
+  <div class="ps-instructions">
+    <p class="headline">Put these actions back into the correct order, for working outside the train near the adjacent line.</p>
+    <p class="subline">Drag steps to reorder, or use the ▲▼ arrows.</p>
+  </div>
+
+  <div id="stepList"></div>
+
+  <button class="check-order-btn" id="checkOrderBtn">Check order</button>
+  <div class="ps-result" id="psResult"></div>
+</div>
+
+<script src="procedure-sequencer-engine.js"></script>
+<script>
+  // Source: GERT8000-TW1 Issue 22, §49 "Working on the outside of a train".
+  initSequencer({
+    storageKey: "ps_failure-double-line",
+    steps: [
+      { id: 1, text: "Ask the signaller to stop trains on the lines concerned" },
+      { id: 2, text: "Reach a clear, confirmed understanding of which lines are blocked" },
+      { id: 3, text: "Wait for an authority number from the signaller" },
+      { id: 4, text: "Only then treat the adjacent line as blocked and begin work" }
+    ]
+  });
+</script>
+
+</body>
+</html>

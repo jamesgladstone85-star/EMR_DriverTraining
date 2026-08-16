@@ -153,7 +153,16 @@ const MODULE_GROUPS = [
           }
         ],
         "quizzes": [],
-        "tools": []
+        "tools": [
+          {
+            "title": "AWS Fault Codes Flashcards",
+            "link": "assets/tools/aws-fault-codes-flashcards.html"
+          },
+          {
+            "title": "Procedure Sequencer",
+            "link": "assets/tools/procedure-sequencer.html"
+          }
+        ]
       },
       {
         "id": "module-2-practice-assessment-prep",

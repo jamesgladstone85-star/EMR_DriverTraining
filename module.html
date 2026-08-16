@@ -216,11 +216,14 @@
       mod.tools.forEach(t=>{
         const card = document.createElement("div");
         card.className = "content-card tool";
-        card.appendChild(pinButton("tool", t.title, {}));
+        card.appendChild(pinButton("tool", t.title, { link: t.link }));
+        const toolLinkAttrs = t.link
+          ? `href="${t.link}"`
+          : `href="#" onclick="toast('Opening ${t.title}…');return false;"`;
         card.insertAdjacentHTML("beforeend", `
           <span class="card-icon">⚙️</span>
           <h3 class="card-title">${t.title}</h3>
-          <a class="card-action tool-action" href="#" onclick="toast('Opening ${t.title}…');return false;">Open →</a>
+          <a class="card-action tool-action" ${toolLinkAttrs}>Open →</a>
         `);
         toolsGrid.appendChild(card);
       });

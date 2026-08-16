@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procedure Sequencer — Registering on GSM-R</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="tools-common.css">
+</head>
+<body class="tools-page">
+
+<div class="ps-header">
+  <h1>Procedure Sequencer</h1>
+  <p>Drag the steps (or use the arrows) into the correct rule book order, then check.</p>
+  <a href="procedure-sequencer.html">← Back to quiz index</a>
+</div>
+
+<div class="ps-body">
+  <div class="ps-instructions">
+    <p class="headline">Put these actions back into the correct order to register before a journey.</p>
+    <p class="subline">Drag steps to reorder, or use the ▲▼ arrows.</p>
+  </div>
+
+  <div id="stepList"></div>
+
+  <button class="check-order-btn" id="checkOrderBtn">Check order</button>
+  <div class="ps-result" id="psResult"></div>
+</div>
+
+<script src="procedure-sequencer-engine.js"></script>
+<script>
+  // Source: RS523 GSM-R Handbook Issue 2, §4.2 "Pending registration" (the
+  // only explicitly ordered registration sequence in the handbook) plus
+  // §2.1's description of the Registration/turn-on button.
+  initSequencer({
+    storageKey: "ps_gsmr-registration",
+    steps: [
+      { id: 1, text: "Press the Registration button" },
+      { id: 2, text: "Enter the train reporting number" },
+      { id: 3, text: "Add the company wildcard code if needed" },
+      { id: 4, text: "Press Accept" }
+    ]
+  });
+</script>
+
+</body>
+</html>

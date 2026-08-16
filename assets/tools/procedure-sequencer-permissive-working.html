@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procedure Sequencer — Closing Up on a Train Permissively</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="tools-common.css">
+</head>
+<body class="tools-page">
+
+<div class="ps-header">
+  <h1>Procedure Sequencer</h1>
+  <p>Drag the steps (or use the arrows) into the correct rule book order, then check.</p>
+  <a href="procedure-sequencer.html">← Back to quiz index</a>
+</div>
+
+<div class="ps-body">
+  <div class="ps-instructions">
+    <p class="headline">Put these actions back into the correct order when approaching a train in front to couple or uncouple.</p>
+    <p class="subline">Drag steps to reorder, or use the ▲▼ arrows.</p>
+  </div>
+
+  <div id="stepList"></div>
+
+  <button class="check-order-btn" id="checkOrderBtn">Check order</button>
+  <div class="ps-result" id="psResult"></div>
+</div>
+
+<script src="procedure-sequencer-engine.js"></script>
+<script>
+  // Source: GERT8000-TW1 Issue 22, §20.3 "Proceeding towards the rear of
+  // another train on permissive-worked lines" and §20.5 "Setting-back
+  // movements where permissive working is authorised".
+  initSequencer({
+    storageKey: "ps_permissive-working",
+    steps: [
+      { id: 1, text: "Approach the train in front at caution" },
+      { id: 2, text: "Stop at least 2 metres (6 ft 6 in) short" },
+      { id: 3, text: "Get the signaller's authority for any further approach" },
+      { id: 4, text: "Without further authority, you may then set back up to 600 mm (2 ft) to couple or uncouple" }
+    ]
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWS Fault Codes — Flashcards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="tools-common.css">
+</head>
+<body class="tools-page">
+
+<div class="fc-header">
+  <div class="icon-tile">🧑‍✈️</div>
+  <div>
+    <h1>AWS Fault Codes — Flashcards</h1>
+    <p>RS522 Issue 3 · Codes 1–10 and 7a · Shuffled every run</p>
+  </div>
+</div>
+
+<div class="fc-statusbar">
+  <span id="cardCounterLabel">Card 1 of 11</span>
+  <span class="fc-scoretally">
+    <span class="got"><span class="dot">●</span> <span id="gotCount">0</span></span>
+    <span class="missed"><span class="dot">●</span> <span id="missedCount">0</span></span>
+  </span>
+</div>
+
+<div class="tools-body">
+
+  <div class="mode-toggle">
+    <button id="modeCodeBtn" class="active">See code → recall meaning</button>
+    <button id="modeFaultBtn">See fault → recall code</button>
+  </div>
+
+  <div class="tool-card clickable" id="card"></div>
+
+  <div class="judge-row" id="judgeRow" style="display:none;">
+    <button class="btn-missed" id="missedBtn">✗ Missed it</button>
+    <button class="btn-gotit" id="gotItBtn">✓ Got it</button>
+  </div>
+
+  <div class="nav-row">
+    <button class="nav-btn" id="prevBtn">← Prev</button>
+    <span class="nav-counter" id="navCounter">1 / 11</span>
+    <button class="nav-btn" id="nextBtn">Next →</button>
+  </div>
+
+</div>
+
+<script src="aws-fault-codes-data.js"></script>
+<script>
+  // Fisher-Yates shuffle — fresh order every page load, per the subtitle's
+  // "Shuffled every run" promise.
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
+
+  let deck = shuffle(AWS_FAULT_CODES);
+  let index = 0;
+  let mode = "code"; // "code" = See code → recall meaning, "fault" = See fault → recall code
+  let revealed = false;
+  let judgedThisCard = false;
+  let got = 0, missed = 0;
+
+  const cardEl = document.getElementById("card");
+  const judgeRow = document.getElementById("judgeRow");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const navCounter = document.getElementById("navCounter");
+  const cardCounterLabel = document.getElementById("cardCounterLabel");
+  const modeCodeBtn = document.getElementById("modeCodeBtn");
+  const modeFaultBtn = document.getElementById("modeFaultBtn");
+  const gotCountEl = document.getElementById("gotCount");
+  const missedCountEl = document.getElementById("missedCount");
+
+  function render(){
+    const item = deck[index];
+    navCounter.textContent = `${index+1} / ${deck.length}`;
+    cardCounterLabel.textContent = `Card ${index+1} of ${deck.length}`;
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === deck.length - 1;
+
+    if(!revealed){
+      judgeRow.style.display = "none";
+      if(mode === "code"){
+        cardEl.innerHTML = `
+          <span class="pill question">QUESTION</span>
+          <div class="big-code">${item.code}</div>
+          <p class="prompt-title">What does this fault code mean?</p>
+          <p class="tap-hint">Tap to reveal</p>
+        `;
+      } else {
+        cardEl.innerHTML = `
+          <span class="pill question">QUESTION</span>
+          <p class="prompt-title">${item.actual}</p>
+          <p class="prompt-sub">Required indication: ${item.required}</p>
+          <p class="tap-hint">Tap to reveal</p>
+        `;
+      }
+    } else {
+      cardEl.innerHTML = `
+        <span class="pill answer">ANSWER</span>
+        <div class="big-code" style="font-size:44px;">Code ${item.code}</div>
+        <p class="answer-line"><b>Required:</b> ${item.required}</p>
+        <p class="answer-line"><b>Actual:</b> ${item.actual}</p>
+        <p class="answer-note">${item.note}</p>
+      `;
+      judgeRow.style.display = judgedThisCard ? "none" : "flex";
+    }
+  }
+
+  function goTo(newIndex){
+    index = Math.max(0, Math.min(deck.length-1, newIndex));
+    revealed = false;
+    judgedThisCard = false;
+    render();
+  }
+
+  cardEl.addEventListener("click", ()=>{
+    if(!revealed){
+      revealed = true;
+      render();
+    }
+  });
+
+  prevBtn.addEventListener("click", ()=> goTo(index-1));
+  nextBtn.addEventListener("click", ()=> goTo(index+1));
+
+  document.getElementById("gotItBtn").addEventListener("click", (e)=>{
+    e.stopPropagation();
+    got++; judgedThisCard = true;
+    gotCountEl.textContent = got;
+    render();
+  });
+  document.getElementById("missedBtn").addEventListener("click", (e)=>{
+    e.stopPropagation();
+    missed++; judgedThisCard = true;
+    missedCountEl.textContent = missed;
+    render();
+  });
+
+  modeCodeBtn.addEventListener("click", ()=>{
+    mode = "code";
+    modeCodeBtn.classList.add("active");
+    modeFaultBtn.classList.remove("active");
+    revealed = false; judgedThisCard = false;
+    render();
+  });
+  modeFaultBtn.addEventListener("click", ()=>{
+    mode = "fault";
+    modeFaultBtn.classList.add("active");
+    modeCodeBtn.classList.remove("active");
+    revealed = false; judgedThisCard = false;
+    render();
+  });
+
+  render();
+</script>
+
+</body>
+</html>

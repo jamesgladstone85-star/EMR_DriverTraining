@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procedure Sequencer — Held at a Signal at Danger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="tools-common.css">
+</head>
+<body class="tools-page">
+
+<div class="ps-header">
+  <h1>Procedure Sequencer</h1>
+  <p>Drag the steps (or use the arrows) into the correct rule book order, then check.</p>
+  <a href="procedure-sequencer.html">← Back to quiz index</a>
+</div>
+
+<div class="ps-body">
+  <div class="ps-instructions">
+    <p class="headline">Put these actions back into the correct order, for contacting the signaller and escalating if needed.</p>
+    <p class="subline">Drag steps to reorder, or use the ▲▼ arrows.</p>
+  </div>
+
+  <div id="stepList"></div>
+
+  <button class="check-order-btn" id="checkOrderBtn">Check order</button>
+  <div class="ps-result" id="psResult"></div>
+</div>
+
+<script src="procedure-sequencer-engine.js"></script>
+<script>
+  // Source: GERT8000-S4 Issue 5, §1.1 "When to contact the signaller" and
+  // §1.2 "How to contact the signaller".
+  initSequencer({
+    storageKey: "ps_held-at-signal",
+    steps: [
+      { id: 1, text: "Wait up to 2 minutes if there's an obvious reason for the delay" },
+      { id: 2, text: "Contact the signaller via the SPT" },
+      { id: 3, text: "If SPT is not working, try a mobile phone" },
+      { id: 4, text: "If that fails, use a telephone at another signal, a lineside telephone, or the signal box" },
+      { id: 5, text: "If told to wait, re-contact the signaller every 5 minutes" }
+    ]
+  });
+</script>
+
+</body>
+</html>

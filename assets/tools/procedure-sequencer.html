@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procedure Sequencer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="tools-common.css">
+</head>
+<body class="tools-page">
+
+<div class="ps-header">
+  <h1>Procedure Sequencer</h1>
+  <p>Pick a procedure below, then drag or arrow the steps into the correct rule book order.</p>
+</div>
+
+<div class="ps-body">
+  <div class="ps-index-grid" id="indexGrid"></div>
+</div>
+
+<script>
+  // Pill colours follow the site's badge-pill / tinted-rgba pattern from
+  // assets/styles.css and tools-common.css (e.g. .pill.question/.pill.answer) —
+  // each accent tied to its rail-safety category rather than an arbitrary hex.
+  const PROCEDURES = [
+    { pill: "Hot Axle Boxes", accent: "255,138,80", accentVar: "var(--accent-orange)", title: "Responding to a Hot Axlebox",
+      steps: 4, link: "procedure-sequencer-hot-axle-boxes.html", storageKey: "ps_hot-axle-boxes" },
+    { pill: "TW1", accent: "95,196,255", accentVar: "var(--accent-blue)", title: "Failure on a Double Line",
+      steps: 4, link: "procedure-sequencer-failure-double-line.html", storageKey: "ps_failure-double-line" },
+    { pill: "Trains Detained", accent: "255,180,84", accentVar: "var(--accent-amber)", title: "Held at a Signal at Danger",
+      steps: 5, link: "procedure-sequencer-held-at-signal.html", storageKey: "ps_held-at-signal" },
+    { pill: "GSM-R", accent: "62,214,160", accentVar: "var(--accent-green)", title: "Registering on GSM-R",
+      steps: 4, link: "procedure-sequencer-gsmr-registration.html", storageKey: "ps_gsmr-registration" },
+    { pill: "Permissive Working", accent: "255,93,143", accentVar: "var(--accent-red)", title: "Closing Up on a Train Permissively",
+      steps: 4, link: "procedure-sequencer-permissive-working.html", storageKey: "ps_permissive-working" }
+  ];
+
+  const grid = document.getElementById("indexGrid");
+  PROCEDURES.forEach(p=>{
+    const state = localStorage.getItem(p.storageKey);
+    const statusText = state === "correct" ? "✓ Completed correctly"
+                      : state === "incorrect" ? "Attempted — try again"
+                      : "Not attempted yet";
+    const a = document.createElement("a");
+    a.className = "ps-index-card";
+    a.href = p.link;
+    a.innerHTML = `
+      <span class="cat-pill" style="background:rgba(${p.accent},0.12);color:${p.accentVar};border-color:rgba(${p.accent},0.3);">${p.pill}</span>
+      <h3>${p.title}</h3>
+      <p class="meta">${p.steps} steps to order correctly</p>
+      <p class="status">${statusText}</p>
+    `;
+    grid.appendChild(a);
+  });
+</script>
+
+</body>
+</html>
