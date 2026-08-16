@@ -64,6 +64,11 @@
     <div class="card-grid" id="toolsGrid"></div>
   </div>
 
+  <div class="content-section" id="rulebookSection" style="display:none;">
+    <div class="section-title rulebook"><span class="dot">📕</span> RSSB Rulebook</div>
+    <div class="card-grid" id="rulebookGrid"></div>
+  </div>
+
 </div>
 
 <div class="footer-note">All content sourced from your rule book material</div>
@@ -226,6 +231,27 @@
           <a class="card-action tool-action" ${toolLinkAttrs}>Open →</a>
         `);
         toolsGrid.appendChild(card);
+      });
+    }
+
+    if(mod.rulebook && mod.rulebook.length){
+      document.getElementById("rulebookSection").style.display = "block";
+      const rulebookGrid = document.getElementById("rulebookGrid");
+      mod.rulebook.forEach(g=>{
+        const card = document.createElement("div");
+        card.className = "content-card rulebook";
+        card.appendChild(pinButton("rulebook", g.title, { file: g.file }));
+        const subtitle = g.subtitle ? `<span class="card-subtitle">${g.subtitle}</span>` : "";
+        const linkAttrs = g.file
+          ? `href="${g.file}" target="_blank" rel="noopener"`
+          : `href="#" onclick="toast('Opening ${g.title}…');return false;"`;
+        card.insertAdjacentHTML("beforeend", `
+          <span class="card-icon">📕</span>
+          <h3 class="card-title">${g.title}</h3>
+          ${subtitle}
+          <a class="card-action rulebook-action" ${linkAttrs}>Open PDF →</a>
+        `);
+        rulebookGrid.appendChild(card);
       });
     }
   })();

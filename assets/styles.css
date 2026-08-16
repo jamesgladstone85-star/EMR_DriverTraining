@@ -141,6 +141,7 @@ a{color:inherit;}
 .section-title.guides{color:var(--accent-blue);}
 .section-title.quizzes{color:var(--accent-green);}
 .section-title.tools{color:var(--accent-amber);}
+.section-title.rulebook{color:var(--accent-purple);}
 
 .card-grid{
   display:grid;
@@ -166,6 +167,7 @@ a{color:inherit;}
 .content-card.guide{border-top:2px solid var(--accent-blue);}
 .content-card.quiz{border-top:2px solid var(--accent-green);}
 .content-card.tool{border-top:2px solid var(--accent-amber);}
+.content-card.rulebook{border-top:2px solid var(--accent-purple);}
 
 .card-icon{font-size:20px;opacity:0.9;}
 .card-title{font-family:var(--ui);font-size:15px;font-weight:600;margin:0;line-height:1.35;color:var(--text-hi);}
@@ -175,6 +177,7 @@ a{color:inherit;}
 .card-action.guide-action{color:var(--accent-blue);}
 .card-action.quiz-action{color:var(--accent-green);}
 .card-action.tool-action{color:var(--accent-amber);}
+.card-action.rulebook-action{color:var(--accent-purple);}
 
 .pin-btn{
   position:absolute;
