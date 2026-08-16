@@ -108,7 +108,22 @@ const MODULE_GROUPS = [
             "file": "assets/guides/semaphore-signals-revision-notes.pdf"
           }
         ],
-        "quizzes": [],
+        "quizzes": [
+          {
+            "title": "Colour Light Signals Assessment (40 Questions)",
+            "quizId": "Colour Light Signals Assessment",
+            "totalSections": 0,
+            "bullets": ["Full 40-question exam covering the whole guide", "Includes select-all-that-apply questions with close distractors", "Pass mark: 85%", "Every attempt saved to your progress history"],
+            "link": "colourlight-quiz.html"
+          },
+          {
+            "title": "Semaphore Signals Assessment (40 Questions)",
+            "quizId": "Semaphore Signals Assessment",
+            "totalSections": 0,
+            "bullets": ["Full 40-question exam covering the whole guide", "Includes select-all-that-apply questions with close distractors", "Pass mark: 85%", "Every attempt saved to your progress history"],
+            "link": "semaphore-quiz.html"
+          }
+        ],
         "tools": []
       },
       {
