@@ -213,7 +213,12 @@ const MODULE_GROUPS = [
             "link": "semaphore-quiz.html"
           }
         ],
-        "tools": [],
+        "tools": [
+          {
+            "title": "Absolute Block Section Diagram — Label It",
+            "link": "assets/tools/absolute-block-diagram.html"
+          }
+        ],
         "rulebook": [
           {
             "title": "Rule Book — Signals, Handsignals, Indicators and Signs",
