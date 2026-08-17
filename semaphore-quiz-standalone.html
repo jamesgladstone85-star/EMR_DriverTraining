@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semaphore Signals Quiz — Try It Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  body{ background:var(--bg-void); }
+  .standalone-header{
+    background:var(--bg-panel);
+    border-bottom:1px solid var(--border-hair);
+    padding:24px 24px 20px;
+    text-align:center;
+  }
+  .standalone-header h1{ margin:0 0 6px; font-size:22px; color:var(--text-hi); }
+  .standalone-header p{ margin:0; font-family:var(--mono); font-size:11.5px; color:var(--text-dim); }
+  .quiz-wrap{ max-width:640px; margin:0 auto; padding:30px 20px 60px; }
+  .quiz-intro{ text-align:center; margin-bottom:24px; }
+  .quiz-intro p{ color:var(--text-mid); font-size:14px; line-height:1.6; }
+  .start-btn{
+    display:block; width:100%; padding:16px;
+    background:var(--accent-purple); color:#170022;
+    border:none; border-radius:var(--radius-sm);
+    font-family:var(--ui); font-weight:700; font-size:15px;
+    cursor:pointer; margin-top:10px;
+  }
+  .quiz-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px; }
+  .q-count{ font-family:var(--mono); font-size:11.5px; color:var(--text-dim); }
+  .progress-track{ height:5px; background:var(--bg-panel); border-radius:4px; overflow:hidden; }
+  .progress-fill{ height:100%; background:var(--accent-purple); transition:width .2s ease; }
+  .q-card{ background:var(--bg-card); border:1px solid var(--border-hair); border-radius:var(--radius-md); padding:24px 22px; }
+  .q-text{ font-size:15.5px; color:var(--text-hi); margin:0 0 18px; font-weight:600; }
+  .opt-list{ display:flex; flex-direction:column; gap:10px; }
+  .opt-btn{
+    text-align:left; background:var(--bg-panel); border:1px solid var(--border-hair-strong);
+    border-radius:var(--radius-sm); padding:13px 15px; color:var(--text-hi);
+    font-family:var(--ui); font-size:13.5px; cursor:pointer; transition:border-color .15s, background .15s;
+  }
+  .opt-btn:hover{ background:var(--bg-card-hover); }
+  .opt-btn.selected{ border-color:var(--accent-purple); background:rgba(199,125,255,0.1); }
+  .quiz-nav{ display:flex; justify-content:space-between; margin-top:20px; }
+  .btn{ font-family:var(--ui); font-weight:700; font-size:13.5px; border-radius:var(--radius-sm); padding:11px 20px; cursor:pointer; }
+  .btn-primary{ background:var(--accent-purple); color:#170022; border:1px solid var(--accent-purple); }
+  .btn-primary:disabled{ opacity:0.35; cursor:default; }
+  .btn-ghost{ background:transparent; color:var(--text-hi); border:1px solid var(--border-hair-strong); }
+  .result-card{ background:var(--bg-card); border:1px solid var(--border-hair); border-radius:var(--radius-md); padding:34px 26px; text-align:center; }
+  .result-badge{ width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:28px; margin:0 auto 16px; }
+  .result-badge.pass{ background:rgba(62,214,160,0.12); color:var(--accent-green); border:1px solid rgba(62,214,160,0.3); }
+  .result-badge.fail{ background:rgba(255,93,143,0.12); color:var(--accent-red); border:1px solid rgba(255,93,143,0.3); }
+  .result-card h2{ margin:0 0 8px; color:var(--text-hi); font-size:19px; }
+  .result-score{ color:var(--text-mid); font-size:14px; margin:0 0 20px; }
+  .pass-gate-box{ background:var(--bg-panel); border:1px solid var(--border-hair); border-radius:var(--radius-sm); padding:14px 16px; margin-bottom:18px; text-align:left; font-size:13px; color:var(--text-mid); }
+  .review-item{ background:var(--bg-card); border:1px solid var(--border-hair); border-radius:var(--radius-md); padding:18px 20px; margin-bottom:14px; }
+  .review-item.correct{ border-left:3px solid var(--accent-green); }
+  .review-item:not(.correct){ border-left:3px solid var(--accent-red); }
+  .review-q-row{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:10px; }
+  .review-q-row h3{ margin:0; font-size:14px; color:var(--text-hi); font-weight:600; }
+  .status-pill{ font-family:var(--mono); font-size:10px; font-weight:600; padding:3px 10px; border-radius:20px; flex-shrink:0; }
+  .status-pill.correct{ background:rgba(62,214,160,0.12); color:var(--accent-green); }
+  .status-pill.incorrect{ background:rgba(255,93,143,0.12); color:var(--accent-red); }
+  .review-opt{ display:flex; align-items:center; gap:8px; font-size:12.5px; padding:5px 0; color:var(--text-mid); }
+  .review-opt.correct-opt{ color:var(--accent-green); }
+  .review-opt.wrong-pick{ color:var(--accent-red); }
+  .rationale-box{ margin-top:10px; padding:10px 12px; background:var(--bg-panel); border-radius:8px; font-size:12.5px; color:var(--text-mid); }
+  .rationale-box b{ display:block; font-family:var(--mono); font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px; color:var(--text-dim); }
+  .footer-note{ text-align:center; color:var(--text-dim); font-family:var(--mono); font-size:11px; padding:24px; }
+</style>
+</head>
+<body>
+
+<div class="standalone-header">
+  <h1>Semaphore Signals Quiz</h1>
+  <p>Try-it-out link — no login, nothing saved, just the quiz</p>
+</div>
+
+<div class="quiz-wrap" id="app"></div>
+
+<div class="footer-note">All content sourced from the GERT8000 Revision Notes — Semaphore Signals &amp; Signalling Systems (GERT8000-S7 / SS2)</div>
+
+<script src="assets/semaphore-quiz-data.js"></script>
+<script>
+  const questions = SEMAPHORE_QUIZ_QUESTIONS;
+  const appEl = document.getElementById("app");
+  let state = "menu";
+  let activeQuestions = [];
+  let currentIndex = 0;
+  let userAnswers = {};
+  let score = 0;
+
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
+  function shuffleOptions(q){
+    const order = shuffle(q.options.map((_,i)=>i));
+    const newOptions = order.map(i=>q.options[i]);
+    const newCorrect = q.correct.map(i=>order.indexOf(i)).sort((a,b)=>a-b);
+    return Object.assign({}, q, { options:newOptions, correct:newCorrect });
+  }
+  function isAnswerCorrect(ua, q){
+    if(!ua || ua.length===0) return false;
+    const a = ua.slice().sort((x,y)=>x-y);
+    const b = q.correct.slice().sort((x,y)=>x-y);
+    return a.length===b.length && a.every((v,i)=>v===b[i]);
+  }
+
+  function render(){
+    if(state==="menu") return renderMenu();
+    if(state==="quiz") return renderQuiz();
+    if(state==="results") return renderResults();
+    if(state==="review") return renderReview();
+  }
+
+  function renderMenu(){
+    appEl.innerHTML = `
+      <div class="quiz-intro">
+        <p>${questions.length} questions covering the full Semaphore Signals &amp; Signalling Systems revision
+        guide (GERT8000-S7 / SS2) — stop and distant signals, upper/lower quadrant, absolute block working,
+        AWS, intermediate block signals, subsidiary and shunting signals, limit of shunt, route indicators,
+        white diamond indicators, and reporting signalling irregularities.</p>
+        <button class="start-btn" id="startBtn">Start the quiz →</button>
+      </div>
+    `;
+    document.getElementById("startBtn").addEventListener("click", ()=>{
+      activeQuestions = shuffle(questions).map(shuffleOptions);
+      currentIndex = 0; userAnswers = {}; score = 0;
+      state = "quiz"; render(); window.scrollTo(0,0);
+    });
+  }
+
+  function renderQuiz(){
+    const q = activeQuestions[currentIndex];
+    const total = activeQuestions.length;
+    const pct = Math.round((currentIndex/total)*100);
+    const isMulti = q.type === "multiple";
+    const sel = userAnswers[currentIndex] || [];
+    let optsHtml = "";
+    q.options.forEach((opt,i)=>{
+      const isSelected = sel.includes(i);
+      const mark = isMulti ? (isSelected?"☑":"☐") : (isSelected?"●":"○");
+      optsHtml += `<button class="opt-btn ${isSelected?'selected':''}" data-opt="${i}"><span style="margin-right:9px;">${mark}</span>${opt}</button>`;
+    });
+    appEl.innerHTML = `
+      <div class="quiz-header">
+        <span class="q-count">Question ${currentIndex+1} of ${total}${isMulti?" · select all that apply":""}</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%;"></div></div>
+      <div class="q-card" style="margin-top:16px;">
+        <p class="q-text">${q.question}</p>
+        <div class="opt-list">${optsHtml}</div>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn btn-ghost" id="quitBtn">Quit</button>
+        <button class="btn btn-primary" id="nextBtn" ${sel.length? "" : "disabled"}>${currentIndex===total-1?"Finish":"Next →"}</button>
+      </div>
+    `;
+    appEl.querySelectorAll(".opt-btn").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const i = parseInt(btn.dataset.opt,10);
+        let cur = userAnswers[currentIndex] || [];
+        cur = isMulti ? (cur.includes(i) ? cur.filter(v=>v!==i) : cur.concat(i)) : [i];
+        userAnswers[currentIndex] = cur;
+        render();
+      });
+    });
+    document.getElementById("quitBtn").addEventListener("click", ()=>{ state="menu"; render(); });
+    document.getElementById("nextBtn").addEventListener("click", ()=>{
+      if(currentIndex < total-1){ currentIndex++; render(); window.scrollTo(0,0); }
+      else{ finishQuiz(); }
+    });
+  }
+
+  function finishQuiz(){
+    score = activeQuestions.reduce((acc,q,idx)=> acc + (isAnswerCorrect(userAnswers[idx], q)?1:0), 0);
+    state = "results"; render(); window.scrollTo(0,0);
+  }
+
+  function renderResults(){
+    const total = activeQuestions.length;
+    const pct = Math.round((score/total)*100);
+    const passingScore = Math.ceil(total*0.85);
+    const isPassed = score >= passingScore;
+    appEl.innerHTML = `
+      <div class="result-card">
+        <div class="result-badge ${isPassed?'pass':'fail'}">${isPassed?'✓':'✗'}</div>
+        <h2>${isPassed?'Passed':'Not Passed'}</h2>
+        <p class="result-score">Final score: <b>${score} / ${total}</b> (${pct}%)</p>
+        <div class="pass-gate-box">
+          <p style="margin:0 0 6px;"><b>Pass gate:</b> 85% (${passingScore}/${total})</p>
+          <p style="margin:0;">${isPassed ? "Nice work." : "Have a look at the explanations below and try again."}</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button class="btn btn-primary" id="reviewBtn" style="justify-content:center;padding:12px;">Review answers &amp; explanations</button>
+          <button class="btn btn-ghost" id="menuBtn" style="justify-content:center;padding:12px;">Try again</button>
+        </div>
+      </div>
+    `;
+    document.getElementById("reviewBtn").addEventListener("click", ()=>{ state="review"; render(); window.scrollTo(0,0); });
+    document.getElementById("menuBtn").addEventListener("click", ()=>{ state="menu"; render(); });
+  }
+
+  function renderReview(){
+    const total = activeQuestions.length;
+    let html = `
+      <div class="quiz-header">
+        <div><h2 style="margin:0;font-size:16px;color:var(--text-hi);">Review</h2>
+        <span class="q-count">Score: ${score} / ${total} (${Math.round((score/total)*100)}%)</span></div>
+        <button class="btn btn-ghost" id="menuBtn">Main menu</button>
+      </div>
+    `;
+    activeQuestions.forEach((q,idx)=>{
+      const uAns = userAnswers[idx] || [];
+      const isCorrect = isAnswerCorrect(uAns, q);
+      let optsHtml = "";
+      q.options.forEach((opt,oIdx)=>{
+        const isCorrectOpt = q.correct.includes(oIdx);
+        const isUserPick = uAns.includes(oIdx);
+        let cls = "review-opt";
+        if(isCorrectOpt) cls += " correct-opt"; else if(isUserPick) cls += " wrong-pick";
+        const mark = isCorrectOpt ? "✓" : (isUserPick ? "✗" : "•");
+        optsHtml += `<div class="${cls}"><span>${mark}</span>${opt}</div>`;
+      });
+      html += `
+        <div class="review-item ${isCorrect?'correct':''}">
+          <div class="review-q-row">
+            <h3>${idx+1}. ${q.question}</h3>
+            <span class="status-pill ${isCorrect?'correct':'incorrect'}">${isCorrect?'Correct':'Incorrect'}</span>
+          </div>
+          <div>${optsHtml}</div>
+          ${q.rationale ? `<div class="rationale-box"><b>Explanation</b>${q.rationale}</div>` : ""}
+        </div>
+      `;
+    });
+    html += `<div style="text-align:center;margin-top:10px;"><button class="btn btn-primary" id="menuBtn2" style="padding:12px 30px;">Return to menu</button></div>`;
+    appEl.innerHTML = html;
+    document.getElementById("menuBtn").addEventListener("click", ()=>{ state="menu"; render(); });
+    document.getElementById("menuBtn2").addEventListener("click", ()=>{ state="menu"; render(); });
+  }
+
+  render();
+</script>
+
+</body>
+</html>
