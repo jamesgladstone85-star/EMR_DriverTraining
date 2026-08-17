@@ -217,6 +217,10 @@ const MODULE_GROUPS = [
           {
             "title": "Absolute Block Section Diagram — Label It",
             "link": "assets/tools/absolute-block-diagram.html"
+          },
+          {
+            "title": "Intermediate Block Section Diagram — Label It",
+            "link": "assets/tools/intermediate-block-section-diagram.html"
           }
         ],
         "rulebook": [
