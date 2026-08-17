@@ -19,39 +19,8 @@
     border:1px solid var(--border-hair);
     border-radius:var(--radius-md);
   }
-  .divider-line{
-    position:absolute;
-    top:20px; bottom:20px; left:590px;
-    border-left:2px dashed var(--border-hair-strong);
-  }
-  .baseline{
-    position:absolute;
-    left:30px; right:30px; top:210px;
-    height:3px;
-    background:var(--text-hi);
-    opacity:0.85;
-  }
-  .tick{ position:absolute; top:206px; width:2px; height:11px; background:var(--text-mid); }
-  .drop-line{ position:absolute; top:0; bottom:0; border-left:1px dashed var(--border-hair-strong); }
-  .icon{ position:absolute; display:flex; align-items:center; justify-content:center; }
-  .icon-aws{
-    width:0; height:0; bottom:14px;
-    border-left:9px solid transparent;
-    border-right:9px solid transparent;
-    border-bottom:16px solid var(--accent-orange);
-  }
-  .icon-flag{ width:20px; height:20px; top:150px; transform:rotate(45deg); border-radius:3px; }
-  .icon-flag.yellow{background:var(--accent-amber);}
-  .icon-flag.red{background:var(--accent-red);}
-  .icon-box{
-    top:120px; width:70px; height:44px;
-    background:var(--bg-panel);
-    border:2px solid var(--text-mid);
-    border-radius:6px;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .icon-box .dot{ width:16px; height:16px; border-radius:50%; background:var(--text-hi); }
-  .icon-box-label{ position:absolute; top:100px; font-family:var(--mono); font-weight:700; font-size:11px; letter-spacing:0.04em; }
+  .diagram-canvas svg{ position:absolute; top:0; left:0; }
+
   .blank{
     position:absolute;
     background:var(--bg-panel);
@@ -63,22 +32,20 @@
     text-align:center;
     padding:4px 2px;
     box-sizing:border-box;
+    z-index:2;
   }
   .blank:focus{outline:none; border-color:var(--accent-purple);}
-  .blank.letter{ top:24px; width:26px; height:24px; font-size:12px; font-weight:800; }
-  .blank.header{ top:56px; width:96px; height:26px; font-size:11px; letter-spacing:0.03em; text-transform:uppercase; }
-  .blank.number{ top:224px; width:80px; height:24px; font-size:11.5px; }
-  .blank.arrowlabel{ top:250px; width:120px; height:22px; font-size:10px; letter-spacing:0.02em; text-transform:uppercase; }
-  .blank.spanlabel{ top:284px; height:22px; font-size:10.5px; letter-spacing:0.02em; text-transform:uppercase; }
-  .blank.abs-label{ top:352px; height:24px; font-size:11px; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; }
+  .blank.letter{ top:14px; width:26px; height:24px; font-size:12px; font-weight:800; }
+  .blank.header{ top:46px; width:96px; height:26px; font-size:11px; letter-spacing:0.03em; text-transform:uppercase; }
+  .blank.number{ top:224px; width:82px; height:24px; font-size:11.5px; }
+  .blank.arrowlabel{ top:250px; width:130px; height:22px; font-size:9.5px; letter-spacing:0.02em; text-transform:uppercase; }
+  .blank.spanlabel{ top:286px; height:22px; font-size:10.5px; letter-spacing:0.02em; text-transform:uppercase; }
+  .blank.abs-label{ top:354px; height:24px; font-size:11px; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; }
   .blank.correct{border-color:var(--accent-green); box-shadow:0 0 0 1px var(--accent-green) inset;}
   .blank.incorrect{border-color:var(--accent-red); box-shadow:0 0 0 1px var(--accent-red) inset;}
   .blank.side-a{color:var(--accent-blue);}
   .blank.side-b{color:var(--accent-orange);}
-  .span-arrow{ position:absolute; border-top:2px solid var(--accent-red); opacity:0.85; }
-  .span-arrow::before, .span-arrow::after{ content:""; position:absolute; top:-5px; width:2px; height:11px; background:var(--accent-red); }
-  .span-arrow::before{ left:0; }
-  .span-arrow::after{ right:0; }
+
   .toolbar{ max-width:1180px; margin:0 auto 18px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
   .toolbar button{
     border:1px solid var(--accent-purple);
@@ -96,6 +63,13 @@
   .result-line.ok{color:var(--accent-green);}
   .result-line.partial{color:var(--accent-amber);}
   .hint-note{ text-align:center; color:var(--text-dim); font-family:var(--mono); font-size:11px; max-width:640px; margin:0 auto 22px; }
+  .legend{
+    display:flex; gap:22px; justify-content:center; flex-wrap:wrap;
+    font-family:var(--mono); font-size:10.5px; color:var(--text-mid);
+    margin:14px auto 0; max-width:1180px;
+  }
+  .legend span{ display:inline-flex; align-items:center; gap:6px; }
+  .legend .sw{ width:12px; height:12px; border-radius:3px; display:inline-block; }
 </style>
 </head>
 <body class="tools-page">
@@ -122,44 +96,112 @@
 
   <div class="diagram-scroll">
     <div class="diagram-canvas" id="canvas">
-      <div class="divider-line"></div>
-      <div class="baseline"></div>
+      <svg id="svgLayer" width="1180" height="430" viewBox="0 0 1180 430"></svg>
     </div>
+  </div>
+
+  <div class="legend">
+    <span><span class="sw" style="background:#FF8A50;"></span> AWS magnet</span>
+    <span><span class="sw" style="background:#FFB454;"></span> Distant signal</span>
+    <span><span class="sw" style="background:#FF5D8F;"></span> Home / Section signal</span>
+    <span><span class="sw" style="background:#B7A9C4;"></span> Signal box</span>
   </div>
 </div>
 
 <script>
   const AWS_A = 90, DIST_A = 240, HOME_A = 390, SEC_A = 560;
   const AWS_B = 620, DIST_B = 770, HOME_B = 920, SEC_B = 1090;
+  const BASE_Y = 210;
+  const BOX_A_X = (HOME_A+SEC_A)/2, BOX_B_X = (HOME_B+SEC_B)/2;
 
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  const svg = document.getElementById("svgLayer");
   const canvas = document.getElementById("canvas");
 
-  function el(tag, className, styleObj){
-    const e = document.createElement(tag);
-    if(className) e.className = className;
-    if(styleObj) Object.assign(e.style, styleObj);
+  function svgEl(tag, attrs){
+    const e = document.createElementNS(SVG_NS, tag);
+    for(const k in attrs) e.setAttribute(k, attrs[k]);
     return e;
   }
 
+  // ---- Arrowhead marker defs (double-headed distance arrows) ----
+  const defs = svgEl("defs");
+  ["arrowRed"].forEach(id=>{
+    const marker = svgEl("marker", { id, markerWidth:8, markerHeight:8, refX:4, refY:4, orient:"auto" });
+    marker.appendChild(svgEl("path", { d:"M0,0 L8,4 L0,8 Z", fill:"#FF5D8F" }));
+    defs.appendChild(marker);
+  });
+  svg.appendChild(defs);
+
+  // ---- Baseline ----
+  svg.appendChild(svgEl("line", { x1:20, y1:BASE_Y, x2:1160, y2:BASE_Y, stroke:"#F5EFFA", "stroke-width":3, opacity:0.85 }));
+  // divider
+  svg.appendChild(svgEl("line", { x1:590, y1:20, x2:590, y2:400, stroke:"rgba(255,255,255,0.25)", "stroke-width":2, "stroke-dasharray":"6,6" }));
+
+  // ---- Drop lines + ticks at every signal column ----
   [AWS_A,DIST_A,HOME_A,SEC_A,AWS_B,DIST_B,HOME_B,SEC_B].forEach(x=>{
-    canvas.appendChild(el("div","tick",{left:(x-1)+"px"}));
-    canvas.appendChild(el("div","drop-line",{left:x+"px", top:"170px", bottom:"210px"}));
+    svg.appendChild(svgEl("line", { x1:x, y1:170, x2:x, y2:BASE_Y, stroke:"rgba(255,255,255,0.18)", "stroke-width":1, "stroke-dasharray":"3,4" }));
+    svg.appendChild(svgEl("line", { x1:x, y1:BASE_Y-6, x2:x, y2:BASE_Y+6, stroke:"#B7A9C4", "stroke-width":2 }));
   });
 
-  [AWS_A, AWS_B].forEach(x=>{
-    canvas.appendChild(el("div","icon icon-aws",{left:(x-9)+"px"}));
-  });
-  [DIST_A, DIST_B].forEach(x=>{
-    canvas.appendChild(el("div","icon icon-flag yellow",{left:(x-10)+"px"}));
-  });
-  [HOME_A, SEC_A, HOME_B, SEC_B].forEach(x=>{
-    canvas.appendChild(el("div","icon icon-flag red",{left:(x-10)+"px"}));
-  });
+  // ---- AWS marker: solid triangle sitting on the baseline ----
+  function drawAWS(x){
+    const pts = `${x-9},${BASE_Y} ${x+9},${BASE_Y} ${x},${BASE_Y-17}`;
+    svg.appendChild(svgEl("polygon", { points:pts, fill:"#FF8A50" }));
+  }
+  [AWS_A, AWS_B].forEach(drawAWS);
 
-  const BOX_A_X = (HOME_A+SEC_A)/2, BOX_B_X = (HOME_B+SEC_B)/2;
-  canvas.appendChild((()=>{ const b=el("div","icon icon-box",{left:(BOX_A_X-35)+"px"}); b.appendChild(el("div","dot")); return b; })());
-  canvas.appendChild((()=>{ const b=el("div","icon icon-box",{left:(BOX_B_X-35)+"px"}); b.appendChild(el("div","dot")); return b; })());
+  // ---- Semaphore signal: post + angled arm with fishtail notch + base dot ----
+  function drawSignal(x, color){
+    const postTop = BASE_Y - 62;
+    // post
+    svg.appendChild(svgEl("line", { x1:x, y1:BASE_Y, x2:x, y2:postTop, stroke:"#6E607C", "stroke-width":3 }));
+    // arm: a horizontal bar with a fishtail (V) cut at the outer end, plus a black tip band
+    const armY = postTop + 10;
+    const armLen = 34;
+    const armPts = [
+      [x, armY-5],
+      [x+armLen, armY-5],
+      [x+armLen-7, armY],
+      [x+armLen, armY+5],
+      [x, armY+5],
+    ].map(p=>p.join(",")).join(" ");
+    svg.appendChild(svgEl("polygon", { points:armPts, fill:color, stroke:"#0A0710", "stroke-width":1 }));
+    // black tip band near the outer end
+    svg.appendChild(svgEl("rect", { x:x+armLen-16, y:armY-5, width:5, height:10, fill:"#0A0710" }));
+    // base position dot
+    svg.appendChild(svgEl("circle", { cx:x, cy:BASE_Y, r:4, fill:"#3ED6A0" }));
+  }
+  [DIST_A, DIST_B].forEach(x=>drawSignal(x, "#FFB454"));
+  [HOME_A, SEC_A, HOME_B, SEC_B].forEach(x=>drawSignal(x, "#FF5D8F"));
 
+  // ---- Signal box: small cabin rectangle with a lever-frame dot ----
+  function drawBox(x){
+    svg.appendChild(svgEl("rect", { x:x-35, y:120, width:70, height:44, rx:6, fill:"#120B1A", stroke:"#B7A9C4", "stroke-width":2 }));
+    svg.appendChild(svgEl("circle", { cx:x, cy:142, r:8, fill:"#F5EFFA" }));
+    // small base/plinth line
+    svg.appendChild(svgEl("line", { x1:x-40, y1:164, x2:x+40, y2:164, stroke:"#6E607C", "stroke-width":2 }));
+  }
+  [BOX_A_X, BOX_B_X].forEach(drawBox);
+
+  // ---- Double-headed distance/span arrows ----
+  function spanArrowLine(x1, x2, y){
+    const line = svgEl("line", { x1, y1:y, x2, y2:y, stroke:"#FF5D8F", "stroke-width":2 });
+    line.setAttribute("marker-start","url(#arrowRed)");
+    line.setAttribute("marker-end","url(#arrowRed)");
+    svg.appendChild(line);
+  }
+  spanArrowLine(AWS_A, DIST_A, 234);
+  spanArrowLine(HOME_A, SEC_A, 234);
+  spanArrowLine(AWS_B, DIST_B, 234);
+  spanArrowLine(HOME_B, SEC_B, 234);
+  spanArrowLine(AWS_A, HOME_A, 302);
+  spanArrowLine(HOME_A, SEC_A, 302);
+  spanArrowLine(AWS_B, HOME_B, 302);
+  spanArrowLine(HOME_B, SEC_B, 302);
+  spanArrowLine(SEC_A, SEC_B, 370);
+
+  // ================= Blank inputs (unchanged logic, repositioned) =================
   const blanks = [];
   function addBlank(id, cls, x, width, answers, extraClass){
     blanks.push({ id, cls: cls + (extraClass? " "+extraClass:""), x, width, answers });
@@ -185,38 +227,25 @@
   function acceptDistance(n){ return [String(n), n+"m", n+" m", n+" metres", n+"metres"]; }
   const awsDistMidA = (AWS_A+DIST_A)/2, homeSecMidA = (HOME_A+SEC_A)/2;
   const awsDistMidB = (AWS_B+DIST_B)/2, homeSecMidB = (HOME_B+SEC_B)/2;
-  addBlank("num-180-a", "blank number", awsDistMidA, 80, acceptDistance(180));
-  addBlank("num-400-a", "blank number", homeSecMidA, 80, acceptDistance(400));
-  addBlank("num-180-b", "blank number", awsDistMidB, 80, acceptDistance(180));
-  addBlank("num-400-b", "blank number", homeSecMidB, 80, acceptDistance(400));
+  addBlank("num-180-a", "blank number", awsDistMidA, 82, acceptDistance(180));
+  addBlank("num-400-a", "blank number", homeSecMidA, 82, acceptDistance(400));
+  addBlank("num-180-b", "blank number", awsDistMidB, 82, acceptDistance(180));
+  addBlank("num-400-b", "blank number", homeSecMidB, 82, acceptDistance(400));
 
-  addBlank("lbl-awsdist-a", "blank arrowlabel", awsDistMidA, 130, ["AWS TO DISTANT"]);
-  addBlank("lbl-clearance-a", "blank arrowlabel", homeSecMidA, 130, ["CLEARANCE POINT"]);
-  addBlank("lbl-awsdist-b", "blank arrowlabel", awsDistMidB, 130, ["AWS TO DISTANT"]);
-  addBlank("lbl-clearance-b", "blank arrowlabel", homeSecMidB, 130, ["CLEARANCE POINT"]);
+  addBlank("lbl-awsdist-a", "blank arrowlabel", awsDistMidA, 135, ["AWS TO DISTANT"]);
+  addBlank("lbl-clearance-a", "blank arrowlabel", homeSecMidA, 135, ["CLEARANCE POINT"]);
+  addBlank("lbl-awsdist-b", "blank arrowlabel", awsDistMidB, 135, ["AWS TO DISTANT"]);
+  addBlank("lbl-clearance-b", "blank arrowlabel", homeSecMidB, 135, ["CLEARANCE POINT"]);
 
   const sbdMidA = (AWS_A+HOME_A)/2, slMidA = (HOME_A+SEC_A)/2;
   const sbdMidB = (AWS_B+HOME_B)/2, slMidB = (HOME_B+SEC_B)/2;
-  addBlank("lbl-sbd-a", "blank spanlabel", sbdMidA, 170, ["SERVICE BRAKING DISTANCE"]);
+  addBlank("lbl-sbd-a", "blank spanlabel", sbdMidA, 175, ["SERVICE BRAKING DISTANCE"]);
   addBlank("lbl-sl-a", "blank spanlabel", slMidA, 150, ["STATION LIMITS"]);
-  addBlank("lbl-sbd-b", "blank spanlabel", sbdMidB, 170, ["SERVICE BRAKING DISTANCE"]);
+  addBlank("lbl-sbd-b", "blank spanlabel", sbdMidB, 175, ["SERVICE BRAKING DISTANCE"]);
   addBlank("lbl-sl-b", "blank spanlabel", slMidB, 150, ["STATION LIMITS"]);
 
   const absMid = (SEC_A+SEC_B)/2;
   addBlank("lbl-abs", "blank abs-label", absMid, 220, ["ABSOLUTE BLOCK SECTION"]);
-
-  function spanArrow(x1, x2, top){
-    canvas.appendChild(el("div","span-arrow",{ left:x1+"px", width:(x2-x1)+"px", top:top+"px" }));
-  }
-  spanArrow(AWS_A, DIST_A, 232);
-  spanArrow(HOME_A, SEC_A, 232);
-  spanArrow(AWS_B, DIST_B, 232);
-  spanArrow(HOME_B, SEC_B, 232);
-  spanArrow(AWS_A, HOME_A, 300);
-  spanArrow(HOME_A, SEC_A, 300);
-  spanArrow(AWS_B, HOME_B, 300);
-  spanArrow(HOME_B, SEC_B, 300);
-  spanArrow(SEC_A, SEC_B, 368);
 
   blanks.forEach(b=>{
     const input = document.createElement("input");
