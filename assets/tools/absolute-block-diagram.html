@@ -15,7 +15,7 @@
     width:1180px;
     height:430px;
     margin:0 auto;
-    background:var(--bg-card);
+    background:#F3EEFA;
     border:1px solid var(--border-hair);
     border-radius:var(--radius-md);
   }
@@ -23,10 +23,10 @@
 
   .blank{
     position:absolute;
-    background:var(--bg-panel);
-    border:1px solid var(--border-hair-strong);
+    background:#FFFFFF;
+    border:1.5px solid #C9BEDD;
     border-radius:6px;
-    color:var(--text-hi);
+    color:#170F21;
     font-family:var(--ui);
     font-weight:600;
     text-align:center;
@@ -34,17 +34,18 @@
     box-sizing:border-box;
     z-index:2;
   }
-  .blank:focus{outline:none; border-color:var(--accent-purple);}
+  .blank::placeholder{ color:#A99CC2; }
+  .blank:focus{outline:none; border-color:var(--accent-purple); box-shadow:0 0 0 2px rgba(199,125,255,0.25);}
   .blank.letter{ top:14px; width:26px; height:24px; font-size:12px; font-weight:800; }
   .blank.header{ top:46px; width:96px; height:26px; font-size:11px; letter-spacing:0.03em; text-transform:uppercase; }
   .blank.number{ top:224px; width:82px; height:24px; font-size:11.5px; }
   .blank.arrowlabel{ top:250px; width:130px; height:22px; font-size:9.5px; letter-spacing:0.02em; text-transform:uppercase; }
   .blank.spanlabel{ top:286px; height:22px; font-size:10.5px; letter-spacing:0.02em; text-transform:uppercase; }
   .blank.abs-label{ top:354px; height:24px; font-size:11px; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; }
-  .blank.correct{border-color:var(--accent-green); box-shadow:0 0 0 1px var(--accent-green) inset;}
-  .blank.incorrect{border-color:var(--accent-red); box-shadow:0 0 0 1px var(--accent-red) inset;}
-  .blank.side-a{color:var(--accent-blue);}
-  .blank.side-b{color:var(--accent-orange);}
+  .blank.correct{border-color:var(--accent-green); background:#EAFBF5; box-shadow:0 0 0 1px var(--accent-green) inset;}
+  .blank.incorrect{border-color:var(--accent-red); background:#FFEEF3; box-shadow:0 0 0 1px var(--accent-red) inset;}
+  .blank.side-a{color:#2C6FA8;}
+  .blank.side-b{color:#C05A1F;}
 
   .toolbar{ max-width:1180px; margin:0 auto 18px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
   .toolbar button{
@@ -63,13 +64,6 @@
   .result-line.ok{color:var(--accent-green);}
   .result-line.partial{color:var(--accent-amber);}
   .hint-note{ text-align:center; color:var(--text-dim); font-family:var(--mono); font-size:11px; max-width:640px; margin:0 auto 22px; }
-  .legend{
-    display:flex; gap:22px; justify-content:center; flex-wrap:wrap;
-    font-family:var(--mono); font-size:10.5px; color:var(--text-mid);
-    margin:14px auto 0; max-width:1180px;
-  }
-  .legend span{ display:inline-flex; align-items:center; gap:6px; }
-  .legend .sw{ width:12px; height:12px; border-radius:3px; display:inline-block; }
 </style>
 </head>
 <body class="tools-page">
@@ -99,13 +93,6 @@
       <svg id="svgLayer" width="1180" height="430" viewBox="0 0 1180 430"></svg>
     </div>
   </div>
-
-  <div class="legend">
-    <span><span class="sw" style="background:#FF8A50;"></span> AWS magnet</span>
-    <span><span class="sw" style="background:#FFB454;"></span> Distant signal</span>
-    <span><span class="sw" style="background:#FF5D8F;"></span> Home / Section signal</span>
-    <span><span class="sw" style="background:#B7A9C4;"></span> Signal box</span>
-  </div>
 </div>
 
 <script>
@@ -134,14 +121,14 @@
   svg.appendChild(defs);
 
   // ---- Baseline ----
-  svg.appendChild(svgEl("line", { x1:20, y1:BASE_Y, x2:1160, y2:BASE_Y, stroke:"#F5EFFA", "stroke-width":3, opacity:0.85 }));
+  svg.appendChild(svgEl("line", { x1:20, y1:BASE_Y, x2:1160, y2:BASE_Y, stroke:"#3B2E4D", "stroke-width":3, opacity:0.9 }));
   // divider
-  svg.appendChild(svgEl("line", { x1:590, y1:20, x2:590, y2:400, stroke:"rgba(255,255,255,0.25)", "stroke-width":2, "stroke-dasharray":"6,6" }));
+  svg.appendChild(svgEl("line", { x1:590, y1:20, x2:590, y2:400, stroke:"#8A7AA3", "stroke-width":2, "stroke-dasharray":"6,6" }));
 
   // ---- Drop lines + ticks at every signal column ----
   [AWS_A,DIST_A,HOME_A,SEC_A,AWS_B,DIST_B,HOME_B,SEC_B].forEach(x=>{
-    svg.appendChild(svgEl("line", { x1:x, y1:170, x2:x, y2:BASE_Y, stroke:"rgba(255,255,255,0.18)", "stroke-width":1, "stroke-dasharray":"3,4" }));
-    svg.appendChild(svgEl("line", { x1:x, y1:BASE_Y-6, x2:x, y2:BASE_Y+6, stroke:"#B7A9C4", "stroke-width":2 }));
+    svg.appendChild(svgEl("line", { x1:x, y1:170, x2:x, y2:BASE_Y, stroke:"#B7A9C4", "stroke-width":1, "stroke-dasharray":"3,4" }));
+    svg.appendChild(svgEl("line", { x1:x, y1:BASE_Y-6, x2:x, y2:BASE_Y+6, stroke:"#3B2E4D", "stroke-width":2 }));
   });
 
   // ---- AWS marker: solid triangle sitting on the baseline ----
@@ -155,7 +142,7 @@
   function drawSignal(x, color){
     const postTop = BASE_Y - 62;
     // post
-    svg.appendChild(svgEl("line", { x1:x, y1:BASE_Y, x2:x, y2:postTop, stroke:"#6E607C", "stroke-width":3 }));
+    svg.appendChild(svgEl("line", { x1:x, y1:BASE_Y, x2:x, y2:postTop, stroke:"#4A3F5C", "stroke-width":3 }));
     // arm: a horizontal bar with a fishtail (V) cut at the outer end, plus a black tip band
     const armY = postTop + 10;
     const armLen = 34;
@@ -177,10 +164,10 @@
 
   // ---- Signal box: small cabin rectangle with a lever-frame dot ----
   function drawBox(x){
-    svg.appendChild(svgEl("rect", { x:x-35, y:120, width:70, height:44, rx:6, fill:"#120B1A", stroke:"#B7A9C4", "stroke-width":2 }));
+    svg.appendChild(svgEl("rect", { x:x-35, y:120, width:70, height:44, rx:6, fill:"#120B1A", stroke:"#4A3F5C", "stroke-width":2 }));
     svg.appendChild(svgEl("circle", { cx:x, cy:142, r:8, fill:"#F5EFFA" }));
     // small base/plinth line
-    svg.appendChild(svgEl("line", { x1:x-40, y1:164, x2:x+40, y2:164, stroke:"#6E607C", "stroke-width":2 }));
+    svg.appendChild(svgEl("line", { x1:x-40, y1:164, x2:x+40, y2:164, stroke:"#4A3F5C", "stroke-width":2 }));
   }
   [BOX_A_X, BOX_B_X].forEach(drawBox);
 
