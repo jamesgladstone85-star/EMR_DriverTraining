@@ -302,6 +302,10 @@ const MODULE_GROUPS = [
           {
             "title": "Procedure Sequencer",
             "link": "assets/tools/procedure-sequencer.html"
+          },
+          {
+            "title": "AWS Flashcards",
+            "link": "assets/tools/aws-flashcards.html"
           }
         ],
         "rulebook": [
