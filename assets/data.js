@@ -306,6 +306,10 @@ const MODULE_GROUPS = [
           {
             "title": "AWS Flashcards",
             "link": "assets/tools/aws-flashcards.html"
+          },
+          {
+            "title": "Signs Associated with AWS Magnets",
+            "link": "assets/tools/aws-associated-signs.html"
           }
         ],
         "rulebook": [

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signs Associated with AWS Magnets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="tools-common.css">
+<style>
+  .sign-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+    gap:18px;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .sign-card{
+    background:var(--bg-card);
+    border:1px solid var(--border-hair);
+    border-radius:var(--radius-md);
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .sign-card.no-image{
+    border-style:dashed;
+    border-color:var(--border-hair-strong);
+  }
+  .sign-image-wrap{
+    background:#F3EEFA;
+    border-radius:10px;
+    padding:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:160px;
+  }
+  .sign-image-wrap img{
+    max-width:100%;
+    max-height:200px;
+    object-fit:contain;
+  }
+  .sign-name{
+    font-family:var(--ui);
+    font-weight:700;
+    font-size:15px;
+    color:var(--text-hi);
+    margin:0;
+  }
+  .sign-desc{
+    font-size:13px;
+    color:var(--text-mid);
+    line-height:1.55;
+    margin:0;
+  }
+  .sign-cite{
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--text-dim);
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+  .no-image-note{
+    background:var(--bg-panel);
+    border-radius:8px;
+    padding:10px 12px;
+    font-family:var(--mono);
+    font-size:10.5px;
+    color:var(--accent-amber);
+  }
+  .intro-note{
+    max-width:700px;
+    margin:0 auto 26px;
+    text-align:center;
+    color:var(--text-mid);
+    font-size:13.5px;
+    line-height:1.6;
+  }
+</style>
+</head>
+<body class="tools-page">
+
+<div class="fc-header">
+  <div class="icon-tile">🚧</div>
+  <div>
+    <h1>Signs Associated with AWS Magnets</h1>
+    <p>The signals, indicators and boards that trigger an AWS warning — real images from the rule book</p>
+  </div>
+</div>
+
+<div class="tools-body">
+  <p class="intro-note">RS522 §1.4.1 lists what gives the driver an AWS warning indication. Here's what each of
+  those actually looks like on the ground, pulled directly from RS521 (Signals, Handsignals, Indicators and
+  Signs) and RS522.</p>
+
+  <div class="sign-grid">
+
+    <div class="sign-card">
+      <div class="sign-image-wrap"><img src="../images/signs/advance-warning-lower-limit.png" alt="Advance warning of lower speed limit boards, mph and km/h versions"></div>
+      <h3 class="sign-name">Advance Warning of Lower Speed Limit</h3>
+      <p class="sign-desc">Provided on the approach to certain permissible speed indicators, warning of a reduction in permissible speed ahead. Black text on white = mph; white text on black = km/h. An AWS magnet is provided on the approach.</p>
+      <span class="sign-cite">RS521 §7.2 — Warning Indicators</span>
+    </div>
+
+    <div class="sign-card">
+      <div class="sign-image-wrap"><img src="../images/signs/distant-semaphore.png" alt="Semaphore distant signal in the caution position, arm horizontal, plus the night-time reflectorised indication"></div>
+      <h3 class="sign-name">Distant Semaphore Signal (Caution)</h3>
+      <p class="sign-desc">Yellow arm with a fish-tail notch and black chevron. Shown here at Caution — arm horizontal by day, yellow light or a reflectorised board indication by night. AWS gives a warning indication when a semaphore distant is at caution.</p>
+      <span class="sign-cite">RS521 §3.1 — Distant Signals</span>
+    </div>
+
+    <div class="sign-card">
+      <div class="sign-image-wrap"><img src="../images/signs/level-crossing-warning-indicator.png" alt="Black cross warning board for ABCL, AOCL or open level crossings"></div>
+      <h3 class="sign-name">Level Crossing Warning Indicator</h3>
+      <p class="sign-desc">Marks the approach to an automatic barrier crossing locally monitored (ABCL), automatic open crossing locally monitored (AOCL), or an open crossing. AWS gives a warning indication on the approach to this board.</p>
+      <span class="sign-cite">RS521 §6.1 — Level Crossing Signs</span>
+    </div>
+
+    <div class="sign-card">
+      <div class="sign-image-wrap"><img src="../images/signs/colour-light-signal.png" alt="Three-aspect colour light signal sequence: green, yellow, red"></div>
+      <h3 class="sign-name">Colour Light Signal</h3>
+      <p class="sign-desc">Full three-aspect sequence: green (proceed, next signal shows proceed), yellow (caution, be prepared to stop at the next signal), red (danger, stop). AWS gives a warning indication for a single or double yellow, or a red aspect.</p>
+      <span class="sign-cite">RS521 §2.1 — Three-Aspect Signalling</span>
+    </div>
+
+    <div class="sign-card">
+      <div class="sign-image-wrap"><img src="../images/signs/temp-speed-warning-board.png" alt="Numbered speed indicator board showing 20mph"></div>
+      <h3 class="sign-name">Temporary Speed Restriction — Speed Indicator</h3>
+      <p class="sign-desc">Shows the start of the restriction and the permitted speed over it. A separate, plain warning board (unnumbered, with white discs only) is placed further back on the approach — RS521 doesn't illustrate that board separately from this one, so this is the closest real image available.</p>
+      <span class="sign-cite">RS521 §8.1 — Temporary Speed Restriction Signs</span>
+    </div>
+
+    <div class="sign-card">
+      <div class="sign-image-wrap"><img src="../images/signs/eros-board.png" alt="Emergency Restriction of Speed (EROS) indicator board with flashing white lights"></div>
+      <h3 class="sign-name">EROS Board (Emergency Indicator)</h3>
+      <p class="sign-desc">Used when an emergency speed restriction is imposed. Has flashing white lights working at all times, positioned ahead of any other TSR warning signs. An AWS magnet is provided on the approach.</p>
+      <span class="sign-cite">RS521 §8.2 — Emergency Indicator</span>
+    </div>
+
+    <div class="sign-card no-image">
+      <h3 class="sign-name">Fixed Distant Signal</h3>
+      <p class="sign-desc">A caution indication painted on a board rather than a moving arm — always treated as AT CAUTION. Can be placed before a buffer stop or on the approach to a terminal area.</p>
+      <div class="no-image-note">⚠ No image available — this term doesn't appear in RS521 Issue 9, RS522, GERT8000-S7, or TW5. May be from an older rule book edition; flagging rather than guessing at a picture.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer-note">Images extracted directly from RS521 Issue 9 (Signals, Handsignals, Indicators and Signs) and RS522 Issue 3 (AWS and TPWS Handbook)</div>
+
+</body>
+</html>
