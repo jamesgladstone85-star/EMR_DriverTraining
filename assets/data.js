@@ -448,13 +448,16 @@ const MODULE_GROUPS = [
             "file": "assets/guides/tsr-esr-revision-guide.pdf"
           },
           {
-            "title": "Speed Restrictions — Revision Guide 3"
+            "title": "Rule Book — All Set Speeds Reference",
+            "file": "assets/guides/all-set-speeds-reference.pdf"
           },
           {
-            "title": "Speed Restrictions — Revision Guide 4"
+            "title": "Rule Book — Set Speeds Quick Reference",
+            "file": "assets/guides/set-speeds-quick-reference.pdf"
           },
           {
-            "title": "Speed Restrictions — Revision Guide 5"
+            "title": "Passing a Signal at Danger — DEALERS SEE SPEED PE",
+            "file": "assets/guides/spad-dealers-see-speed-pe.pdf"
           }
         ],
         "quizzes": [],
