@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)https://calm-maamoul-311859.netlify.app/dealers_see_speed_pe -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Passing a Signal at Danger — DEALERS SEE SPEED PE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #fff;
+    color: #1a1a2e;
+    padding: 0;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 12mm 14mm 10mm;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Header */
+  .header {
+    background: #0a2342;
+    color: #fff;
+    border-radius: 8px;
+    padding: 10px 16px 9px;
+    margin-bottom: 9px;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .header h1 {
+    font-size: 15pt;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    flex: 1;
+  }
+  .header .source {
+    font-size: 8pt;
+    opacity: .65;
+    white-space: nowrap;
+  }
+
+  /* Mnemonic banner */
+  .mnemonic-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+    align-items: stretch;
+  }
+  .m-group {
+    flex: 0 0 auto;
+    border-radius: 7px;
+    padding: 5px 10px 6px;
+    text-align: center;
+  }
+  .m-word {
+    font-size: 18pt;
+    font-weight: 900;
+    letter-spacing: .08em;
+    line-height: 1;
+  }
+  .m-label {
+    font-size: 6.5pt;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-top: 2px;
+    opacity: .75;
+  }
+  .m-sep {
+    font-size: 18pt;
+    font-weight: 300;
+    color: #bbb;
+    display: flex;
+    align-items: center;
+    padding: 0 1px;
+  }
+
+  .g-dealers { background: #e8f0fb; color: #0a2342; }
+  .g-see     { background: #e6f7f0; color: #0a3d2a; }
+  .g-speed   { background: #fef3e2; color: #5a3200; }
+  .g-pe      { background: #f3e8fb; color: #2d0a42; }
+
+  /* Content grid */
+  .content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .block {
+    border-radius: 7px;
+    overflow: hidden;
+    border: 1px solid #e0e0e8;
+  }
+  .block-head {
+    padding: 5px 10px;
+    font-size: 8.5pt;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .block-head .word-badge {
+    font-size: 11pt;
+    font-weight: 900;
+    letter-spacing: .1em;
+  }
+  .block-head .items-count {
+    font-size: 7pt;
+    font-weight: 500;
+    opacity: .7;
+    margin-left: auto;
+  }
+
+  .bh-dealers { background: #c8daff; color: #0a2342; }
+  .bh-see     { background: #b6edce; color: #0a3d2a; }
+  .bh-speed   { background: #fde7b5; color: #5a3200; }
+  .bh-pe      { background: #dfc5f7; color: #2d0a42; }
+
+  .block-body { background: #fff; }
+
+  .item {
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    align-items: center;
+    padding: 4.5px 10px;
+    border-bottom: 1px solid #f0f0f5;
+    gap: 8px;
+  }
+  .item:last-child { border-bottom: none; }
+
+  .letter {
+    font-size: 15pt;
+    font-weight: 800;
+    text-align: center;
+    line-height: 1;
+  }
+  .desc {
+    font-size: 9pt;
+    font-weight: 500;
+    color: #1a1a2e;
+    line-height: 1.3;
+  }
+  .desc .sub {
+    display: block;
+    font-size: 7.5pt;
+    font-weight: 400;
+    color: #666;
+    margin-top: 1px;
+  }
+
+  .l-d  { color: #1a3d8f; }
+  .l-e  { color: #1a3d8f; }
+  .l-a  { color: #1a3d8f; }
+  .l-l  { color: #1a3d8f; }
+  .l-r  { color: #1a3d8f; }
+  .l-s-see { color: #0a6e3a; }
+  .l-e-see { color: #0a6e3a; }
+  .l-s-spd { color: #a05c00; }
+  .l-p-spd { color: #a05c00; }
+  .l-e-spd { color: #a05c00; }
+  .l-d-spd { color: #a05c00; }
+  .l-p-pe  { color: #6a0dad; }
+
+  /* Key rules strip */
+  .key-strip {
+    margin-top: 8px;
+    background: #0a2342;
+    color: #fff;
+    border-radius: 7px;
+    padding: 7px 14px;
+    display: flex;
+    gap: 0;
+    align-items: center;
+  }
+  .ks-title {
+    font-size: 7.5pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-right: 16px;
+    opacity: .7;
+    white-space: nowrap;
+  }
+  .ks-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+    flex: 1;
+  }
+  .ks-item {
+    font-size: 7.5pt;
+    display: flex;
+    gap: 4px;
+    align-items: baseline;
+  }
+  .ks-label {
+    font-size: 8pt;
+    font-weight: 700;
+    color: #7eb8ff;
+    white-space: nowrap;
+  }
+  .ks-text { opacity: .85; }
+
+  /* Footer */
+  .footer {
+    margin-top: 7px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 7pt;
+    color: #aaa;
+    border-top: 1px solid #e8e8ee;
+    padding-top: 5px;
+  }
+
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+    body { background: #fff; }
+    .page { margin: 0; padding: 10mm 13mm 8mm; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>Passing a Signal at Danger</h1>
+    <span class="source">GERT8000-S5 &nbsp;·&nbsp; Issue 13 &nbsp;·&nbsp; Dec 2025</span>
+  </div>
+
+  <!-- Mnemonic banner -->
+  <div class="mnemonic-bar">
+    <div class="m-group g-dealers">
+      <div class="m-word">DEALERS</div>
+      <div class="m-label">reasons 1–7</div>
+    </div>
+    <div class="m-sep">·</div>
+    <div class="m-group g-see">
+      <div class="m-word">SEE</div>
+      <div class="m-label">reasons 8–10</div>
+    </div>
+    <div class="m-sep">·</div>
+    <div class="m-group g-speed">
+      <div class="m-word">SPEED</div>
+      <div class="m-label">reasons 11–15</div>
+    </div>
+    <div class="m-sep">·</div>
+    <div class="m-group g-pe">
+      <div class="m-word">PE</div>
+      <div class="m-label">reasons 16–17</div>
+    </div>
+  </div>
+
+  <!-- Content blocks -->
+  <div class="content">
+
+    <!-- DEALERS (left column) -->
+    <div class="block">
+      <div class="block-head bh-dealers">
+        <span class="word-badge">DEALERS</span>
+        <span class="items-count">7 reasons</span>
+      </div>
+      <div class="block-body">
+        <div class="item">
+          <span class="letter l-d">D</span>
+          <span class="desc">Defective signal
+            <span class="sub">Signal cannot be cleared by normal means</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="letter l-e">E</span>
+          <span class="desc">Electric train
+            <span class="sub">Proceed towards an obstruction or isolated area</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="letter l-a">A</span>
+          <span class="desc">Assist a failed train
+            <span class="sub">Sent to assist a train that has failed ahead</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="letter l-l">L</span>
+          <span class="desc">Level crossing
+            <span class="sub">Signal at or protecting a level crossing</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="letter l-e">E</span>
+          <span class="desc">Examine the line
+            <span class="sub">Sent forward to examine the line ahead</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="letter l-r">R</span>
+          <span class="desc">Restrictive acceptance
+            <span class="sub">Absolute block only — signaller gives authority, line may be occupied</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="letter l-d">S</span>
+          <span class="desc">Shunting
+            <span class="sub">Movement for shunting purposes only</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right column: SEE + SPEED + PE -->
+    <div style="display:flex;flex-direction:column;gap:8px;">
+
+      <!-- SEE -->
+      <div class="block">
+        <div class="block-head bh-see">
+          <span class="word-badge">SEE</span>
+          <span class="items-count">3 reasons</span>
+        </div>
+        <div class="block-body">
+          <div class="item">
+            <span class="letter l-s-see">S</span>
+            <span class="desc">Starting position ahead of signal
+              <span class="sub">Train must start from a position ahead of the signal</span>
+            </span>
+          </div>
+          <div class="item">
+            <span class="letter l-e-see">E</span>
+            <span class="desc">Engineering possession
+              <span class="sub">Signal within or protecting an engineering possession</span>
+            </span>
+          </div>
+          <div class="item">
+            <span class="letter l-e-see">E</span>
+            <span class="desc">Engineering worksite
+              <span class="sub">Signals inside protecting the engineering worksite</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPEED -->
+      <div class="block">
+        <div class="block-head bh-speed">
+          <span class="word-badge">SPEED</span>
+          <span class="items-count">5 reasons</span>
+        </div>
+        <div class="block-body">
+          <div class="item">
+            <span class="letter l-s-spd">S</span>
+            <span class="desc">Single line working
+              <span class="sub">Operating under single line working arrangements</span>
+            </span>
+          </div>
+          <div class="item">
+            <span class="letter l-p-spd">P</span>
+            <span class="desc">Pilot working
+              <span class="sub">Operating under pilotman working arrangements</span>
+            </span>
+          </div>
+          <div class="item">
+            <span class="letter l-e-spd">E</span>
+            <span class="desc">Evacuate passengers
+              <span class="sub">Emergency evacuation of passengers from the train</span>
+            </span>
+          </div>
+          <div class="item">
+            <span class="letter l-e-spd">E</span>
+            <span class="desc">Emergency permissive working
+              <span class="sub">Signaller authorises under EPW arrangements</span>
+            </span>
+          </div>
+          <div class="item">
+            <span class="letter l-d-spd">D</span>
+            <span class="desc">Divided train
+              <span class="sub">Recover or assist a portion of a divided train</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PE -->
+      <div class="block">
+        <div class="block-head bh-pe">
+          <span class="word-badge">PE</span>
+          <span class="items-count">2 reasons</span>
+        </div>
+        <div class="block-body">
+          <div class="item">
+            <span class="letter l-p-pe">P</span>
+            <span class="desc">Protection zone
+              <span class="sub">Signal at the boundary of a protection zone</span>
+            </span>
+          </div>
+          <div class="item">
+            <span class="letter l-p-pe">E</span>
+            <span class="desc">ERTMS
+              <span class="sub">European Train Control System arrangements</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end right col -->
+  </div><!-- end content grid -->
+
+  <!-- Key rules strip -->
+  <div class="key-strip">
+    <span class="ks-title">Remember</span>
+    <div class="ks-items">
+      <span class="ks-item">
+        <span class="ks-label">Approach at caution —</span>
+        <span class="ks-text">prepared to stop short of any obstruction</span>
+      </span>
+      <span class="ks-item">
+        <span class="ks-label">Authority first —</span>
+        <span class="ks-text">must receive authority from signaller before passing</span>
+      </span>
+      <span class="ks-item">
+        <span class="ks-label">Speed restriction —</span>
+        <span class="ks-text">observe any speed given with the authority</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span>Train Driver Training — Revision Sheet</span>
+    <span>Passing a Signal at Danger &nbsp;·&nbsp; GERT8000-S5 Iss 13</span>
+    <span>Print at 100% &nbsp;·&nbsp; A4 portrait</span>
+  </div>
+
+</div>
+
+
+</body></html>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<!-- saved from url=(0066)https://calm-maamoul-311859.netlify.app/rule_book_speeds_reference -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Rule Book — All Set Speeds Reference</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #fff;
+    color: #111;
+    font-size: 8.5pt;
+  }
+
+  .page {
+    width: 297mm;
+    min-height: 210mm;
+    margin: 0 auto;
+    padding: 9mm 11mm 8mm;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .header {
+    background: #0a2342;
+    color: #fff;
+    border-radius: 7px;
+    padding: 8px 14px 7px;
+    margin-bottom: 7px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .header h1 { font-size: 13pt; font-weight: 700; flex: 1; }
+  .header .sub { font-size: 7.5pt; opacity: .6; white-space: nowrap; }
+
+  .caution-def {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 5px;
+    padding: 4px 10px;
+    font-size: 7.5pt;
+    color: #78350f;
+    margin-bottom: 7px;
+    line-height: 1.4;
+  }
+  .caution-def strong { font-weight: 700; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .speed-block {
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #e0e4ec;
+  }
+
+  .speed-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 9px 4px;
+  }
+  .speed-val  { font-size: 14pt; font-weight: 900; letter-spacing: -.02em; line-height: 1; white-space: nowrap; }
+  .speed-unit { font-size: 7pt; font-weight: 600; opacity: .7; text-transform: uppercase; letter-spacing: .05em; }
+  .speed-tag  { font-size: 6.5pt; font-weight: 600; padding: 2px 6px; border-radius: 3px; margin-left: auto; white-space: nowrap; opacity: .85; }
+
+  .speed-body { background: #fff; }
+
+  .entry {
+    padding: 4px 9px;
+    border-bottom: 1px solid #f2f2f6;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px;
+    align-items: start;
+  }
+  .entry:last-child { border-bottom: none; }
+  .entry-desc { font-size: 8pt; font-weight: 500; color: #111; line-height: 1.35; }
+  .entry-sub  { font-size: 7pt; color: #777; font-weight: 400; display: block; margin-top: 1px; line-height: 1.3; }
+  .entry-src  { font-size: 6.5pt; color: #aaa; white-space: nowrap; padding-top: 1px; }
+
+  /* Colour themes */
+  .c-caution .speed-head { background: #fff3cd; color: #6b4a00; }
+  .c-caution .speed-val  { color: #8a6200; }
+  .c-caution .speed-tag  { background: #fde9a2; color: #6b4a00; }
+
+  .c-3  .speed-head { background: #fef2f2; color: #7f1d1d; }
+  .c-3  .speed-val  { color: #b91c1c; }
+  .c-3  .speed-tag  { background: #fee2e2; color: #7f1d1d; }
+
+  .c-5  .speed-head { background: #fee2e2; color: #7f1d1d; }
+  .c-5  .speed-val  { color: #991b1b; }
+  .c-5  .speed-tag  { background: #fecaca; color: #7f1d1d; }
+
+  .c-10 .speed-head { background: #ffedd5; color: #7c2d12; }
+  .c-10 .speed-val  { color: #9a3412; }
+  .c-10 .speed-tag  { background: #fed7aa; color: #7c2d12; }
+
+  .c-15 .speed-head { background: #fef9c3; color: #713f12; }
+  .c-15 .speed-val  { color: #854d0e; }
+  .c-15 .speed-tag  { background: #fef08a; color: #713f12; }
+
+  .c-20 .speed-head { background: #dcfce7; color: #14532d; }
+  .c-20 .speed-val  { color: #166534; }
+  .c-20 .speed-tag  { background: #bbf7d0; color: #14532d; }
+
+  .c-25 .speed-head { background: #d1fae5; color: #064e3b; }
+  .c-25 .speed-val  { color: #065f46; }
+  .c-25 .speed-tag  { background: #a7f3d0; color: #064e3b; }
+
+  .c-40 .speed-head { background: #dbeafe; color: #1e3a8a; }
+  .c-40 .speed-val  { color: #1d4ed8; }
+  .c-40 .speed-tag  { background: #bfdbfe; color: #1e3a8a; }
+
+  .c-50 .speed-head { background: #ede9fe; color: #2e1065; }
+  .c-50 .speed-val  { color: #6d28d9; }
+  .c-50 .speed-tag  { background: #ddd6fe; color: #2e1065; }
+
+  .c-60 .speed-head { background: #fce7f3; color: #831843; }
+  .c-60 .speed-val  { color: #9d174d; }
+  .c-60 .speed-tag  { background: #fbcfe8; color: #831843; }
+
+  .c-perm .speed-head { background: #052e16; color: #d1fae5; }
+  .c-perm .speed-val  { color: #6ee7b7; font-size: 11pt; }
+  .c-perm .speed-tag  { background: #064e3b; color: #a7f3d0; }
+
+  .c-high .speed-head { background: #1e293b; color: #e2e8f0; }
+  .c-high .speed-val  { color: #94a3b8; }
+  .c-high .speed-tag  { background: #334155; color: #cbd5e1; }
+
+  .footer {
+    margin-top: 6px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 6.5pt;
+    color: #bbb;
+    border-top: 1px solid #e8e8ee;
+    padding-top: 4px;
+  }
+
+  @media print {
+    @page { size: A4 landscape; margin: 0; }
+    body  { background: #fff; }
+    .page { margin: 0; padding: 8mm 10mm 7mm; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <h1>Rule Book — Set Speeds Quick Reference</h1>
+    <span class="sub">Sources: TW1 Iss 22 · TW5 Iss 14 · S5 Iss 13 · T3 Iss 13 · TW7 Iss 10 · TW8 Iss 10</span>
+  </div>
+
+  <div class="caution-def">
+    <strong>At Caution (TW1 s25):</strong> Proceed at a speed which takes account of conditions (such as the distance you can see to be clear) that will allow you to stop the train short of any train, vehicle, obstruction or the end of your movement authority — in addition to not exceeding any specified speed.
+  </div>
+
+  <div class="grid">
+
+    <!-- PERMISSIBLE SPEED -->
+    <div class="speed-block c-perm">
+      <div class="speed-head">
+        <div>
+          <div class="speed-val">PERMISSIBLE SPEED</div>
+          <div class="speed-unit">normal line speed · as per Sectional Appendix</div>
+        </div>
+        <span class="speed-tag">S5 / TW5</span>
+      </div>
+      <div class="speed-body">
+        <div class="entry">
+          <span class="entry-desc">PSAD — single line working in the correct direction
+            <span class="entry-sub">When travelling in the right direction during SLW, may proceed at up to permissible speed</span>
+          </span>
+          <span class="entry-src">S5 s4.2c</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">PSAD — pilot working on single or bi-directional lines
+            <span class="entry-sub">When operating under pilotman working, may proceed at up to permissible speed</span>
+          </span>
+          <span class="entry-src">S5 s4.2c</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Defective AWS or DSD — competent person provided
+            <span class="entry-sub">With a competent person in the cab, proceed at normal permissible speed — reduces to 40 mph during poor visibility</span>
+          </span>
+          <span class="entry-src">TW5 s9/s11</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- AT CAUTION -->
+    <div class="speed-block c-caution">
+      <div class="speed-head">
+        <div>
+          <div class="speed-val">CAUTION</div>
+          <div class="speed-unit">variable · stop short of any obstruction</div>
+        </div>
+        <span class="speed-tag">TW1 s25</span>
+      </div>
+      <div class="speed-body">
+        <div class="entry">
+          <span class="entry-desc">Passing a signal at danger (default)
+            <span class="entry-sub">Unless authorised to proceed at up to 50 mph — default is always at caution</span>
+          </span>
+          <span class="entry-src">S5 s4.2a</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Examining the line ahead
+            <span class="entry-sub">Must proceed over the affected portion at caution</span>
+          </span>
+          <span class="entry-src">TW1 s12.1</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Level crossing — told to approach at caution
+            <span class="entry-sub">Approach at caution and pass over only when safe</span>
+          </span>
+          <span class="entry-src">TW7/TW8</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Movements within a Protection Zone
+            <span class="entry-sub">All movements at caution throughout the PZ</span>
+          </span>
+          <span class="entry-src">T3</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">EBW — approach points/crossings (first train)
+            <span class="entry-sub">First train into EBW section must approach all points at caution</span>
+          </span>
+          <span class="entry-src">S5 s4.1</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Propelling movements
+            <span class="entry-sub">Proceed at caution throughout — also must not exceed 20 mph</span>
+          </span>
+          <span class="entry-src">TW1 s26.4</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Absolute block — after failed train removed
+            <span class="entry-sub">Next train proceeds at caution through the cleared section</span>
+          </span>
+          <span class="entry-src">S5 s1.1</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 MPH -->
+    <div class="speed-block c-3">
+      <div class="speed-head">
+        <div>
+          <div class="speed-val">3 mph</div>
+          <div class="speed-unit">maximum</div>
+        </div>
+        <span class="speed-tag">EMR Depot</span>
+      </div>
+      <div class="speed-body">
+        <div class="entry">
+          <span class="entry-desc">Depot movements — wheel lathe, wash plant and fuel line
+            <span class="entry-sub">Must not exceed 3 mph when approaching or passing through wheel lathe, wash and fuel line roads in depot</span>
+          </span>
+          <span class="entry-src">EMR local</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 MPH -->
+    <div class="speed-block c-5">
+      <div class="speed-head">
+        <div>
+          <div class="speed-val">5 mph</div>
+          <div class="speed-unit">maximum</div>
+        </div>
+        <span class="speed-tag">TW1 / T3</span>
+      </div>
+      <div class="speed-body">
+        <div class="entry">
+          <span class="entry-desc">Pass under a struck overline bridge
+            <span class="entry-sub">No obvious damage or debris — proceed under at no more than 5 mph</span>
+          </span>
+          <span class="entry-src">TW1 s16</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Movement in a possession worksite
+            <span class="entry-sub">No greater than 5 mph within the worksite unless ES gives specific instructions</span>
+          </span>
+          <span class="entry-src">T3 s9</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Siding, maintenance depot or stabling area
+            <span class="entry-sub">Must not exceed 5 mph in any siding, maintenance depot, servicing or stabling area</span>
+          </span>
+          <span class="entry-src">SS2</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Floodwater up to top of rail head
+            <span class="entry-sub">May continue if water is no deeper than top of rail head — must not exceed 5 mph</span>
+          </span>
+          <span class="entry-src">M3</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 MPH -->
+    <div class="speed-block c-10">
+      <div class="speed-head">
+        <div>
+          <div class="speed-val">10 mph</div>
+          <div class="speed-unit">maximum</div>
+        </div>
+        <span class="speed-tag">S5 / TW1 / TW5</span>
+      </div>
+      <div class="speed-body">
+        <div class="entry">
+          <span class="entry-desc">Through any tunnel — PSAD movement or examining the line
+            <span class="entry-sub">Must not exceed 10 mph through any tunnel when passing signal at danger or when examining the line</span>
+          </span>
+          <span class="entry-src">S5 s7.3 / TW1 s12.1</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Through tunnel — divided train recovery
+            <span class="entry-sub">When told to proceed at caution past affected location in a tunnel</span>
+          </span>
+          <span class="entry-src">TW1 s14</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Propelling / dead train movements (general max)
+            <span class="entry-sub">Maximum speed during movement — reduces to 5 mph over points and crossings</span>
+          </span>
+          <span class="entry-src">TW5 s6</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Brakes not fully released
+            <span class="entry-sub">If brakes cannot be fully released — 10 mph max, 5 mph over points</span>
+          </span>
+          <span class="entry-src">TW5 s3</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15 MPH -->
+    <div class="speed-block c-15">
+      <div class="speed-head">
+        <div>
+          <div class="speed-val">15 mph</div>
+          <div class="speed-unit">maximum</div>
+        </div>
+        <span class="speed-tag">S5</span>
+      </div>
+      <div class="speed-body">
+        <div class="entry">
+          <span class="entry-desc">Points/crossings during PSAD movement
+            <span class="entry-sub">Must not pass over any points, switch diamonds or swing-nose crossings at more than 15 mph</span>
+          </span>
+          <span class="entry-src">S5 s7.3</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Points/crossings — EBW first train into section
+            <span class="entry-sub">After approaching at caution and checking position, must not exceed 15 mph over points</span>
+          </span>
+          <span class="entry-src">S5 s4.1</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 20 MPH -->
+    <div class="speed-block c-20">
+      <div class="speed-head">
+        <div>
+          <div class="speed-val">20 mph</div>
+          <div class="speed-unit">maximum</div>
+        </div>
+        <span class="speed-tag">TW1 / TW5</span>
+      </div>
+      <div class="speed-body">
+        <div class="entry">
+          <span class="entry-desc">Suspected track defect — line examination
+            <span class="entry-sub">Signaller says examination is because of a suspected track defect</span>
+          </span>
+          <span class="entry-src">TW1 s12.1</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Hot axle box — failed exam, 2nd or lineside activation
+            <span class="entry-sub">Unable to examine within 10 min / second activation of same system / lineside detection — proceed at no more than 20 mph</span>
+          </span>
+          <span class="entry-src">TW5 s9</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">AC — OLE examined from adjacent line, no defect found
+            <span class="entry-sub">Next electric train on the affected line must proceed at caution not exceeding 20 mph</span>
+          </span>
+          <span class="entry-src">AC s15</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">AC — Driver asked to examine the overhead line
+            <span class="entry-sub">Proceed at caution and not exceed 20 mph while looking out for damage to the OLE</span>
+          </span>
+          <span class="entry-src">AC s15</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">AC — Passed 'do not raise pantograph' sign without raising
+            <span class="entry-sub">Must reduce speed to 20 mph before attempting to raise the pantograph</span>
+          </span>
+          <span class="entry-src">AC s15</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 25 MPH -->
+    <div class="speed-block c-25">
+      <div class="speed-head">
+        <div>
+          <div class="speed-val">25 mph</div>
+          <div class="speed-unit">maximum</div>
+        </div>
+        <span class="speed-tag">T3 s9</span>
+      </div>
+      <div class="speed-body">
+        <div class="entry">
+          <span class="entry-desc">All movements entering, within or leaving a possession
+            <span class="entry-sub">Must not exceed 25 mph at any point in the journey — movements inside the worksite are 5 mph</span>
+          </span>
+          <span class="entry-src">T3 s9</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Assisting train moving towards a failed train
+            <span class="entry-sub">During the movement towards the failed train, proceed at caution not exceeding 25 mph</span>
+          </span>
+          <span class="entry-src">M2 s3.3</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 40 MPH -->
+    <div class="speed-block c-40">
+      <div class="speed-head">
+        <div>
+          <div class="speed-val">40 mph</div>
+          <div class="speed-unit">maximum</div>
+        </div>
+        <span class="speed-tag">TW1 / TW5</span>
+      </div>
+      <div class="speed-body">
+        <div class="entry">
+          <span class="entry-desc">Poor visibility — line where AWS is not provided
+            <span class="entry-sub">Cannot see signals soon enough during poor visibility and no AWS fitted on this line (see Sectional Appendix Table A)</span>
+          </span>
+          <span class="entry-src">TW1 s22</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Hot axle box / defective AWS or DSD — during poor visibility
+            <span class="entry-sub">Even when competent person is provided, must not exceed 40 mph during poor visibility</span>
+          </span>
+          <span class="entry-src">TW5 s9/s11</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 50 MPH -->
+    <div class="speed-block c-50">
+      <div class="speed-head">
+        <div>
+          <div class="speed-val">50 mph</div>
+          <div class="speed-unit">maximum</div>
+        </div>
+        <span class="speed-tag">S5 / TW5</span>
+      </div>
+      <div class="speed-body">
+        <div class="entry">
+          <span class="entry-desc">PSAD — authorised to proceed at up to 50 mph
+            <span class="entry-sub">Single line working wrong direction; emergency permissive working; certain other S5 circumstances</span>
+          </span>
+          <span class="entry-src">S5 s4.2b</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Extended Block Working (EBW) — section maximum
+            <span class="entry-sub">Must not exceed 50 mph at any point throughout the EBW section</span>
+          </span>
+          <span class="entry-src">S5 s5</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Points/crossings in EBW — if specifically permitted
+            <span class="entry-sub">May pass over points at up to 50 mph only if given permission to do so during EBW</span>
+          </span>
+          <span class="entry-src">S5 s4.1</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Defective AWS/DSD — freight or OTM (no competent person)
+            <span class="entry-sub">Freight trains and OTMs without competent person — proceed to next location at no more than 50 mph</span>
+          </span>
+          <span class="entry-src">TW5 s9/s11</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 60 MPH -->
+    <div class="speed-block c-60">
+      <div class="speed-head">
+        <div>
+          <div class="speed-val">60 mph</div>
+          <div class="speed-unit">maximum</div>
+        </div>
+        <span class="speed-tag">TW5</span>
+      </div>
+      <div class="speed-body">
+        <div class="entry">
+          <span class="entry-desc">Defective AWS/DSD — passenger train (no competent person)
+            <span class="entry-sub">Passenger trains without competent person — proceed to next location at no more than 60 mph</span>
+          </span>
+          <span class="entry-src">TW5 s9/s11</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">Radio network failure — through the affected area
+            <span class="entry-sub">When told of a radio network failure, max speed through the affected area is 60 mph</span>
+          </span>
+          <span class="entry-src">TW5 s13</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 75 / 100 MPH -->
+    <div class="speed-block c-high">
+      <div class="speed-head">
+        <div>
+          <div class="speed-val">75 / 80 / 100 mph</div>
+          <div class="speed-unit">maximum</div>
+        </div>
+        <span class="speed-tag">TW5 · AC</span>
+      </div>
+      <div class="speed-body">
+        <div class="entry">
+          <span class="entry-desc">75 mph — defective headlight, portable headlight provided
+            <span class="entry-sub">No other headlight available — train may only start if portable headlight fitted; speed restricted to 75 mph</span>
+          </span>
+          <span class="entry-src">TW5 s12</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">80 mph — raising pantographs (AC lines)
+            <span class="entry-sub">You may raise pantographs at any speed up to 80 mph, or higher if authorised by company instructions</span>
+          </span>
+          <span class="entry-src">AC s5</span>
+        </div>
+        <div class="entry">
+          <span class="entry-desc">100 mph — radio network failure (overall line max)
+            <span class="entry-sub">May be told not to exceed 100 mph on the line; 60 mph specifically through the affected radio area</span>
+          </span>
+          <span class="entry-src">TW5 s13</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end grid -->
+
+  <div class="footer">
+    <span>Train Driver Training — Rule Book Speeds Quick Reference</span>
+    <span>All speeds sourced from GERT8000 modules. Always check the current issue of each module for authoritative text.</span>
+    <span>Print at 100% · A4 Landscape</span>
+  </div>
+
+</div>
+
+
+</body></html>

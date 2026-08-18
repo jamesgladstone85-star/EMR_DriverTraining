@@ -180,11 +180,12 @@
       const linkAttrs = g.file
         ? `href="${g.file}" target="_blank" rel="noopener"`
         : `href="#" onclick="toast('Opening ${g.title}…');return false;"`;
+      const openLabel = g.file && g.file.toLowerCase().endsWith(".html") ? "Open Guide →" : "Open PDF →";
       card.insertAdjacentHTML("beforeend", `
         <span class="card-icon">📘</span>
         <h3 class="card-title">${g.title}</h3>
         ${subtitle}
-        <a class="card-action guide-action" ${linkAttrs}>Open PDF →</a>
+        <a class="card-action guide-action" ${linkAttrs}>${openLabel}</a>
       `);
       guidesGrid.appendChild(card);
     });

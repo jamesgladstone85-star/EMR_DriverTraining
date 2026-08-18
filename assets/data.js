@@ -449,15 +449,15 @@ const MODULE_GROUPS = [
           },
           {
             "title": "Rule Book — All Set Speeds Reference",
-            "file": "assets/guides/all-set-speeds-reference.pdf"
+            "file": "assets/guides/all-set-speeds-reference.html"
           },
           {
             "title": "Rule Book — Set Speeds Quick Reference",
-            "file": "assets/guides/set-speeds-quick-reference.pdf"
+            "file": "assets/guides/set-speeds-quick-reference.html"
           },
           {
             "title": "Passing a Signal at Danger — DEALERS SEE SPEED PE",
-            "file": "assets/guides/spad-dealers-see-speed-pe.pdf"
+            "file": "assets/guides/spad-dealers-see-speed-pe.html"
           }
         ],
         "quizzes": [],
