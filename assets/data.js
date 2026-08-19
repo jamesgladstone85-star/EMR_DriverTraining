@@ -213,7 +213,12 @@ const MODULE_GROUPS = [
             "link": "semaphore-quiz.html"
           }
         ],
-        "tools": [],
+        "tools": [
+          {
+            "title": "Track Circuit Signal Quiz — Multiple Trains",
+            "link": "assets/tools/track-circuit-signal-quiz.html"
+          }
+        ],
         "rulebook": [
           {
             "title": "Rule Book — Signals, Handsignals, Indicators and Signs",
