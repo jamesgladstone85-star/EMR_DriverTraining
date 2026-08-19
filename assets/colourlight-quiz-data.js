@@ -210,19 +210,19 @@
             },
             {
                 id: 9022, section: "all",
-                question: "In three-aspect flashing yellow sequencing, what does a double flashing yellow at the approach signal mean?",
+                question: "In four-aspect flashing yellow sequencing, what does 'double flashing yellows' at signal 2 mean?",
                 type: "single",
-                options: ["Junction ahead is set for a diverging (lower speed) route", "The junction signal itself is at danger", "The route is not yet determined", "A single flashing yellow will follow at the very next signal regardless of junction setting"],
+                options: ["Junction ahead is set for a diverging (lower speed) route", "The junction signal itself is at danger", "Signal 3 will definitely also show double flashing yellow", "The straight route is blocked"],
                 correct: [0],
-                rationale: "Double flashing yellow at the approach signal confirms the junction ahead is set for a diverging, lower-speed route — the closer signal then shows single flashing yellow, and the junction signal itself shows steady yellow with the junction indicator lit."
+                rationale: "In four-aspect sequencing, double flashing yellows at signal 2 confirms the junction ahead is set for a diverging, lower-speed route. Double flashing yellow only exists in four-aspect sequencing — three-aspect areas go straight to a single flashing yellow at signal 3, with no double-flash stage at all."
             },
             {
                 id: 9023, section: "all",
-                question: "For trains operating under ERTMS, what happens to flashing yellow aspects?",
+                question: "In four-aspect flashing yellow signalling, under what condition may signal 3 display a single flashing yellow, even though a steady aspect was already shown at signal 2?",
                 type: "single",
-                options: ["The ability to display flashing aspects is disabled — only standard aspect sequences are shown", "Flashing yellows are shown more frequently to compensate for ERTMS cab displays", "ERTMS trains ignore lineside signals entirely, including flashing yellows", "Flashing yellows are replaced by flashing green under ERTMS"],
+                options: ["If the train is between signals 2 and 3 when signal 4 is cleared for the diverging route", "Only during poor visibility", "Never — signal 3 always matches whatever signal 2 showed", "Only if the driver requests it via GSM-R"],
                 correct: [0],
-                rationale: "For trains operating under ERTMS, the ability for signals to display flashing aspects is disabled — only standard aspect sequences are shown. Route/junction indicators continue to operate as normal."
+                rationale: "If a train is between signals 2 and 3 when signal 4 is cleared for the diverging route, signal 3 may then display one flashing yellow aspect — even though a steady aspect was already shown at signal 2 (RS521 §2.5)."
             },
             {
                 id: 9024, section: "all",
@@ -244,7 +244,7 @@
                 id: 9026, section: "all",
                 question: "When is a preliminary route indicator NOT illuminated?",
                 type: "single",
-                options: ["When the junction signal is at danger", "When the junction signal is showing green", "During daylight hours only", "When the train is running under ERTMS"],
+                options: ["When the junction signal is at danger", "When the junction signal is showing green", "During daylight hours only", "When the train has a competent person on board"],
                 correct: [0],
                 rationale: "A preliminary route indicator is not illuminated when the junction signal ahead is at danger. If cleared for the straight route with no junction indicator, it shows an arrow pointing straight up instead."
             },
@@ -312,11 +312,11 @@
             },
             {
                 id: 9034, section: "all",
-                question: "What is the purpose of a banner repeating signal?",
+                question: "Why are banner repeating signals provided?",
                 type: "single",
-                options: ["To give advance warning of the aspect of a signal ahead with restricted sighting", "To repeat the exact aspect of a signal at very close range only", "To indicate the presence of a limit of shunt", "To confirm AWS has been cancelled"],
+                options: ["To give the driver advance warning of a signal's aspect, at locations where that signal itself is hard to see in good time (e.g. on a curve, in a tunnel, or behind a building)", "To repeat the exact aspect of a signal at very close range only", "To indicate the presence of a limit of shunt", "To confirm AWS has been cancelled"],
                 correct: [0],
-                rationale: "Banner repeating signals are provided on the approach to signals with restricted sighting (curves, tunnels, buildings) to give advance warning of the signal's aspect. (Repeating the exact aspect at close range is what a co-acting signal does instead.)"
+                rationale: "Banner repeating signals are provided on the approach to signals with restricted sighting — for example on a curve, in a tunnel, or behind a building — to give the driver advance warning of that signal's aspect before it can be seen directly. (Giving an exact repeat at very close range is what a co-acting signal does instead.)"
             },
             {
                 id: 9035, section: "all",
@@ -366,10 +366,10 @@
             },
             {
                 id: 9040, section: "all",
-                question: "What creates risk when travelling between different signalling systems?",
+                question: "At the junction signal itself, showing a single steady yellow with a junction indicator — what does this mean for the driver, regardless of any flashing aspect shown at the previous signal?",
                 type: "single",
-                options: ["The driver must adapt to a different signal sequence and rules, e.g. flashing yellow being disabled under ERTMS", "Nothing — all UK signalling systems behave identically", "Only the change in signal post colour", "The risk only applies to freight services"],
+                options: ["The normal meaning of a single yellow aspect: be prepared to stop at the next signal", "No action needed — the earlier flashing overrides the steady aspect shown here", "The driver may proceed at full line speed through the junction", "It means the diverging route is blocked"],
                 correct: [0],
-                rationale: "Travelling between different signalling systems creates risk because the driver must adapt to a different signal sequence and set of rules — for example, flashing yellow aspects being disabled entirely under ERTMS, while route/junction indicators continue to operate."
+                rationale: "When a single steady yellow aspect is displayed together with a junction indicator at the junction signal, this has the normal meaning of a yellow aspect — be prepared to stop at the next signal. This applies even though a flashing aspect may have been displayed at the previous signal (RS521 §2.5)."
             }
         ];
